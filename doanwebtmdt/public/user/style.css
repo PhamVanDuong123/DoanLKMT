@@ -1,0 +1,13 @@
+/*STYLE*/
+
+@import '../../public/user/css/import/fonts.css';
+@import '../../public/user/css/import/global.css';
+@import '../../public/user/css/import/header.css';
+@import '../../public/user/css/import/footer.css';
+@import '../../public/user/css/import/home.css';
+@import '../../public/user/css/import/category_product.css';
+@import '../../public/user/css/import/blog.css';
+@import '../../public/user/css/import/detail_product.css';
+@import '../../public/user/css/import/detail_blog.css';
+@import '../../public/user/css/import/cart.css';
+@import '../../public/user/css/import/checkout.css';
