@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/solid.min.css">
+    <script src="https://cdn.tiny.cloud/1/lw6poeiyjs0esar2up96s223ur72j3ptc5v49jyn9tszqsrb/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     
     <link rel="stylesheet" href="{{asset('admin/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
