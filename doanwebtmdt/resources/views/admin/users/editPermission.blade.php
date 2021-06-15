@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             @if(!empty($user))
-            <form action="{{route('admin.user.updatePermission',$user->id)}}" method="post">
+            <form action="{{route('admin.user.updatePermission',['id'=>$user->id,'status'=>request()->status])}}" method="post">
                 @csrf
                 <div class="container-fluild">
                     <div class="row">
@@ -46,9 +46,6 @@
                                     <option value="2" {{$user->permission==2?"selected='selected'":''}}>Nhân viên quản trị</option>
                                     <option value="3" {{$user->permission==3?"selected='selected'":''}}>Nhân viên bán hàng</option>
                                 </select>
-                                @error('permission')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -70,8 +67,9 @@
                                 <label for="avatar">Ảnh đại diện</label>
                                 <div class="container-fluild">
                                     <div class="row">
-                                        <div class="col-md-12"><img class="avatar-edit" src="{{asset('uploads/huynhhoanghung.jpg')}}" alt=""></div>
-                                        <!-- <div class="col-md-10"><input type="file" name="avatar" id="avatar" class="form-control"></div> -->
+                                    <div class="col-md-12">
+                                        <img class="avatar-edit" src="{{asset($user->avatar)}}" alt="">
+                                    </div>                                    
                                     </div>
                                 </div>
                             </div>

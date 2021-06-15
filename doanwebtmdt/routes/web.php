@@ -67,10 +67,23 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     //product category
 
     //post
-    Route::get('/post', 'AdminPostController@index')->name('admin.post.index');
-    Route::get('/post/add', 'AdminPostController@add')->name('admin.post.add');
+    Route::get('/post', 'Admin\PostController@index')->name('admin.post.index');
+    Route::get('/post/detail/{id}', 'Admin\PostController@detail')->name('admin.post.detail');
+    Route::get('/post/add', 'Admin\PostController@add')->name('admin.post.add');
+    Route::post('/post/store', 'Admin\PostController@store')->name('admin.post.store');
+    Route::get('/post/edit/{id}', 'Admin\PostController@edit')->name('admin.post.edit');
+    Route::post('/post/update/{id}', 'Admin\PostController@update')->name('admin.post.update');
+    Route::get('/post/delete/{id}', 'Admin\PostController@delete')->name('admin.post.delete');
+    Route::post('/post/action', 'Admin\PostController@action')->name('admin.post.action');
 
     //post category
+    Route::get('/postCategory','Admin\PostCategoryController@index')->name('admin.post_category.index');
+    Route::get('/postCategory/add','Admin\PostCategoryController@add')->name('admin.post_category.add');
+    Route::post('/postCategory/store','Admin\PostCategoryController@store')->name('admin.post_category.store');
+    Route::get('/postCategory/edit/{id}','Admin\PostCategoryController@edit')->name('admin.post_category.edit');
+    Route::post('/postCategory/update/{id}','Admin\PostCategoryController@update')->name('admin.post_category.update');
+    Route::get('/postCategory/delete/{id}','Admin\PostCategoryController@delete')->name('admin.post_category.delete');
+    Route::get('/postCategory/action','Admin\PostCategoryController@action')->name('admin.post_category.action');
 
     //brand
     Route::get('/brand', 'AdminBrandController@index')->name('admin.brand.index');
@@ -83,6 +96,12 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+//authen
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+
+//filemanager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

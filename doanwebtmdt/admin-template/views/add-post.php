@@ -14,7 +14,6 @@
                                     <textarea name="" class="form-control" id="content" cols="30" rows="5"></textarea>
                                 </div>
 
-
                                 <div class="form-group">
                                     <label for="">Danh mục</label>
                                     <select class="form-control" id="">

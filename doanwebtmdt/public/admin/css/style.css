@@ -39,7 +39,7 @@ a:hover {
 }
 
 #sidebar {
-    width: 15rem;
+    width: 18rem;
     height: 100vh;
     z-index: 500;
     padding-top: 3.625rem;
@@ -53,7 +53,7 @@ a:hover {
     /* height: calc(100vh - 58px); */
     min-height: 100vh;
     padding-top: 3.625rem;
-    padding-left: 15rem;
+    padding-left: 18rem;
 }
 
 #content {
@@ -152,8 +152,27 @@ img.avatar {
     height: auto;
 }
 
+img.thumb-post {
+    display: block;
+    width: 100px;
+    height: auto;
+}
+
 img.avatar-edit {
     display: block;
     width: 80px;
     height: auto;
+}
+
+.jumbotron {
+    max-width: 1180px;
+}
+
+.jumbotron img {
+    max-width: 1150px;
+    height: auto;
+}
+
+table thead th {
+    vertical-align: middle!important;
 }

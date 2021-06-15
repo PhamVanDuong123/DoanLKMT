@@ -34,8 +34,8 @@ return $list_gender[$gender];
         </div>
         <div class="card-body">
             <div class="analytic">
-                <a href="{{request()->fullUrlWithQuery(['status'=>'active'])}}" class="text-primary">Kích hoạt<span class="text-muted">({{$count['active']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'trash'])}}" class="text-primary">Vô hiệu hóa<span class="text-muted">({{$count['trash']}})</span></a>
+                <a href="{{request()->fullUrlWithQuery(['status'=>'active','page'=>1])}}" class="text-primary">Kích hoạt<span class="text-muted">({{$count['active']}})</span></a>
+                <a href="{{request()->fullUrlWithQuery(['status'=>'trash','page'=>1])}}" class="text-primary">Vô hiệu hóa<span class="text-muted">({{$count['trash']}})</span></a>
             </div>
             <form action="{{route('admin.user.action')}}" method="get">
             @csrf
@@ -93,26 +93,26 @@ return $list_gender[$gender];
                         <td>{{$item->fullname}}</td>
                         <td>{{$item->email}}</td>
                         <td>{{$item->phone}}</td>
-                        <td>{{show_gender($item->gender)}}</td>
+                        <td>{{$item->gender?show_gender($item->gender):''}}</td>
                         <td>{{$item->dob}}</td>
                         <td>{{$item->address}}</td>
-                        <td>{{show_permission($item->permission)}}</td>
+                        <td>{{$item->permission?show_permission($item->permission):''}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <!-- Nếu quyền user là boss thì không đc cập nhật quyền -->
-                            @if($item->permission!=1)
-                            <a href="{{route('admin.user.editPermission',$item->id)}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit Permission"><i class="fa fa-edit"></i></a>
+                            <!-- Nếu quyền user đang đn không phải boss hoặc admin, user trùng với user đang đn, quyền của user là boss thì không đc cập nhật quyền -->
+                            @if((Auth::user()->permission==1 || Auth::user()->permission==2) && $item->id!=Auth::id() && $item->permission!=1)
+                            <a href="{{route('admin.user.editPermission',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật quyền"><i class="fa fa-edit"></i></a>
                             @endif  
-                            <!-- Không được xóa user đang đăng nhập -->
-                            @if(Auth::id()!=$item->id)
-                            <a href="{{route('admin.user.delete',$item->id)}}" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                            <!-- Nếu quyền user đang đn không phải boss hoặc admin, user trùng với user đang đn, quyền của user là boss thì không đc xóa -->
+                            @if((Auth::user()->permission==1 || Auth::user()->permission==2) && $item->id!=Auth::id() && $item->permission!=1)
+                            <a href="{{route('admin.user.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa thành viên này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
                             @endif
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            {{$list_user->links()}}
+            {{$list_user->appends(request()->all())->links()}}
             @else
             <p class="text-center">Không có thành viên nào trong hệ thống</p>
             @endif

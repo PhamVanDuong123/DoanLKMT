@@ -95,10 +95,10 @@
                                 <label for="avatar">Ảnh đại diện</label>
                                 <div class="container-fluild">
                                     <div class="row">
-                                        <div class="col-md-2">
-                                            <img class="image-preview avatar-edit" src="#" alt="">
+                                        <div class="col-md-3">
+                                            <img class="image-preview avatar-edit" src="{{asset($user->avatar)}}" alt="">
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-9">
                                             <input type="file" name="avatar" class="file-image form-control-file">
                                         </div>
                                     </div>

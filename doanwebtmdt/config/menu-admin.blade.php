@@ -39,18 +39,15 @@ return [
         'items'=>[
             [
                 'name'=>'Danh sách sản phẩm',
-                'route'=>'admin.product.index',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.index' 
             ],
             [
                 'name'=>'Thêm sản phẩm',
-                'route'=>'admin.product.add',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.add' 
             ],
             [
                 'name'=>'Cập nhật sản phẩm',
-                'route'=>'admin.product.edit',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.edit' 
             ]
         ]
     ],
@@ -62,18 +59,15 @@ return [
         'items'=>[
             [
                 'name'=>'Danh sách sản phẩm',
-                'route'=>'admin.product.index',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.index' 
             ],
             [
                 'name'=>'Thêm sản phẩm',
-                'route'=>'admin.product.add',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.add'
             ],
             [
                 'name'=>'Cập nhật sản phẩm',
-                'route'=>'admin.product.edit',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.product.edit'
             ]
         ]
     ],
@@ -85,31 +79,27 @@ return [
         'items'=>[
             [
                 'name'=>'Danh sách bài viết',
-                'route'=>'admin.post.index',
-                'icon'=>'fa-pencil-square-o icon', 
+                'route'=>'admin.post.index'
             ],
             [
                 'name'=>'Thêm bài viết',
-                'route'=>'admin.post.add',
-                'icon'=>'fa-pencil-square-o icon', 
+                'route'=>'admin.post.add'
             ]
         ]
     ],
     [
-        'name'=>'Quản lý loại bài viết',
-        'module'=>'post',
-        'route'=>'admin.post.index',
+        'name'=>'Quản lý danh mục bài viết',
+        'module'=>'post_category',
+        'route'=>'admin.post_category.index',
         'icon'=>'fas fa-blog',
         'items'=>[
             [
-                'name'=>'Danh sách bài viết',
-                'route'=>'admin.post.index',
-                'icon'=>'fa-pencil-square-o icon', 
+                'name'=>'Danh sách danh mục bài viết',
+                'route'=>'admin.post_category.index'
             ],
             [
-                'name'=>'Thêm bài viết',
-                'route'=>'admin.post.add',
-                'icon'=>'fa-pencil-square-o icon', 
+                'name'=>'Thêm danh mục bài viết',
+                'route'=>'admin.post_category.add'
             ]
         ]
     ],
@@ -121,13 +111,11 @@ return [
         'items'=>[
             [
                 'name'=>'Danh sách thương hiệu',
-                'route'=>'admin.brand.index',
-                'icon'=>'fa-map icon', 
+                'route'=>'admin.brand.index'
             ],
             [
                 'name'=>'',
-                'route'=>'admin.brand.add',
-                'icon'=>'fa-map icon', 
+                'route'=>'admin.brand.add'
             ]
         ]
     ],
@@ -139,13 +127,11 @@ return [
         'items'=>[
             [
                 'name'=>'Danh sách khuyến mãi',
-                'route'=>'admin.promotion.index',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.promotion.index'
             ],
             [
                 'name'=>'Thêm khuyến mãi',
-                'route'=>'admin.promotion.add',
-                'icon'=>'fa-product-hunt icon', 
+                'route'=>'admin.promotion.add'
             ]
         ]
     ]
