@@ -45,30 +45,30 @@ return [
                 'name'=>'Thêm sản phẩm',
                 'route'=>'admin.product.add' 
             ],
-            [
+          /*   [
                 'name'=>'Cập nhật sản phẩm',
                 'route'=>'admin.product.edit' 
-            ]
+            ] */
         ]
     ],
     [
         'name'=>'Quản lý loại sản phẩm',
-        'module'=>'product',
-        'route'=>'admin.product.index',
+        'module'=>'product_category',
+        'route'=>'admin.product_category.index',
         'icon'=>'fab fa-product-hunt',
         'items'=>[
             [
                 'name'=>'Danh sách sản phẩm',
-                'route'=>'admin.product.index' 
+                'route'=>'admin.product_category.index' 
             ],
             [
                 'name'=>'Thêm sản phẩm',
-                'route'=>'admin.product.add'
+                'route'=>'admin.product_category.add'
             ],
-            [
+            /* [
                 'name'=>'Cập nhật sản phẩm',
-                'route'=>'admin.product.edit'
-            ]
+                'route'=>'admin.product_category.edit'
+            ] */
         ]
     ],
     [
