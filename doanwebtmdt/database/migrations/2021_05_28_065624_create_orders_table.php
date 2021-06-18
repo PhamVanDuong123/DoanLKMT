@@ -13,7 +13,6 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');

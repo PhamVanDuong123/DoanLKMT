@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{route('admin.post_category.action')}}" method="get">
+            <form action="{{route('admin.post_category.action')}}" method="post">
                 @csrf
                 <div class="analytic">
                     <a href="{{request()->fullUrlWithQuery(['status'=>'active','page'=>1])}}" class="text-primary">Kích hoạt<span class="text-muted">({{$count['active']}})</span></a>

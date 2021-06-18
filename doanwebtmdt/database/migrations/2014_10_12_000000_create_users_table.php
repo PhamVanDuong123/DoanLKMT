@@ -13,7 +13,6 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('fullname',60);

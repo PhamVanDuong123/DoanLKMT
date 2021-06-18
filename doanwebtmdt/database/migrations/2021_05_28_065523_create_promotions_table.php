@@ -13,14 +13,16 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->string('name',50);
+            $table->string('code',30)->unique();
             $table->text('description')->nullable();
             $table->date('start_day')->default(now());
             $table->date('end_day');
             $table->double('percents');
+            $table->integer('number');
+            $table->enum('status',['approved','not approved yet'])->default('not approved yet');
             $table->timestamps();
             $table->softDeletes();
         });

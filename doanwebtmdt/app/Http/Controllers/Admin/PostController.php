@@ -26,7 +26,7 @@ class PostController extends Controller
 
         $status = $request->input('status');
 
-        $list_post = Post::where('name', 'like', "%{$key}%")->paginate(5);
+        $list_post = Post::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -37,11 +37,11 @@ class PostController extends Controller
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_post = Post::onlyTrashed()->where('name', 'like', "%{$key}%")->paginate(5);
+            $list_post = Post::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'approved') {
-            $list_post = Post::where('status', 'approved')->where('name', 'like', "%{$key}%")->paginate(5);
+            $list_post = Post::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'not approved yet') {
@@ -49,7 +49,7 @@ class PostController extends Controller
                 'approved' => 'Duyệt',
                 'trash' => 'Xóa tạm thời'
             );
-            $list_post = Post::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->paginate(5);
+            $list_post = Post::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         $count = array(
@@ -130,7 +130,7 @@ class PostController extends Controller
     {
         $status = $request->input('status');
         if ($status == 'trash') {
-            Post::onlyTrashed()->forceDelete();
+            Post::onlyTrashed()->find($id)->forceDelete();
             return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Xóa vĩnh viễn bài viết thành công');
         } else {
             Post::destroy($id);
@@ -148,22 +148,22 @@ class PostController extends Controller
             if ($action == 'trash') {
                 Post::destroy($list_post_id);
 
-                return redirect(route('admin.post.index'))->with('success', 'Xóa bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa bài viết thành công');
             }
             if ($action == 'approved') {
                 Post::where('status', 'not approved yet')->whereIn('id', $list_post_id)->update(['status' => 'approved']);
 
-                return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Phê duyệt bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'approved', 'page' => 1]))->with('success', 'Phê duyệt bài viết thành công');
             }
             if ($action == 'active') {
                 Post::onlyTrashed()->whereIn('id', $list_post_id)->restore();
 
-                return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Khôi phục bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'all', 'page' => 1]))->with('success', 'Khôi phục bài viết thành công');
             }
             if ($action == 'forceDelete') {
                 Post::onlyTrashed()->whereIn('id', $list_post_id)->forceDelete();
 
-                return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Xóa vĩnh viễn bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa vĩnh viễn bài viết thành công');
             }
 
             return redirect(route('admin.post.index'))->with('error', 'Bạn chưa chọn hành động nào');
@@ -175,12 +175,7 @@ class PostController extends Controller
     function edit(Request $request, $id)
     {
         $list_post_cate = PostCategory::all();
-        $post = Post::find($id);
-
-        $status = $request->input('status');
-        if ($status == 'trash') {
-            $post = Post::onlyTrashed()->find($id);
-        }
+        $post = Post::withTrashed()->find($id);
 
         return view('admin.posts.edit', compact('post', 'list_post_cate'));
     }
@@ -212,41 +207,28 @@ class PostController extends Controller
             ]
         );
 
+        $thumb = Post::withTrashed()->find($id)->thumb;
+
+        $this->upload_image($request, 'thumb', $thumb);
+
+        Post::withTrashed()->where('id', $id)->update([
+            'name' => $request->input('name'),
+            'code' => Str::slug($request->input('name')),
+            'short_desc' => $request->input('short_desc'),
+            'content' => $request->input('content'),
+            'post_category_id' => $request->input('post_category_id'),
+            'thumb' => $thumb
+        ]);
+
         $status = $request->input('status');
         if ($status == 'trash') {
-            $thumb = Post::onlyTrashed()->find($id)->thumb;
-
-            $this->upload_image($request, 'thumb',$thumb);
-
-            Post::onlyTrashed()->where('id', $id)->update([
-                'name' => $request->input('name'),
-                'code' => Str::slug($request->input('name')),
-                'short_desc' => $request->input('short_desc'),
-                'content' => $request->input('content'),
-                'post_category_id' => $request->input('post_category_id'),
-                'thumb' => $thumb
-            ]);
-
-            return redirect(route('admin.post.index',['status'=>'trash']))->with('success', 'Cập nhật bài viết thành công');
+            return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Cập nhật bài viết thành công');
         } else {
-            $thumb = Post::find($id)->thumb;
-
-            $this->upload_image($request, 'thumb',$thumb);
-
-            Post::where('id', $id)->update([
-                'name' => $request->input('name'),
-                'code' => Str::slug($request->input('name')),
-                'short_desc' => $request->input('short_desc'),
-                'content' => $request->input('content'),
-                'post_category_id' => $request->input('post_category_id'),
-                'thumb' => $thumb
-            ]);
-
             return redirect(route('admin.post.index'))->with('success', 'Cập nhật bài viết thành công');
         }
     }
 
-    function upload_image($request, $image,&$thumb)
+    function upload_image($request, $image, &$thumb)
     {
         if ($request->hasFile($image)) {
             $file = $request->$image;

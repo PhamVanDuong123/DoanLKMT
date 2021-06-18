@@ -31,14 +31,14 @@ class UserController extends Controller
         //lấy từ khóa tìm kiếm
         $key = $request->input('key', '');
 
-        $list_user = User::where('fullname', 'like', "%$key%")->paginate(10);
+        $list_user = User::where('fullname', 'like', "%$key%")->orderByDesc('id')->paginate(10);
 
         if ($status == 'trash') {
             $list_action = array(
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_user = User::onlyTrashed()->where('fullname', 'like', "%$key%")->paginate(10);
+            $list_user = User::onlyTrashed()->where('fullname', 'like', "%$key%")->orderByDesc('id')->paginate(10);
         }
 
         $countActive = User::count();
@@ -87,17 +87,17 @@ class UserController extends Controller
                 if ($action == 'trash') {
                     User::destroy($list_user_id);
 
-                    return redirect(route('admin.user.index'))->with('success', 'Vô hiệu hóa danh sách thành viên thành công');
+                    return redirect(route('admin.user.index', ['status' => 'trash', 'page'=>1]))->with('success', 'Vô hiệu hóa danh sách thành viên thành công');
                 }
                 if ($action == 'active') {
                     User::onlyTrashed()->whereIn('id', $list_user_id)->restore();
 
-                    return redirect(route('admin.user.index'))->with('success', 'Khôi phục danh sách thành viên thành công');
+                    return redirect(route('admin.user.index', ['page'=>1]))->with('success', 'Khôi phục danh sách thành viên thành công');
                 }
                 if ($action == 'forceDelete') {
                     User::onlyTrashed()->whereIn('id', $list_user_id)->forceDelete();
 
-                    return redirect(route('admin.user.index'))->with('success', 'Xóa vĩnh viễn danh sách thành viên thành công');
+                    return redirect(route('admin.user.index', ['status' => 'trash', 'page'=>1]))->with('success', 'Xóa vĩnh viễn danh sách thành viên thành công');
                 }
                 return redirect(route('admin.user.index'))->with('error', 'Bạn chưa chọn hành động nào');
             }
@@ -109,30 +109,19 @@ class UserController extends Controller
 
     function editPermission(Request $request, $id)
     {
-        $user = User::find($id);
-
-        $status = $request->input('status');
-        if ($status == 'trash') {
-            $user = User::onlyTrashed()->find($id);
-        }
+        $user = User::withTrashed()->find($id);
 
         return view('admin.users.editPermission', compact('user'));
     }
 
     function updatePermission(Request $request, $id)
     {
-        $update = array(
-            'permission' => $request->input('permission')
-        );
+        User::withTrashed()->where('id', $id)->update(['permission' => $request->input('permission')]);
 
         $status = $request->input('status');
         if ($status == 'trash') {
-            User::onlyTrashed()->where('id', $id)->update($update);
-
             return redirect(route('admin.user.index', ['status' => 'trash']))->with('success', 'Cập nhật quyền thành viên thành công');
         } else {
-            User::where('id', $id)->update($update);
-
             return redirect(route('admin.user.index'))->with('success', 'Cập nhật quyền thành viên thành công');
         }
     }
