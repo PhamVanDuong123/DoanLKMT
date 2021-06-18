@@ -13,7 +13,6 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('name',50)->unique();

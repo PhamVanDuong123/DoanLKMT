@@ -3,9 +3,9 @@
 @php
 function show_permission($permission){
 $list_per=array(
-'1'=>'Boss',
-'2'=>'Admin',
-'3'=>'Sale'
+'1'=>'Chủ hệ thống',
+'2'=>'Quản trị',
+'3'=>'Nhân viên bán hàng'
 );
 return $list_per[$permission];
 }

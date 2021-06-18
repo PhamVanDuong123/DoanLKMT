@@ -13,7 +13,6 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name',70);

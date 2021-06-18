@@ -13,7 +13,6 @@ class CreatePostCategoriesTable extends Migration
      */
     public function up()
     {
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name',30);

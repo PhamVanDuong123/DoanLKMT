@@ -29,7 +29,7 @@ class PostCategoryController extends Controller
             'trash'=>'Xóa tạm thời'
         );
 
-        $list_post_cate = PostCategory::where('name', 'like', "%{$key}%")->paginate(10);
+        $list_post_cate = PostCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(10);
 
         if ($status == 'trash') {
             $list_action=array(
@@ -37,7 +37,7 @@ class PostCategoryController extends Controller
                 'forceDelete'=>'Xóa vĩnh viễn'
             );
 
-            $list_post_cate = PostCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->paginate(10);
+            $list_post_cate = PostCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(10);
         }
 
         $count=array(
@@ -98,17 +98,17 @@ class PostCategoryController extends Controller
             if($action=='trash'){
                 PostCategory::destroy($list_post_cate_id);
 
-                return redirect(route('admin.post_category.index'))->with('success', 'Xóa danh mục bài viết thành công');
+                return redirect(route('admin.post_category.index', ['status' => 'trash', 'page'=>1]))->with('success', 'Xóa danh mục bài viết thành công');
             }
             if($action=='active'){
                 PostCategory::onlyTrashed()->whereIn('id',$list_post_cate_id)->restore();
 
-                return redirect(route('admin.post_category.index'))->with('success', 'Khôi phục danh mục bài viết thành công');
+                return redirect(route('admin.post_category.index', ['page'=>1]))->with('success', 'Khôi phục danh mục bài viết thành công');
             }
             if($action=='forceDelete'){
                 PostCategory::onlyTrashed()->whereIn('id',$list_post_cate_id)->forceDelete();
 
-                return redirect(route('admin.post_category.index'))->with('success', 'Xóa vĩnh viễn danh mục bài viết thành công');
+                return redirect(route('admin.post_category.index', ['status' => 'trash', 'page'=>1]))->with('success', 'Xóa vĩnh viễn danh mục bài viết thành công');
             }
             return redirect(route('admin.post_category.index'))->with('error','Bạn chưa chọn hành động nào');
         }else{
@@ -117,12 +117,7 @@ class PostCategoryController extends Controller
     }
 
     function edit(Request $request,$id){
-        $post_cate=PostCategory::find($id);
-
-        $status=$request->input('status');
-        if($status=='trash'){
-            $post_cate=PostCategory::onlyTrashed()->find($id);
-        }
+        $post_cate=PostCategory::withTrashed()->find($id);
 
         return view('admin.post_categories.edit',compact('post_cate'));
     }
@@ -139,22 +134,16 @@ class PostCategoryController extends Controller
             ]
         );
 
+        PostCategory::withTrashed()->where('id',$id)->update([
+            'name' => $request->input('name'),
+            'code' => Str::slug($request->input('name')),
+            'description' => $request->input('description')
+        ]);
+
         $status=$request->input('status');
         if($status=='trash'){
-            PostCategory::onlyTrashed()->where('id',$id)->update([
-                'name' => $request->input('name'),
-                'code' => Str::slug($request->input('name')),
-                'description' => $request->input('description')
-            ]);
-
             return redirect(route('admin.post_category.index',['status'=>'trash']))->with('success', 'Cập nhật danh mục bài viết thành công');
         }else{
-            PostCategory::where('id',$id)->update([
-                'name' => $request->input('name'),
-                'code' => Str::slug($request->input('name')),
-                'description' => $request->input('description')
-            ]);
-
             return redirect(route('admin.post_category.index'))->with('success', 'Cập nhật danh mục bài viết thành công');
         }
     }

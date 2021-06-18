@@ -83,15 +83,20 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::get('/postCategory/edit/{id}','Admin\PostCategoryController@edit')->name('admin.post_category.edit');
     Route::post('/postCategory/update/{id}','Admin\PostCategoryController@update')->name('admin.post_category.update');
     Route::get('/postCategory/delete/{id}','Admin\PostCategoryController@delete')->name('admin.post_category.delete');
-    Route::get('/postCategory/action','Admin\PostCategoryController@action')->name('admin.post_category.action');
+    Route::post('/postCategory/action','Admin\PostCategoryController@action')->name('admin.post_category.action');
 
     //brand
     Route::get('/brand', 'AdminBrandController@index')->name('admin.brand.index');
     Route::get('/brand/add', 'AdminBrandController@add')->name('admin.brand.add');
 
     //promotion
-    Route::get('/promotion', 'AdminPromotionController@index')->name('admin.promotion.index');
-    Route::get('/promotion/add', 'AdminPromotionController@add')->name('admin.promotion.add');
+    Route::get('/promotion', 'Admin\PromotionController@index')->name('admin.promotion.index');
+    Route::get('/promotion/add', 'Admin\PromotionController@add')->name('admin.promotion.add');
+    Route::post('/promotion/store', 'Admin\PromotionController@store')->name('admin.promotion.store');
+    Route::get('/promotion/delete/{id}', 'Admin\PromotionController@delete')->name('admin.promotion.delete');
+    Route::post('/promotion/action', 'Admin\PromotionController@action')->name('admin.promotion.action');
+    Route::get('/promotion/edit/{id}', 'Admin\PromotionController@edit')->name('admin.promotion.edit');
+    Route::post('/promotion/update/{id}', 'Admin\PromotionController@update')->name('admin.promotion.update');
 });
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
