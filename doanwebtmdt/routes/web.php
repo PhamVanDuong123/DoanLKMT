@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserHomeController;
-
+use App\Http\Controllers\ProductCategoryController;
+use App\Models\Product;
 use App\Http\Controllers\AdminController;
 
 /*
@@ -59,12 +60,25 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     //order
 
     //product
-    Route::get('/product', 'AdminProductController@index')->name('admin.product.index');
-    Route::get('/product/add', 'AdminProductController@add')->name('admin.product.add');
-    Route::post('/product/store', 'AdminProductController@store')->name('admin.product.store');
-    Route::get('/product/edit', 'AdminProductController@edit')->name('admin.product.edit');
+    Route::get('/product', 'Admin\ProductController@index')->name('admin.product.index');
+    Route::get('/product/detail/{id}', 'Admin\ProductController@detail')->name('admin.product.detail');
+    Route::get('/product/add', 'Admin\ProductController@add')->name('admin.product.add');
+    Route::post('/product/store', 'Admin\ProductController@store')->name('admin.product.store');
+    Route::get('/product/edit/{id}', 'Admin\ProductController@edit')->name('admin.product.edit');
+    Route::post('/product/update/{id}', 'Admin\ProductController@update')->name('admin.product.update');
+    Route::get('/product/delete/{id}', 'Admin\ProductController@delete')->name('admin.product.delete');
+    Route::post('/product/action', 'Admin\ProductController@action')->name('admin.product.action');
     
     //product category
+    Route::get('/product_category', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
+    Route::get('/product_category/index', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
+    Route::get('/product_category/add', 'Admin\ProductCategoryController@getadd')->name('admin.product_category.add');
+    Route::post('/product_category/add', 'Admin\ProductCategoryController@postadd')->name('admin.product_category.add');
+    Route::get('/product_category/deletecategory/{id}', 'Admin\ProductCategoryController@deletecategory')->name('admin.product_category.deletecategory');
+    Route::post('/product_category/edit/{id}', 'Admin\ProductCategoryController@postedit')->name('admin.product_category.edit');
+    Route::get('/product_category/edit/{id}', 'Admin\ProductCategoryController@getedit')->name('admin.product_category.edit');
+    Route::get('/product_category/action', 'Admin\ProductCategoryController@action')->name('admin.product_category.action');
+
 
     //post
     Route::get('/post', 'Admin\PostController@index')->name('admin.post.index');
