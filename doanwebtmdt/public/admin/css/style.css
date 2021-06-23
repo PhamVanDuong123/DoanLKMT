@@ -124,6 +124,10 @@ ul#sidebar-menu * {
     width: 300px;
 }
 
+.form-search-sale {
+    width: 480px;
+}
+
 .table tr td {
     vertical-align: middle;
 }

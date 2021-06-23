@@ -58,6 +58,10 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::post('/user/update/{id}', 'Admin\UserController@update')->name('admin.user.update');
 
     //order
+    Route::get('/order', 'Admin\OrderController@index')->name('admin.order.index');
+    Route::get('/order/search', 'Admin\OrderController@search')->name('admin.order.search');
+    Route::get('/order/process/{id}', 'Admin\OrderController@process')->name('admin.order.process');
+    Route::get('/order/exit/{id}', 'Admin\OrderController@exit')->name('admin.order.exit');
 
     //product
     Route::get('/product', 'Admin\ProductController@index')->name('admin.product.index');
