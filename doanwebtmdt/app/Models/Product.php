@@ -43,6 +43,6 @@ class Product extends Model
     }
 
     function orders(){
-        return $this->belongsToMany('App\Models\Order');
+        return $this->belongsToMany('App\Models\Order','order_details','product_id','order_id')->withPivot('order_id','product_id','number','price','created_at');
     }
 }

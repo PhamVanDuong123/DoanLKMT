@@ -28,4 +28,18 @@ $(document).ready(function() {
     $(".file-image").change(function() {
         readURL(this);
     });
+
+    //xử lý hiển thị tìm kiếm đơn hàng
+    $("#search-option").change(function() {
+        option = $(this).val();
+        $("input#key").attr('type', 'text');
+        $("input#key").attr('placeholder', 'Nhập mã đơn hàng');
+        if (option == 'name') {
+            $("input#key").attr('placeholder', 'Nhập tên khách hàng');
+        }
+        if (option == 'date') {
+            $("input#key").attr('type', 'date');
+            $("input#key").attr('placeholder', 'Nhập ngày đặt hàng');
+        }
+    });
 });

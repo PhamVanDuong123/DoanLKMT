@@ -15,7 +15,7 @@ class CreatePostCategoriesTable extends Migration
     {
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name',30);
+            $table->string('name',50);
             $table->string('code',50)->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('user_id');

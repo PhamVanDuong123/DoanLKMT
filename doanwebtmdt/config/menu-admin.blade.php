@@ -22,12 +22,12 @@ return [
     [
         'name' => 'Quản lý bán hàng',
         'module'=>'order',
-        'route'=>'admin.user.index',
+        'route'=>'admin.order.index',
         'icon' => 'fas fa-chart-line',
         'items' => [
             [
                 'name' => 'Danh sách đơn hàng',
-                'route'=>'admin.user.index'
+                'route'=>'admin.order.index'
             ]
         ]
     ],
