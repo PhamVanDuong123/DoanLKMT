@@ -27,7 +27,7 @@
                 <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="name">Tên loại sản phẩm</label>
-                                    <input type="text" name="name" id="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" placeholder=" Điền vào thể loại" value={{$product_category->name}}>
                                    
                                   
                                 </div>
@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="code">Code</label>
-                                    <input type="text" name="code" id="old_price" class="form-control">
+                                    <input type="text" name="code" id="old_price" class="form-control"placeholder=" Điền vào code thể loại" value={{$product_category->code}}>
                                 </div>
                                 
                             </div>
@@ -44,7 +44,7 @@
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="detail_desc">Mô tả chi tiết</label>
-                                    <textarea name="detail_desc" id="detail_desc" class="ckeditor form-control"></textarea>
+                                    <textarea name="detail_desc" id="detail_desc" class="ckeditor form-control"placeholder=" Điền vào thể loại" value={{$product_category->detail_desc}}></textarea>
                                   
                                   
                                    

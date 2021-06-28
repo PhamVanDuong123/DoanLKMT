@@ -17,23 +17,29 @@ class PromotionSeeder extends Seeder
         DB::table('promotions')->insert([
             [
                 'name'=>'Sale 1.1',
+                'code'=>'sale-1-1',
                 'description'=>'Giảm giá khủng ngày 1.1',
                 'start_day'=>'2021-1-1',
                 'end_day'=>'2021-1-2',
+                'number'=>5,
                 'percents'=>10
             ],
             [
                 'name'=>'Sale 2.2',
+                'code'=>'sale-2-2',
                 'description'=>'Giảm giá khủng ngày 2.2',
                 'start_day'=>'2021-2-2',
                 'end_day'=>'2021-2-3',
+                'number'=>15,
                 'percents'=>10
             ],
             [
                 'name'=>'Sale 3.3',
+                'code'=>'sale-3-3',
                 'description'=>'Giảm giá khủng ngày 3.3',
                 'start_day'=>'2021-3-3',
                 'end_day'=>'2021-3-4',
+                'number'=>10,
                 'percents'=>10
             ]
         ]);

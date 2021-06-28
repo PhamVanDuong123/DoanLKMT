@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\ProductCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,7 @@ class ProductCategoryController extends Controller
 
         $status = $request->input('status');
 
-        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->paginate(15);
+        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(15);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -37,7 +38,8 @@ class ProductCategoryController extends Controller
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_product_category = ProductCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->paginate(15);
+            $list_product_category = ProductCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+
         }
 
      
@@ -65,25 +67,31 @@ class ProductCategoryController extends Controller
         $this->validate($request,
         [
             'name'=>'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
-            'code'=>'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
+            'code' => 'required|min:5|max:30|unique:post_categories',
            
         ],
         [
             'name.regex'=>'Họ tên phải có định dạng là chữ cái hoặc khoảng trắng',
             'code.regex'=>'code phải có định dạng là chữ cái hoặc khoảng trắng',
-          
+            'unique'=>' :attribute không được trùng',
             'required'=>':attribute không được để trống',
             'min'=>':attribute có độ dài tối thiểu là :min',
             'max'=>':attribute có độ dài tối đa là :max',
          
-        ]);
+        ],
+        [       'name' => 'Tên loại sản phẩm',
+                'code' => 'Mã loại sản phẩm',
+                
+        ]
+    );
+        
         $product_category=new ProductCategory;
         $product_category->name=$request->name;
-        $product_category->code=$request->code;
+        $product_category->code=Str::slug($request->code);
         $product_category->description=$request->description;
         $product_category->user_id=Auth::user()->id;
         $product_category->save();
-        return redirect('admin/product_category/add')->with('thongbao','Thêm thành công');
+        return redirect('admin/product_category/index')->with('thongbao','Thêm loại sản phẩm thành công');
 
 
     }
@@ -93,7 +101,7 @@ class ProductCategoryController extends Controller
         $this->validate($request,
         [
             'name'=>'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
-            'code'=>'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
+          
            
         ],
         [
@@ -105,22 +113,32 @@ class ProductCategoryController extends Controller
             'max'=>':attribute có độ dài tối đa là :max',
          
         ]);
-        $product_category->name=$request->name;
-        $product_category->code=$request->code;
-        $product_category->description=$request->description;
-        $product_category->user_id=Auth::user()->id;
-        $product_category->save();
-      //  ProductCategory::where('id',$id);
-      
-
         
-        return redirect('admin/product_category/edit/'.$id)->with('thongbao','Sửa thành công');
+        
+        $status=$request->input('status');
+        if($status=='trash'){
+            ProductCategory::onlyTrashed()->where('id',$id)->update([
+                'name' => $request->input('name'),
+                'code' => Str::slug($request->input('name')),
+                'description' => $request->input('description')
+            ]);
+
+            return redirect(route('admin.product_category.index',['status'=>'trash']))->with('success', 'Cập nhật danh mục sản phẩm thành công');
+        }else{
+            ProductCategory::where('id',$id)->update([
+                'name' => $request->input('name'),
+                'code' => Str::slug($request->input('name')),
+                'description' => $request->input('description')
+            ]);
+
+            return redirect(route('admin.product_category.index'))->with('thongbao', 'Cập nhật danh mục sản phẩm thành công');
+        }
         
 
     }
     public function getedit($id)
     {
-        $product_category=ProductCategory::find($id);
+        $product_category=ProductCategory::withTrashed()->find($id);
         return view('admin.product_category.edit',['product_category'=>$product_category]);
 
     }
@@ -130,10 +148,10 @@ class ProductCategoryController extends Controller
         $status = $request->input('status');
         if ($status =='trash') {
             ProductCategory::onlyTrashed()->find($id)->forceDelete();
-            return redirect(route('admin.product_category.index', ['status' => 'trash']))->with('thongbao', 'Xóa vĩnh viễn bài viết thành công');
+            return redirect(route('admin.product_category.index', ['status' => 'trash', 'page' => 1]))->with('thongbao', 'Xóa vĩnh viễn bài viết thành công');
         } else {
             ProductCategory::destroy($id);
-            return redirect(route('admin.product_category.index'))->with('thongbao', 'Xóa bài viết thành công');
+            return redirect(route('admin.product_category.index',['status' => 'trash', 'page' => 1]))->with('thongbao', 'Xóa bài viết thành công');
         }
         
     }
