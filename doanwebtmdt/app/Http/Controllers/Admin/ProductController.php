@@ -91,8 +91,8 @@ class ProductController extends Controller
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
                 'thumb' => 'required|image|max:20480',
-                'price'=>'required|numeric|min:4|max:200',
-                'old_price'=>'required|numeric|min:4|max:200',
+                'price'=>'required|numeric',
+                'old_price'=>'required|numeric',
                 
 
                 
