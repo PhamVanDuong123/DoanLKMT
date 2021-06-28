@@ -24,7 +24,7 @@ class Product extends Model
         'detail_desc',
         'warranty',
         'product_category_id',
-        'account_id',
+        'user_id',
         'status',
         'created_at',
         'updated_at'

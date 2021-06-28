@@ -20,8 +20,9 @@ class CreateBrandsTable extends Migration
             $table->string('email',60)->unique();
             $table->string('address',200);
             $table->string('country',40);
-            $table->string('logo',150)->nullable();
+            $table->string('logo',150) ->nullable();
             $table->string('website',150);
+            $table->enum('status',['approved','not approved yet'])->default('not approved yet');
             $table->timestamps();
             $table->softDeletes();
         });

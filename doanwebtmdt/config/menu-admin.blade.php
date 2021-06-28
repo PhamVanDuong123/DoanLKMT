@@ -114,7 +114,7 @@ return [
                 'route'=>'admin.brand.index'
             ],
             [
-                'name'=>'',
+                'name'=>'Thêm thương hiệu',
                 'route'=>'admin.brand.add'
             ]
         ]
