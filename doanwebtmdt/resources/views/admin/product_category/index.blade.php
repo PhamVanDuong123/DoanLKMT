@@ -49,10 +49,10 @@
                             <input type="checkbox" name="checkall">
                         </th>
                         <th scope="col">STT</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">User_id</th> 
+                        <th scope="col">Tên Loại Sản Phẩm</th>
+                        <th scope="col">Mã loại sản phẩm</th>
+                        <th scope="col">Mô tả</th>
+                        <th scope="col">Người tạo</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
                         <td>{{$item->name}}</td>
                         <td>{{$item->code}}</td>
                         <td>{{$item->description}}</td>
-                        <td>{{$item->user_id}}</td>
+                        <td>{{$item->user->fullname}}</td>
                         <td>
                             <a href="{{route('admin.product_category.edit',['id'=>$item->id,'status'=>request()->status])}}"class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
                         
@@ -79,8 +79,11 @@
                     @endforeach
                 </tbody>
             </table>
+            {{$list_product_category->appends(request()->all())->links()}}
+                @else
+                <p class="text-center">Không có sản phẩm nào</p>
+                
             @endif
-        
             </form>
         </div>
     </div>

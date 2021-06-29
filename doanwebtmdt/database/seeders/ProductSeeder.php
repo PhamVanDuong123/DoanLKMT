@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
                 - Cổng hình ảnh: , 1 x HDMI, 1 x VGA/D-sub',
                 'detail_desc'=>"<h3><strong>Sơ lược</strong></h3><p>Cùng ra mắt với người anh em sinh đôi của mình Sensei 310 hồi giữa năm 2017, Rival 310 được công ty sản xuất gaming gear đến từ Đan Mạch mong muốn sẽ là sản phẩm thống trị phân khúc chuột chơi game tầm trung. Thiết kế cơ bản lại cái đẹp bắt nguồn từ chính nét cơ bản đo, cùng với phần phối với giá thành hợp lý - $60, Steelseries Rival 310 được tin rằng sẽ cạnh tranh song phẳng với những Razer DeathAdder, Logitech G403 hay Zowie FK1.</p><h3 dir='ltr'><strong>Thiết kế và trải nghiệm</strong></h3><p dir='ltr'>Steelseries là một trong những tập đoàn sản xuất thiết bị ngoại vi nổi tiếng nhất trong giới E-sports và hầu như tất cả những sản phẩm của họ được thiết kế để phục vụ cho thi đấu chuyên nghiệp đỉnh cao. Tiền nhiệm của Rival 310 và Sensei 310 – Steelseries Rival 300 đã đứng trên đỉnh cao là một trong những con chuột toàn diện nhất, không chỉ đặc biệt dành cho game thủ, mà còn phù hợp cho người dùng phổ thông. Tuy nhiên, Rival 300 không phải không có những điểm yếu mà Steelseries đã ngay lập tức tiếp nhận ý kiến từ người dùng và ra mắt phiên bản hoàn hảo hơn: Rival 310.</p>",
                 'warranty'=>24,
-                'product_category_id'=>10,
+                'product_category_id'=>11,
                 'user_id'=>3,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
                 - Công nghệ đồng bộ: FreeSync",
                 'detail_desc'=>"<h3><strong>Sơ lược</strong></h3><p>Cùng ra mắt với người anh em sinh đôi của mình Sensei 310 hồi giữa năm 2017, Rival 310 được công ty sản xuất gaming gear đến từ Đan Mạch mong muốn sẽ là sản phẩm thống trị phân khúc chuột chơi game tầm trung. Thiết kế cơ bản lại cái đẹp bắt nguồn từ chính nét cơ bản đo, cùng với phần phối với giá thành hợp lý - $60, Steelseries Rival 310 được tin rằng sẽ cạnh tranh song phẳng với những Razer DeathAdder, Logitech G403 hay Zowie FK1.</p><h3 dir='ltr'><strong>Thiết kế và trải nghiệm</strong></h3><p dir='ltr'>Steelseries là một trong những tập đoàn sản xuất thiết bị ngoại vi nổi tiếng nhất trong giới E-sports và hầu như tất cả những sản phẩm của họ được thiết kế để phục vụ cho thi đấu chuyên nghiệp đỉnh cao. Tiền nhiệm của Rival 310 và Sensei 310 – Steelseries Rival 300 đã đứng trên đỉnh cao là một trong những con chuột toàn diện nhất, không chỉ đặc biệt dành cho game thủ, mà còn phù hợp cho người dùng phổ thông. Tuy nhiên, Rival 300 không phải không có những điểm yếu mà Steelseries đã ngay lập tức tiếp nhận ý kiến từ người dùng và ra mắt phiên bản hoàn hảo hơn: Rival 310.</p>",
                 'warranty'=>24,
-                'product_category_id'=>10,
+                'product_category_id'=>11,
                 'user_id'=>1,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
