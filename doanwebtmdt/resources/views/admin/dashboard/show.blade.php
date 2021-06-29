@@ -1,3 +1,36 @@
+@php
+function count_num_pro_in_order($order){
+$count=0;
+foreach($order->products as $item){
+$count+=$item->pivot->number;
+}
+return $count;
+}
+
+function get_total_order($order){
+$total=0;
+foreach($order->products as $item){
+$total+=$item->pivot->number*$item->pivot->price;
+}
+return number_format($total,0,',','.');
+}
+
+function show_status($status){
+$list_status=array(
+'cancelled'=>'<span class="badge badge-secondary">Bị hủy</span>',
+'received'=>'<span class="badge badge-primary">Chưa xử lý</span>',
+'processing'=>'<span class="badge badge-warning">Đang xử lý</span>',
+'being transported'=>'<span class="badge badge-info">Đang vận chuyển</span>',
+'delivered'=>'<span class="badge badge-success">Đã giao hàng</span>',
+);
+return $list_status[$status];
+}
+
+function currency_format($currency,$innit='đ'){
+return number_format($currency,0,',','.').$innit;
+}
+@endphp
+
 @extends('layoutadmin.master')
 
 @section('content')
@@ -5,38 +38,34 @@
     <div class="row">
         <div class="col">
             <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-                <div class="card-header">ĐƠN HÀNG THÀNH CÔNG</div>
+                <div class="card-header text-center">ĐƠN HÀNG THÀNH CÔNG</div>
                 <div class="card-body">
-                    <h5 class="card-title">2.680</h5>
-                    <p class="card-text">Đơn hàng giao dịch thành công</p>
+                    <h5 class="card-title text-center">{{$num_order_success}}</h5>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                <div class="card-header">ĐANG XỬ LÝ</div>
+                <div class="card-header text-center">ĐANG XỬ LÝ</div>
                 <div class="card-body">
-                    <h5 class="card-title">10</h5>
-                    <p class="card-text">Số lượng đơn hàng đang xử lý</p>
+                    <h5 class="card-title text-center">{{$num_order_processing}}</h5>
                 </div>
             </div>
         </div>
 
         <div class="col">
             <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-header">DOANH SỐ</div>
+                <div class="card-header text-center">TỔNG DOANH THU</div>
                 <div class="card-body">
-                    <h5 class="card-title">2.5 tỷ</h5>
-                    <p class="card-text">Doanh số hệ thống</p>
+                    <h5 class="card-title text-center">{{currency_format($revenue)}}</h5>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">ĐƠN HÀNG HỦY</div>
+                <div class="card-header text-center">ĐƠN HÀNG HỦY</div>
                 <div class="card-body">
-                    <h5 class="card-title">125</h5>
-                    <p class="card-text">Số đơn bị hủy trong hệ thống</p>
+                    <h5 class="card-title text-center">{{$num_order_cancelled}}</h5>
                 </div>
             </div>
         </div>
@@ -47,145 +76,52 @@
             ĐƠN HÀNG MỚI
         </div>
         <div class="card-body">
+            @if($list_new_order->total()>0)
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th>
+                            <input type="checkbox" name="checkall">
+                        </th>
+                        <th scope="col">STT</th>
                         <th scope="col">Mã</th>
                         <th scope="col">Khách hàng</th>
-                        <th scope="col">Sản phẩm</th>
-                        <th scope="col">Số lượng</th>
+                        <th scope="col">Số sản phẩm</th>
                         <th scope="col">Giá trị</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col">Thời gian</th>
+                        <th scope="col">Thời gian đặt</th>
                         <th scope="col">Tác vụ</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @php $t=0; @endphp
+                    @foreach($list_new_order as $item)
+                    @php $t++; @endphp
                     <tr>
-                        <th scope="row">1</th>
-                        <td>1212</td>
                         <td>
-                            Phan Văn Cương <br>
-                            0988859692
+                            <input type="checkbox">
                         </td>
-                        <td><a href="#">Samsung Galaxy A51 (8GB/128GB)</a></td>
-                        <td>1</td>
-                        <td>7.790.000₫</td>
-                        <td><span class="badge badge-warning">Đang xử lý</span></td>
-                        <td>26:06:2020 14:00</td>
+                        <td>{{$t}}</td>
+                        <td>{{$item->code}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{count_num_pro_in_order($item)}}</td>
+                        <td>{{get_total_order($item)}}đ</td>
+                        <td>{!!show_status($item->status)!!}</td>
+                        <td>{{$item->created_at}}</td>
                         <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                            <!-- Chỉ xử lý đơn hàng trạng thái đã nhận hoặc đang được xử lý -->
+                            @if($item->status=='received' || $item->status=='processing')
+                            <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
+                            @endif
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>1213</td>
-                        <td>
-                            Minh Anh <br>
-                            0868873382
-                        </td>
-                        <td><a href="#">Samsung Galaxy A51 (8GB/128GB)</a></td>
-                        <td>1</td>
-                        <td>7.790.000₫</td>
-                        <td><span class="badge badge-warning">Đang xử lý</span></td>
-                        <td>26:06:2020 14:00</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>1214</td>
-                        <td>
-                            Trần Thu Hằng <br>
-                            0234343545
-                        </td>
-                        <td><a href="#">Điện thoại iPhone 11 Pro Max 64GB</a></td>
-                        <td>1</td>
-                        <td>29.490.000₫</td>
-                        <td><span class="badge badge-success">Hoàn thành</span></td>
-                        <td>26:06:2020 14:00</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>1212</td>
-                        <td>
-                            Tuấn Anh <br>
-                            091236768
-                        </td>
-                        <td><a href="#">Apple MacBook Pro Touch 2020 i5 512GB</a></td>
-                        <td>1</td>
-                        <td>47.990.000₫</td>
-                        <td><span class="badge badge-warning">Đang xử lý</span></td>
-                        <td>26:06:2020 14:00</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>1214</td>
-                        <td>
-                            Trần Thu Hằng <br>
-                            0234343545
-                        </td>
-                        <td><a href="#">Điện thoại iPhone 11 Pro Max 64GB</a></td>
-                        <td>1</td>
-                        <td>29.490.000₫</td>
-                        <td><span class="badge badge-success">Hoàn thành</span></td>
-                        <td>26:06:2020 14:00</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>1212</td>
-                        <td>
-                            Tuấn Anh <br>
-                            091236768
-                        </td>
-                        <td><a href="#">Apple MacBook Pro Touch 2020 i5 512GB</a></td>
-                        <td>1</td>
-                        <td>47.990.000₫</td>
-                        <td><span class="badge badge-success">Hoàn thành</span></td>
-                        <td>26:06:2020 14:00</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                   
+                    @endforeach
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">Trước</span>
-                            <span class="sr-only">Sau</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            {{$list_new_order->appends(request()->all())->links()}}
+            @else
+            <p class="text-center">Không có đơn hàng mới nào</p>
+            @endif
         </div>
     </div>
 

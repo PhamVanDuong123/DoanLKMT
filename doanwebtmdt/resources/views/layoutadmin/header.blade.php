@@ -17,7 +17,7 @@
 <body>
     <div id="warpper" class="nav-fixed">
         <nav class="topnav shadow navbar-light bg-white d-flex">
-            <div class="navbar-brand"><a href="?">UNITOP ADMIN</a></div>
+            <div class="navbar-brand"><a href="?">ADMIN</a></div>
             <div class="nav-right ">
                 <div class="btn-group ml-auto">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,13 +1,13 @@
 <?php
 
 return [
-    [
+    'dashboard' => [
         'name' => 'Dashboard',
         'module'=>'dashboard',
         'route'=>'admin.dashboard.show',
         'icon' => 'fas fa-tachometer-alt'
     ],
-    [
+    'user' => [
         'name' => 'Quản lý thành viên',
         'module'=>'user',
         'route'=>'admin.user.index',
@@ -19,7 +19,7 @@ return [
             ]
         ]
     ],
-    [
+    'order' => [
         'name' => 'Quản lý bán hàng',
         'module'=>'order',
         'route'=>'admin.order.index',
@@ -31,7 +31,7 @@ return [
             ]
         ]
     ],
-    [
+    'product' => [
         'name'=>'Quản lý sản phẩm',
         'module'=>'product',
         'route'=>'admin.product.index',
@@ -51,7 +51,7 @@ return [
             ] */
         ]
     ],
-    [
+    'product_category' => [
         'name'=>'Quản lý loại sản phẩm',
         'module'=>'product_category',
         'route'=>'admin.product_category.index',
@@ -71,7 +71,7 @@ return [
             ] */
         ]
     ],
-    [
+    'post' => [
         'name'=>'Quản lý bài viết',
         'module'=>'post',
         'route'=>'admin.post.index',
@@ -87,7 +87,7 @@ return [
             ]
         ]
     ],
-    [
+    'post_category' => [
         'name'=>'Quản lý danh mục bài viết',
         'module'=>'post_category',
         'route'=>'admin.post_category.index',
@@ -103,7 +103,7 @@ return [
             ]
         ]
     ],
-    [
+    'brand' => [
         'name'=>'Quản lý thương hiệu',
         'module'=>'brand',
         'route'=>'admin.brand.index',
@@ -119,7 +119,7 @@ return [
             ]
         ]
     ],
-    [
+    'promotion' => [
         'name'=>'Quản lý khuyến mãi',
         'module'=>'promotion',
         'route'=>'admin.promotion.index',

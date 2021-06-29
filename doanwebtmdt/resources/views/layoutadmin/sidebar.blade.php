@@ -7,7 +7,7 @@ $mod_active=session('mod_active');
 <div id="sidebar" class="bg-white">
     <ul id="sidebar-menu">
         @if(!empty($list_menu))
-        @foreach($list_menu['blade'] as $item)
+        @foreach($list_menu['blade'] as $k=>$item)
         <li class="nav-link {{$mod_active==$item['module']?'active':''}}">
             <a href="{{route($item['route'])}}">
                 <div class="nav-link-icon d-inline-flex">

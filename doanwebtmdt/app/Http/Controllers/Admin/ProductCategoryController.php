@@ -27,7 +27,7 @@ class ProductCategoryController extends Controller
 
         $status = $request->input('status');
 
-        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->paginate(15);
+        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(15);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -38,7 +38,7 @@ class ProductCategoryController extends Controller
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_product_category = ProductCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->paginate(15);
+            $list_product_category = ProductCategory::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(15);
         }
 
      
@@ -121,7 +121,7 @@ class ProductCategoryController extends Controller
     }
     public function getedit($id)
     {
-        $product_category=ProductCategory::find($id);
+        $product_category=ProductCategory::withTrashed()->find($id);
         return view('admin.product_category.edit',['product_category'=>$product_category]);
 
     }

@@ -91,8 +91,11 @@ return $list_status[$status];
                             <td>{{$item->updated_at}}</td>
                             <td>{{$item->deleted_at}}</td>
                             <td>
+                                <!-- Chỉ được sửa hoặc xóa các khuyến mãi chưa được duyệt  -->
+                                @if($item->status=='not approved yet')
                                 <a href="{{route('admin.promotion.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
                                 <a href="{{route('admin.promotion.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa khuyến mãi này?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

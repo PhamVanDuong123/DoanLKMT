@@ -26,30 +26,30 @@ class OrderController extends Controller
         $status = $request->input('status');
         $fillter=$request->input('fillter');
 
-        $list_order = Order::paginate(8);
+        $list_order = Order::orderByDesc('id')->paginate(8);
 
         if($fillter=='today'){
-            $list_order=Order::whereRaw('year(created_at) = ?',date('Y'))->whereRaw('month(created_at) = ?',date('m'))->whereRaw('day(created_at) = ?',date('d'))->paginate(8);
+            $list_order=Order::whereRaw('year(created_at) = ?',date('Y'))->whereRaw('month(created_at) = ?',date('m'))->whereRaw('day(created_at) = ?',date('d'))->orderByDesc('id')->paginate(8);
         }
 
         if($fillter=='in_month'){
-            $list_order=Order::whereRaw('year(created_at) = ?',date('Y'))->whereRaw('month(created_at) = ?',date('m'))->paginate(8);
+            $list_order=Order::whereRaw('year(created_at) = ?',date('Y'))->whereRaw('month(created_at) = ?',date('m'))->orderByDesc('id')->paginate(8);
         }
         
         if($option=='name'||$option=='code'){
             if($status == '' || $status == 'all'){
-                $list_order = Order::where($option, 'like', "%{$key}%")->paginate(8);
+                $list_order = Order::where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
             }else{
-                $list_order = Order::where('status', $status)->where($option, 'like', "%{$key}%")->paginate(8);
+                $list_order = Order::where('status', $status)->where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
             }
         }
 
         if($option=='date'){
             $date = explode('-', $key);
             if($status == '' || $status == 'all'){
-                $list_order=Order::whereRaw('year(created_at) = ?',$date[0])->whereRaw('month(created_at) = ?',$date[1])->whereRaw('day(created_at) = ?',$date[2])->paginate(8);
+                $list_order=Order::whereRaw('year(created_at) = ?',$date[0])->whereRaw('month(created_at) = ?',$date[1])->whereRaw('day(created_at) = ?',$date[2])->orderByDesc('id')->paginate(8);
             }else{
-                $list_order=Order::where('status',$status)->whereRaw('year(created_at) = ?',$date[0])->whereRaw('month(created_at) = ?',$date[1])->whereRaw('day(created_at) = ?',$date[2])->paginate(8);
+                $list_order=Order::where('status',$status)->whereRaw('year(created_at) = ?',$date[0])->whereRaw('month(created_at) = ?',$date[1])->whereRaw('day(created_at) = ?',$date[2])->orderByDesc('id')->paginate(8);
             }
         }
 
@@ -81,10 +81,6 @@ class OrderController extends Controller
         $order->save();
 
         return view('admin.orders.process', compact('order'));
-    }
-
-    function process2(Request $request,$id){
-        
     }
 
     function exit($id){
