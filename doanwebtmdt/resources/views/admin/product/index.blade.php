@@ -61,8 +61,7 @@ return $list_status[$status];
                             <th><span class="thead-text">STT</th>
                                     <th scope="col" >Ảnh sản phẩm</th>
                                     <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Mã sản phẩm</th>
-                                   
+                                    <th scope="col">Mã sản phẩm</th>                                   
                                     <th scope="col">Thương hiệu</th>
                                     <th scope="col">Loại sản phẩm</th>
                                     <th scope="col">Giá bán</th>
@@ -84,7 +83,7 @@ return $list_status[$status];
                                 <input type="checkbox" name="list_Product_id[]" value="{{$item->id}}">
                             </td>
                             <td scope="row">{{$t}}</td>
-                            <td><img style="width:18rem;"class="thumb-product" src="{{$item->thumb}}" alt=""></td>
+                            <td><img class="thumb-post" src="{{$item->thumb}}" alt=""></td>
                             <td><a href="{{route('admin.product.detail',$item->id)}}">{{$item->name}}</a></td>
      
                                     <td>{{$item->code}}</td>

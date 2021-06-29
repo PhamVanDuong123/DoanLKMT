@@ -1,12 +1,3 @@
-@php
-function show_status($status){
-$list_status=array(
-'approved'=>'Được duyệt',
-'not approved yet'=>'Chưa được duyệt'
-);
-return $list_status[$status];
-}
-@endphp
 @extends('layoutadmin.master')
 
 @section('content')
@@ -24,9 +15,7 @@ return $list_status[$status];
         </div>
         <div class="card-body">
             <div class="analytic">
-                <a href="{{request()->fullUrlWithQuery(['status'=>'all','page'=>1])}}" class="text-primary">Tất cả<span class="text-muted">({{$count['all']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'not approved yet','page'=>1])}}" class="text-primary">Chưa được duyệt<span class="text-muted">({{$count['not approved yet']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'approved','page'=>1])}}" class="text-primary">Được duyệt<span class="text-muted">({{$count['approved']}})</span></a>
+                <a href="{{request()->fullUrlWithQuery(['status'=>'active','page'=>1])}}" class="text-primary">Kích hoạt<span class="text-muted">({{$count['active']}})</span></a>
                 <a href="{{request()->fullUrlWithQuery(['status'=>'trash','page'=>1])}}" class="text-primary">Thùng rác<span class="text-muted">({{$count['trash']}})</span></a>
             </div>
             <form action="{{route('admin.brand.action')}}" method="post">
@@ -62,8 +51,6 @@ return $list_status[$status];
                             <th scope="col">Quốc gia</th>
                             <th scope="col">Logo</th>
                             <th scope="col">Website</th>
-                            <th scope="col">Trạng thái</th>
-
                             <th scope="col">Ngày cập nhật</th>
                             <th scope="col">Ngày xóa</th>
                             <th scope="col">Tác vụ</th>
@@ -76,7 +63,7 @@ return $list_status[$status];
                         @php $t++; @endphp
                         <tr>
                             <td>
-                                <input type="checkbox" name="list_Brand[]" value="{{$item->id}}">
+                                <input type="checkbox" name="list_branch_id[]" value="{{$item->id}}">
                             </td>
                             <td scope="row">{{$t}}</td>
                           
@@ -87,7 +74,6 @@ return $list_status[$status];
                             <td>{{$item->country}}</td>
                             <td><img class="thumb-post" src="{{$item->logo}}" alt=""></td>
                             <td>{{$item->website}}</td>
-                            <td>{{$item->status}}</td>
                             <td>{{$item->updated_at}}</td>
                             <td>{{$item->deleted_at}}</td>
                             <td>

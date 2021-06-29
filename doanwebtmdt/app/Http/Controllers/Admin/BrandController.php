@@ -14,7 +14,7 @@ class BrandController extends Controller
     function __construct()
     {
         $this->middleware(function ($request, $next) {
-            session(['mod_active' => 'Brand']);
+            session(['mod_active' => 'brand']);
             return $next($request);
         });
     }
@@ -24,8 +24,6 @@ class BrandController extends Controller
         $key = $request->input('key');
 
         $status = $request->input('status');
-
-        $list_Brand = Brand::where('name', 'like', "%{$key}%")->orderBy('id')->paginate(5);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -37,25 +35,13 @@ class BrandController extends Controller
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
             $list_Brand = Brand::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-        }
-
-        if ($status == 'approved') {
-            $list_Brand = Brand::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-        }
-
-        if ($status == 'not approved yet') {
-            $list_action = array(
-                'approved' => 'Duyệt',
-                'trash' => 'Xóa tạm thời'
-            );
-            $list_Brand = Brand::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+        }else{
+            $list_Brand = Brand::where('name', 'like', "%{$key}%")->orderBy('id')->paginate(5);
         }
 
         $count = array(
-            'approved' => Brand::where('status', 'approved')->count(),
-            'not approved yet' => Brand::where('status', 'not approved yet')->count(),
             'trash' => Brand::onlyTrashed()->count(),
-            'all' => Brand::count()
+            'active' => Brand::count()
         );
 
         return view('admin.brand.index', compact('list_Brand', 'count', 'list_action'));
@@ -149,8 +135,7 @@ class BrandController extends Controller
 
     function action(Request $request)
     {
-        $list_Brand_id = $request->input('list_Brand_id');
-
+        $list_Brand_id = $request->input('list_branch_id');
         if ($list_Brand_id) {
             $action = $request->input('action');
 
@@ -159,11 +144,7 @@ class BrandController extends Controller
 
                 return redirect(route('admin.brand.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa bài viết thành công');
             }
-            if ($action == 'approved') {
-                Brand::where('status', 'not approved yet')->whereIn('id', $list_Brand_id)->update(['status' => 'approved']);
 
-                return redirect(route('admin.brand.index', ['status' => 'approved', 'page' => 1]))->with('success', 'Phê duyệt bài viết thành công');
-            }
             if ($action == 'active') {
                 Brand::onlyTrashed()->whereIn('id', $list_Brand_id)->restore();
 
