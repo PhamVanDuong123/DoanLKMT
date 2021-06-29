@@ -135,7 +135,7 @@ class BrandController extends Controller
 
     function action(Request $request)
     {
-        $list_Brand_id = $request->input('list_branch_id');
+        $list_Brand_id = $request->input('list_brand_id');
         if ($list_Brand_id) {
             $action = $request->input('action');
 

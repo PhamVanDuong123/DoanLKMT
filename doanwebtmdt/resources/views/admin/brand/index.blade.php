@@ -63,7 +63,7 @@
                         @php $t++; @endphp
                         <tr>
                             <td>
-                                <input type="checkbox" name="list_branch_id[]" value="{{$item->id}}">
+                                <input type="checkbox" name="list_brand_id[]" value="{{$item->id}}">
                             </td>
                             <td scope="row">{{$t}}</td>
                           
