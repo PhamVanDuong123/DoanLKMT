@@ -1,5 +1,6 @@
 @extends('layoutadmin.master')
 
+
 @section('content')
 <div id="content" class="container-fluid">
     <div class="card">
@@ -31,9 +32,9 @@
                 </select>
                 <input type="submit" name="btn-search" value="Áp dụng" class="btn btn-primary">
             </div>
-            @if(session('thongbao'))
+            @if(session('success'))
             <div class="alert alert-success">
-                {{session('thongbao')}}
+                {{session('success')}}
             </div>
             @elseif(session('error'))
             <div class="alert alert-danger">
@@ -81,8 +82,7 @@
             </table>
             {{$list_product_category->appends(request()->all())->links()}}
                 @else
-                <p class="text-center">Không có sản phẩm nào</p>
-                
+                <p class="text-center">Không có loại sản phẩm nào</p>    
             @endif
             </form>
         </div>

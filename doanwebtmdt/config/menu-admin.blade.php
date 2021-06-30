@@ -62,7 +62,7 @@ return [
                 'route'=>'admin.product_category.index' 
             ],
             [
-                'name'=>'Thêm sản phẩm',
+                'name'=>'Thêm loại sản phẩm',
                 'route'=>'admin.product_category.add'
             ],
             /* [

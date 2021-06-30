@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         $status = $request->input('status');
 
-        $list_Product = Product::where('name', 'like', "%{$key}%")->paginate(5);
+        $list_Product = Product::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -41,11 +41,11 @@ class ProductController extends Controller
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->paginate(5);
+            $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'approved') {
-            $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->paginate(5);
+            $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'not approved yet') {
@@ -87,7 +87,7 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required|min:5|max:200',
-                'code' => 'required|min:5|max:30|unique:products',
+           
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
                 'thumb' => 'required|image|max:20480',
@@ -101,13 +101,15 @@ class ProductController extends Controller
                 'required' => ':attribute không được để trống',
                 'numeric'=>':attribute định dạng là số',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
-                'max' => ':attribute có độ dài tối thiểu là :max ký tự',
+                'max' => ':attribute có độ dài tối đa thiểu là :max ký tự',
                 'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
                 'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
             ],
             [
                 'name' => 'Tên sản phẩm',
                 'code' => 'Mã sản phẩm',
+                'price'=>"Giá bán",
+                'old_price'=>"Giá cũ",
                 'short_desc' => 'Tóm tắt ngắn',
                 'product_category_id' => 'Danh mục sản phẩm',
                 'thumb' => 'Ảnh đại diện',
@@ -124,20 +126,7 @@ class ProductController extends Controller
 
             $thumb = 'http://localhost:8081/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
-        /* product=new Product;
-        $product->name=$request->name;
-        $product->code=$request->code;
-        $product->brand_id=$request->brand_id;
-        $product->price=$request->price;
-        $product->old_price=$request->old_price;
-        $product->inventory_num=$request->inventory_num;
-        $product->short_desc=$request->short_desc;
-        $product->detail_desc=$request->detail_desc;
-        $product->warranty=$request->warranty;
-        $product->product_category_id=$request->product_category_id;
-        $product->user_id=Auth::user()->id;
-        $product->thumb=$request->thumb;
-        $product->save(); */
+       
          Product::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
