@@ -87,8 +87,8 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         //product category
         Route::get('/product_category', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
         Route::get('/product_category/index', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
-        Route::get('/product_category/add', 'Admin\ProductCategoryController@getadd')->name('admin.product_category.add');
-        Route::post('/product_category/add', 'Admin\ProductCategoryController@postadd')->name('admin.product_category.add');
+        Route::get('/product_category/add', 'Admin\ProductCategoryController@add')->name('admin.product_category.add');
+        Route::post('/product_category/add', 'Admin\ProductCategoryController@store')->name('admin.product_category.add');
         Route::get('/product_category/deletecategory/{id}', 'Admin\ProductCategoryController@deletecategory')->name('admin.product_category.deletecategory');
         Route::post('/product_category/edit/{id}', 'Admin\ProductCategoryController@postedit')->name('admin.product_category.edit');
         Route::get('/product_category/edit/{id}', 'Admin\ProductCategoryController@getedit')->name('admin.product_category.edit');

@@ -23,20 +23,12 @@
                                 @enderror
                                 
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <label for="code">Code</label>
-                                    <input type="text" name="code" id="old_price" class="form-control"placeholder=" Điền vào code loại mô tả sản phẩm">
-                                </div>
-                                @error('code')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
+                          
                            
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <label for="detail_desc">Mô tả </label>
-                                    <textarea name="detail_desc" id="detail_desc" class="ckeditor form-control"placeholder=" Điền vào mô tả sản phẩm" ></textarea>
+                                    <label for="description">Mô tả </label>
+                                    <textarea name="description" id="description" class="ckeditor form-control"placeholder=" Điền vào mô tả sản phẩm" ></textarea>
                                   
                                 </div>
                             </div>
