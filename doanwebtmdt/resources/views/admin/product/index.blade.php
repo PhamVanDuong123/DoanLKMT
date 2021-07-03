@@ -6,6 +6,10 @@ $list_status=array(
 );
 return $list_status[$status];
 }
+
+function currency_format($currency,$innit='đ'){
+return number_format($currency,0,',','.').$innit;
+}
 @endphp
 @extends('layoutadmin.master')
 
@@ -66,8 +70,7 @@ return $list_status[$status];
                                     <th scope="col">Loại sản phẩm</th>
                                     <th scope="col">Giá bán</th>
                                     <th scope="col">Giá cũ</th>
-                                    <th scope="col">Số lượng</th>  
-                                    <th scope="col">Mô tả </th>                                  
+                                    <th scope="col">Số lượng</th>                               
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Người tạo</th>
                                     <th scope="col">Ngày tạo</th>
@@ -89,10 +92,9 @@ return $list_status[$status];
                                     <td>{{$item->code}}</td>
                                     <td>{{$item->brand->name}}</td>
                                     <td>{{$item->product_category->name}}</td>
-                                    <td>{{$item->price}}</td>
-                                    <td>{{$item->old_price}}</td>
+                                    <td>{{currency_format($item->price)}}</td>
+                                    <td>{{currency_format($item->old_price)}}</td>
                                     <td>{{$item->inventory_num}}</td>
-                                    <td>{{$item->short_desc}}</td>
                                     <td>{{show_status($item->status)}}</td>
                                     <td>{{$item->user->fullname}}</td>
                                   
