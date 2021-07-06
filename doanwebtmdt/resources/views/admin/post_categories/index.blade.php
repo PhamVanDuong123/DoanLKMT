@@ -9,7 +9,7 @@
                 <form action="">
                     @csrf
                     <input type="" name="key" class="form-control form-search" placeholder="Tìm kiếm" value="{{request()->key}}">
-                    <input type="submit" name="btn-search" value="Tìm kiếm" class="btn btn-primary">
+                    <button type="submit" id="btn-search-post" name="btn-search-post" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -22,15 +22,15 @@
                 </div>
                 <div class="form-action form-inline py-3">
                     <select class="form-control mr-1" id="" name="action">
-                        <option value="">Chọn</option>
+                        <option value="">Chức năng</option>
                         @foreach($list_action as $k=>$v)
                             <option value="{{$k}}">{{$v}}</option>
                         @endforeach
                     </select>
-                    <input type="submit" name="btn-search" value="Áp dụng" class="btn btn-primary">
+                    <button type="submit" name="btn-search" class="btn btn-primary">Áp dụng <i class="far fa-check-circle"></i></button>
                 </div>
                 @if(session('success'))
-                <div class="alert alert-success">{{session('success')}}</div>
+                <div class="alert alert-success">{!!session('success')!!}</div>
                 @elseif(session('error'))
                 <div class="alert alert-danger">{{session('error')}}</div>
                 @endif
@@ -43,11 +43,9 @@
                             </th>
                             <th scope="col">STT</th>
                             <th scope="col">Tên</th>
-                            <th scope="col">Đường dẫn thân thiện</th>
+                            <th scope="col">Mã</th>
                             <th scope="col">Người tạo</th>
                             <th scope="col">Ngày tạo</th>
-                            <th scope="col">Ngày cập nhật</th>
-                            <th scope="col">Ngày xóa</th>
                             <th scope="col">Tác vụ</th>
                         </tr>
                     </thead>
@@ -60,15 +58,13 @@
                                 <input type="checkbox" name="list_post_cate_id[]" value="{{$item->id}}">
                             </td>
                             <td scope="row">{{$t}}</td>
-                            <td>{{$item->name}}</td>
+                            <td><a href="{{route('admin.post_category.detail',$item->id)}}">{{$item->name}}</a></td>
                             <td>{{$item->code}}</td>
                             <td>{{$item->user->fullname}}</td>
                             <td>{{$item->created_at}}</td>
-                            <td>{{$item->updated_at}}</td>
-                            <td>{{$item->deleted_at}}</td>
                             <td>
-                                <a href="{{route('admin.post_category.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
-                                <a href="{{route('admin.post_category.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa danh mục bài viết này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('admin.post_category.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
+                                <a href="{{route('admin.post_category.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa danh mục bài viết này không?')" class="btn btn-danger btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach

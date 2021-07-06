@@ -23,33 +23,98 @@ class PostController extends Controller
     function index(Request $request)
     {
         $key = $request->input('key');
-
+        $search_option = $request->input('search_option_post');
         $status = $request->input('status');
-
-        $list_post = Post::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
         );
 
-        if ($status == 'trash') {
-            $list_action = array(
-                'active' => 'Khôi phục',
-                'forceDelete' => 'Xóa vĩnh viễn'
-            );
-            $list_post = Post::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+        //search_option = title
+        if ($search_option == 'title' || $search_option == '') {
+            $list_post = Post::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_post = Post::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_post = Post::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_post = Post::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
         }
 
-        if ($status == 'approved') {
-            $list_post = Post::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+        //search_option = category
+        if ($search_option == 'category') {
+            $categories = PostCategory::where('name', 'like', "%{$key}%")->get();
+
+            $list_id = array();
+            foreach ($categories as $item) {
+                $list_id[] = $item->id;
+            }
+            $list_post = Post::whereIn('post_category_id', $list_id)->orderByDesc('id')->paginate(5);
+
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_post = Post::onlyTrashed()->whereIn('post_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_post = Post::where('status', 'approved')->whereIn('post_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_post = Post::where('status', 'not approved yet')->whereIn('post_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
         }
 
-        if ($status == 'not approved yet') {
-            $list_action = array(
-                'approved' => 'Duyệt',
-                'trash' => 'Xóa tạm thời'
-            );
-            $list_post = Post::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+        //search_option = actor
+        if ($search_option == 'actor') {
+            $actors = User::where('fullname', 'like', "%{$key}%")->get();
+
+            $list_id = array();
+            foreach ($actors as $item) {
+                $list_id[] = $item->id;
+            }
+            $list_post = Post::whereIn('user_id', $list_id)->orderByDesc('id')->paginate(5);
+
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_post = Post::onlyTrashed()->whereIn('user_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_post = Post::where('status', 'approved')->whereIn('user_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_post = Post::where('status', 'not approved yet')->whereIn('user_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
         }
 
         $count = array(
@@ -58,13 +123,13 @@ class PostController extends Controller
             'trash' => Post::onlyTrashed()->count(),
             'all' => Post::count()
         );
-
+        
         return view('admin.posts.index', compact('list_post', 'count', 'list_action'));
     }
 
     function detail($id)
     {
-        $post = Post::find($id);
+        $post = Post::withTrashed()->find($id);
 
         return view('admin.posts.detail', compact('post'));
     }
@@ -110,10 +175,10 @@ class PostController extends Controller
 
             $file->move('public\uploads', $fileName);
 
-            $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
+            $thumb = asset('uploads/' . $fileName);
         }
 
-        Post::create([
+        $post = Post::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
             'short_desc' => $request->input('short_desc'),
@@ -123,7 +188,8 @@ class PostController extends Controller
             'thumb' => $thumb
         ]);
 
-        return redirect(route('admin.post.index'))->with('success', 'Thêm bài viết thành công');
+        $route_detail = route('admin.post.detail', $post->id);
+        return redirect(route('admin.post.index'))->with('success', "Thêm bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
     }
 
     function delete(Request $request, $id)
@@ -134,41 +200,45 @@ class PostController extends Controller
             return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Xóa vĩnh viễn bài viết thành công');
         } else {
             Post::destroy($id);
-            return redirect(route('admin.post.index'))->with('success', 'Xóa bài viết thành công');
+            $route_detail = route('admin.post.detail', $id);
+            return redirect(route('admin.post.index'))->with('success', "Xóa bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 
     function action(Request $request)
     {
         $list_post_id = $request->input('list_post_id');
+        $key = $request->input('key');
+        $search_option_post = $request->input('search_option_post');
 
         if ($list_post_id) {
             $action = $request->input('action');
 
+
             if ($action == 'trash') {
                 Post::destroy($list_post_id);
 
-                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1, 'key' => $key, 'search_option_post' => $search_option_post]))->with('success', 'Xóa bài viết thành công');
             }
             if ($action == 'approved') {
                 Post::where('status', 'not approved yet')->whereIn('id', $list_post_id)->update(['status' => 'approved']);
 
-                return redirect(route('admin.post.index', ['status' => 'approved', 'page' => 1]))->with('success', 'Phê duyệt bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'approved', 'page' => 1, 'key' => $key, 'search_option_post' => $search_option_post]))->with('success', 'Phê duyệt bài viết thành công');
             }
             if ($action == 'active') {
                 Post::onlyTrashed()->whereIn('id', $list_post_id)->restore();
 
-                return redirect(route('admin.post.index', ['status' => 'all', 'page' => 1]))->with('success', 'Khôi phục bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'all', 'page' => 1, 'key' => $key, 'search_option_post' => $search_option_post]))->with('success', 'Khôi phục bài viết thành công');
             }
             if ($action == 'forceDelete') {
                 Post::onlyTrashed()->whereIn('id', $list_post_id)->forceDelete();
 
-                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa vĩnh viễn bài viết thành công');
+                return redirect(route('admin.post.index', ['status' => 'trash', 'page' => 1, 'key' => $key, 'search_option_post' => $search_option_post]))->with('success', 'Xóa vĩnh viễn bài viết thành công');
             }
 
-            return redirect(route('admin.post.index'))->with('error', 'Bạn chưa chọn hành động nào');
+            return redirect(route('admin.post.index', ['key' => $key, 'search_option_post' => $search_option_post]))->with('error', 'Bạn chưa chọn hành động nào');
         } else {
-            return redirect(route('admin.post.index'))->with('error', 'Bạn chưa chọn bài viết nào');
+            return redirect(route('admin.post.index', ['key' => $key, 'search_option_post' => $search_option_post]))->with('error', 'Bạn chưa chọn bài viết nào');
         }
     }
 
@@ -221,10 +291,12 @@ class PostController extends Controller
         ]);
 
         $status = $request->input('status');
+
+        $route_detail = route('admin.post.detail', $id);
         if ($status == 'trash') {
-            return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', 'Cập nhật bài viết thành công');
+            return redirect(route('admin.post.index', ['status' => 'trash']))->with('success', "Cập nhật bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         } else {
-            return redirect(route('admin.post.index'))->with('success', 'Cập nhật bài viết thành công');
+            return redirect(route('admin.post.index'))->with('success', "Cập nhật bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 

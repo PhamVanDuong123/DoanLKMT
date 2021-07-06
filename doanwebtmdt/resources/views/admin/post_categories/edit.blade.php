@@ -21,7 +21,8 @@
                     <label for="description">Mô tả</label>
                     <textarea name="description" class="form-control" id="description" cols="30" rows="5">{{$post_cate->description}}</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <button type="submit" class="btn btn-primary">Cập nhật <i class="fa fa-edit"></i></button>
+                <a class="btn btn-secondary" href="{{route('admin.post_category.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
             </form>
             @endif
         </div>

@@ -1,6 +1,5 @@
 @extends('layoutadmin.master')
 
-
 @section('content')
 <div id="content" class="container-fluid">
     <div class="card">

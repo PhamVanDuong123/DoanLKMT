@@ -36,7 +36,7 @@ class BrandController extends Controller
             );
             $list_Brand = Brand::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }else{
-            $list_Brand = Brand::where('name', 'like', "%{$key}%")->orderBy('id')->paginate(5);
+            $list_Brand = Brand::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         $count = array(
@@ -100,7 +100,7 @@ class BrandController extends Controller
 
             $file->move('public\uploads', $fileName);
 
-            $logo = 'http://localhost:8081/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
+            $logo = asset('uploads/' . $fileName);
         }
 
         Brand::create([

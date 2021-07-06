@@ -18,6 +18,7 @@ class PromotionSeeder extends Seeder
             [
                 'name'=>'Sale 1.1',
                 'code'=>'sale-1-1',
+                'thumb'=>'uploads/huynhhoanghung.jpg',
                 'description'=>'Giảm giá khủng ngày 1.1',
                 'start_day'=>'2021-1-1',
                 'end_day'=>'2021-1-2',
@@ -27,6 +28,7 @@ class PromotionSeeder extends Seeder
             [
                 'name'=>'Sale 2.2',
                 'code'=>'sale-2-2',
+                'thumb'=>'uploads/huynhhoanghung.jpg',
                 'description'=>'Giảm giá khủng ngày 2.2',
                 'start_day'=>'2021-2-2',
                 'end_day'=>'2021-2-3',
@@ -36,6 +38,7 @@ class PromotionSeeder extends Seeder
             [
                 'name'=>'Sale 3.3',
                 'code'=>'sale-3-3',
+                'thumb'=>'uploads/huynhhoanghung.jpg',
                 'description'=>'Giảm giá khủng ngày 3.3',
                 'start_day'=>'2021-3-3',
                 'end_day'=>'2021-3-4',

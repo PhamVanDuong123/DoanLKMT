@@ -101,8 +101,8 @@ function get_total($order){
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
-                        <a href="{{route('admin.order.exit',$order->id)}}" type="submit" class="btn btn-danger">Thoát</a>
+                        <button type="submit" class="btn btn-primary">Cập nhật <i class="fa fa-edit"></i></button>
+                        <a class="btn btn-secondary" href="{{route('admin.order.exit',$order->id)}}">Quay lại <i class="fas fa-backspace"></i></a>
                     </form>
                 </div>
             </div>

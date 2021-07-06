@@ -124,7 +124,7 @@ class ProductController extends Controller
 
             $file->move('public\uploads', $fileName);
 
-            $thumb = 'http://localhost:8081/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
+            $thumb = asset('uploads/' . $fileName);
         }
        
          Product::create([

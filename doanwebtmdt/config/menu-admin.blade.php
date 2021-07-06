@@ -20,7 +20,7 @@ return [
         ]
     ],
     'order' => [
-        'name' => 'Quản lý bán hàng',
+        'name' => 'Quản lý đơn hàng',
         'module'=>'order',
         'route'=>'admin.order.index',
         'icon' => 'fas fa-chart-line',

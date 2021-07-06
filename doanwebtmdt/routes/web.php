@@ -62,6 +62,7 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/promotion/action', 'Admin\PromotionController@action')->name('admin.promotion.action');
         Route::get('/promotion/edit/{id}', 'Admin\PromotionController@edit')->name('admin.promotion.edit');
         Route::post('/promotion/update/{id}', 'Admin\PromotionController@update')->name('admin.promotion.update');
+        Route::get('/promotion/detail/{id}', 'Admin\PromotionController@detail')->name('admin.promotion.detail');
     });
 
     Route::middleware('roleAdmin')->group(function () {
@@ -69,10 +70,11 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/user', 'Admin\UserController@index')->name('admin.user.index');
         Route::get('/user/delete/{id}', 'Admin\UserController@delete')->name('admin.user.delete');
         Route::get('/user/action', 'Admin\UserController@action')->name('admin.user.action');
-        Route::get('/user/editPermission/{id}', 'Admin\UserController@editPermission')->name('admin.user.editPermission');
-        Route::post('/user/updatePermission/{id}', 'Admin\UserController@updatePermission')->name('admin.user.updatePermission');
+        Route::get('/user/editAdmin/{id}', 'Admin\UserController@editAdmin')->name('admin.user.editAdmin');
+        Route::post('/user/updateAdmin/{id}', 'Admin\UserController@updateAdmin')->name('admin.user.updateAdmin');
         Route::get('/user/edit/{id}', 'Admin\UserController@edit')->name('admin.user.edit');
         Route::post('/user/update/{id}', 'Admin\UserController@update')->name('admin.user.update');
+        Route::get('/user/detail/{id}', 'Admin\UserController@detail')->name('admin.user.detail');
 
         //product
         Route::get('/product', 'Admin\ProductController@index')->name('admin.product.index');
@@ -113,6 +115,7 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/postCategory/update/{id}', 'Admin\PostCategoryController@update')->name('admin.post_category.update');
         Route::get('/postCategory/delete/{id}', 'Admin\PostCategoryController@delete')->name('admin.post_category.delete');
         Route::post('/postCategory/action', 'Admin\PostCategoryController@action')->name('admin.post_category.action');
+        Route::get('/postCategory/detail/{id}', 'Admin\PostCategoryController@detail')->name('admin.post_category.detail');
 
         //brand
         Route::get('/brand', 'Admin\BrandController@index')->name('admin.brand.index');

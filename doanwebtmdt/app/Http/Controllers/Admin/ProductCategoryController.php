@@ -158,7 +158,7 @@ class ProductCategoryController extends Controller
         if($action=='trash'){
             ProductCategory::destroy($list_product_category_id);
 
-            return redirect(routr('admin.product_category.index'))->with('success','xóa thành công loại sản phẩm');
+            return redirect(route('admin.product_category.index'))->with('success','xóa thành công loại sản phẩm');
 
         }
         if($action=='active')

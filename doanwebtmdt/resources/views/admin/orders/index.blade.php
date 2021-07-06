@@ -43,7 +43,7 @@ return $list_status[$status];
                         <option value="date" {{request()->search_option=='date'?'selected':''}}>Ngày đặt</option>
                     </select>
                     <input type="text" id="key" name="key" value="{{request()->key}}" class="form-control form-search" placeholder="Nhập mã đơn hàng">
-                    <input type="submit" id="btn-search-order" name="btn-search-order" value="Tìm kiếm" class="btn btn-primary">
+                    <button type="submit" id="btn-search-order" name="btn-search-order" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -60,11 +60,11 @@ return $list_status[$status];
                 <form action="" method="get">
                     @csrf
                     <select class="form-control mr-1" id="" name="fillter">
-                        <option value="">Chọn</option>
+                        <option value="">Lọc đơn hàng</option>
                         <option value="today">Đơn hàng trong ngày</option>
                         <option value="in_month">Đơn hàng trong tháng</option>
                     </select>
-                    <input type="submit" name="btn-search" value="Áp dụng" class="btn btn-primary">
+                    <button type="submit" name="btn-search" class="btn btn-primary">Áp dụng <i class="fas fa-filter"></i></button>
                 </form>
             </div>
             @if($list_order->total()>0)
@@ -79,8 +79,8 @@ return $list_status[$status];
                         <th scope="col">Khách hàng</th>
                         <th scope="col">Số sản phẩm</th>
                         <th scope="col">Giá trị</th>
-                        <th scope="col">Trạng thái</th>
                         <th scope="col">Thời gian đặt</th>
+                        <th scope="col">Trạng thái</th>                        
                         <th scope="col">Tác vụ</th>
                     </tr>
                 </thead>
@@ -97,12 +97,12 @@ return $list_status[$status];
                         <td>{{$item->name}}</td>
                         <td>{{count_num_pro_in_order($item)}}</td>
                         <td>{{get_total_order($item)}}đ</td>
-                        <td>{!!show_status($item->status)!!}</td>
-                        <td>{{$item->created_at}}</td>
+                        <td>{{date('d-m-Y h:m:s',strtotime($item->created_at))}}</td>
+                        <td>{!!show_status($item->status)!!}</td>                           
                         <td>
                             <!-- Chỉ xử lý đơn hàng trạng thái đã nhận hoặc đang được xử lý -->
                             @if($item->status=='received' || $item->status=='processing')
-                            <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
+                            <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
                             @endif
                         </td>
                     </tr>

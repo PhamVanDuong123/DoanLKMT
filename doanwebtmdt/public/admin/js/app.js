@@ -42,4 +42,16 @@ $(document).ready(function() {
             $("input#key").attr('placeholder', 'Nhập ngày đặt hàng');
         }
     });
+
+    //xử lý hiển thị tìm kiếm bài viết
+    $("#search_option_post").change(function() {
+        option = $(this).val();
+        $("input#key").attr('placeholder', 'Nhập tiêu đề bài viết');
+        if (option == 'category') {
+            $("input#key").attr('placeholder', 'Nhập tên danh mục');
+        }
+        if (option == 'actor') {
+            $("input#key").attr('placeholder', 'Nhập tên tác giả');
+        }
+    });
 });
