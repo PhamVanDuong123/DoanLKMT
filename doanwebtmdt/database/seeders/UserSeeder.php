@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'gender'=>'male',
             'dob'=>'2000-10-31',
             'address'=>'TP.HCM',
-            'avatar'=>'uploads\huynhhoanghung.jpg',
+            'avatar'=>'uploads/huynhhoanghung.jpg',
             'permission'=>1,
             'created_at'=>date('Y-m-d H:m:s',time())
         ],
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'gender'=>'male',
             'dob'=>'2005-10-31',
             'address'=>'Bến Tre',
-            'avatar'=>'uploads\huynhhoanghung.jpg',
+            'avatar'=>'uploads/huynhhoanghung.jpg',
             'permission'=>3,
             'created_at'=>date('Y-m-d H:m:s',time())
         ],
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
             'gender'=>'male',
             'dob'=>'2000-10-5',
             'address'=>'Long An',
-            'avatar'=>'uploads\icecream_circle.png',
+            'avatar'=>'uploads/huynhhoanghung.jpg',
             'permission'=>2,
             'created_at'=>date('Y-m-d H:m:s',time())
         ]]);

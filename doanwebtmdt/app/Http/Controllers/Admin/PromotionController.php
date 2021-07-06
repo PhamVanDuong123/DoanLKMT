@@ -58,6 +58,11 @@ class PromotionController extends Controller
         return view('admin.promotions.index', compact('list_promotion', 'count', 'list_action'));
     }
 
+    function detail($id){
+        $promotion=Promotion::withTrashed()->find($id);
+        return view('admin.promotions.detail',compact('promotion'));
+    }
+
     function add()
     {
         return view('admin.promotions.add');
@@ -73,6 +78,7 @@ class PromotionController extends Controller
                 'end_day' => 'required|after_or_equal:start_day',
                 'percents' => 'required|min:1|max:100',
                 'number' => 'required|min:1',
+                'thumb' => 'required|image|max:20480',
             ],
             [
                 'required' => ':attribute không được để trống',
@@ -80,7 +86,9 @@ class PromotionController extends Controller
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
                 'unique' => 'Mã khuyến mãi đã được sử dụng',
                 'start_day.after' => 'Ngày bắt đầu phải sau ngày hiện tại',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',
+                'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
+                'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
             ],
             [
                 'name' => 'Tên khuyến mãi',
@@ -89,12 +97,24 @@ class PromotionController extends Controller
                 'end_day' => 'Ngày kết thúc',
                 'percents' => 'Phần trăm',
                 'number' => 'Số lượng',
+                'thumb' => 'Ảnh đại diện',
             ]
         );
+        
+        if ($request->hasFile('thumb')) {
+            $file = $request->thumb;
 
-        Promotion::create([
+            $fileName = $file->getClientOriginalName();
+
+            $file->move('public\uploads', $fileName);
+
+            $thumb = asset('uploads/' . $fileName);
+        }
+
+        $promotion = Promotion::create([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
+            'thumb' => $thumb,
             'description' => $request->input('description'),
             'start_day' => $request->input('start_day'),
             'end_day' => $request->input('end_day'),
@@ -102,7 +122,8 @@ class PromotionController extends Controller
             'number' => $request->input('number'),
         ]);
 
-        return redirect(route('admin.promotion.index'))->with('success', 'Thêm khuyến mãi thành công');
+        $route_detail = route('admin.promotion.detail', $promotion->id);
+        return redirect(route('admin.promotion.index'))->with('success', "Thêm khuyến mãi thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
     }
 
     function delete(Request $request, $id)
@@ -116,7 +137,8 @@ class PromotionController extends Controller
         } else {
             Promotion::destroy($id);
 
-            return redirect(route('admin.promotion.index', ['status' => 'trash', 'page' => 1]))->with('success', 'Xóa khuyến mãi thành công');
+            $route_detail = route('admin.promotion.detail', $id);
+            return redirect(route('admin.promotion.index', ['status' => 'trash', 'page' => 1]))->with('success', "Xóa khuyến mãi thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 
@@ -172,17 +194,21 @@ class PromotionController extends Controller
             [
                 'name' => 'required|min:5|max:50',
                 'code' => 'required|min:5|max:30',
-                'start_day' => 'required',
+                'start_day' => 'required|after:today',
                 'end_day' => 'required|after_or_equal:start_day',
                 'percents' => 'required|min:1|max:100',
                 'number' => 'required|min:1',
+                'thumb' => 'image|max:20480',
             ],
             [
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
+                'unique' => 'Mã khuyến mãi đã được sử dụng',
                 'start_day.after' => 'Ngày bắt đầu phải sau ngày hiện tại',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',
+                'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
+                'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
             ],
             [
                 'name' => 'Tên khuyến mãi',
@@ -191,8 +217,21 @@ class PromotionController extends Controller
                 'end_day' => 'Ngày kết thúc',
                 'percents' => 'Phần trăm',
                 'number' => 'Số lượng',
+                'thumb' => 'Ảnh đại diện',
             ]
         );
+        
+        $thumb = Promotion::withTrashed()->find($id)->thumb;
+        
+        if ($request->hasFile('thumb')) {
+            $file = $request->thumb;
+
+            $fileName = $file->getClientOriginalName();
+
+            $file->move('public\uploads', $fileName);
+
+            $thumb = asset('uploads/' . $fileName);
+        }
 
         $t = Promotion::withTrashed()->where('code', $request->input('code'))->where('id', '!=', $id)->count();
         if ($t > 0) {
@@ -202,6 +241,7 @@ class PromotionController extends Controller
         Promotion::withTrashed()->where('id', $id)->update([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
+            'thumb' => $thumb,
             'description' => $request->input('description'),
             'start_day' => $request->input('start_day'),
             'end_day' => $request->input('end_day'),
@@ -211,6 +251,7 @@ class PromotionController extends Controller
 
         $status=$request->input('status');
 
-        return redirect(route('admin.promotion.index',['status'=>$status]))->with('success', 'Cập nhật khuyến mãi thành công');
+        $route_detail = route('admin.promotion.detail', $id);
+        return redirect(route('admin.promotion.index',['status'=>$status]))->with('success', "Cập nhật khuyến mãi thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
     }
 }

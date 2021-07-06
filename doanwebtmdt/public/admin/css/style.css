@@ -121,11 +121,11 @@ ul#sidebar-menu * {
 }
 
 .form-search {
-    width: 300px;
+    width: 330px;
 }
 
 .form-search-sale {
-    width: 480px;
+    width: 490px;
 }
 
 .table tr td {
@@ -179,4 +179,13 @@ img.avatar-edit {
 
 table thead th {
     vertical-align: middle!important;
+}
+
+.action-icon {
+    width: 30px;
+    margin: 2px 1px;
+}
+
+.avatar_detial {
+    width: 250px;
 }

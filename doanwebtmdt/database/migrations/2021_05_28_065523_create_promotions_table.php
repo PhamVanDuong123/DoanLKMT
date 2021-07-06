@@ -17,6 +17,7 @@ class CreatePromotionsTable extends Migration
             $table->id();
             $table->string('name',50);
             $table->string('code',30)->unique();
+            $table->string('thumb');
             $table->text('description')->nullable();
             $table->date('start_day')->default(now());
             $table->date('end_day');

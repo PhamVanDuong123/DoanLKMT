@@ -48,6 +48,11 @@ class PostCategoryController extends Controller
         return view('admin.post_categories.index', compact('list_post_cate','count','list_action'));
     }
 
+    function detail($id){
+        $post_cate=PostCategory::withTrashed()->find($id);
+        return view('admin.post_categories.detail',compact('post_cate'));
+    }
+
     function add()
     {
         return view('admin.post_categories.add');
@@ -66,13 +71,15 @@ class PostCategoryController extends Controller
             ]
         );
 
-        PostCategory::create([
+        $post_cate = PostCategory::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
             'description' => $request->input('description'),
             'user_id' => Auth::id()
         ]);
-        return redirect(route('admin.post_category.index'))->with('success', 'Thêm danh mục bài viết thành công');
+
+        $route_detail=route('admin.post_category.detail',$post_cate->id);
+        return redirect(route('admin.post_category.index'))->with('success', "Thêm danh mục bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
     }
 
     function delete(Request $request, $id)
@@ -84,8 +91,8 @@ class PostCategoryController extends Controller
             return redirect(route('admin.post_category.index',['status'=>'trash']))->with('success', 'Xóa vĩnh viễn danh mục bài viết thành công');
         }else{
             PostCategory::destroy($id);
-
-            return redirect(route('admin.post_category.index'))->with('success', 'Xóa danh mục bài viết thành công');
+            $route_detail=route('admin.post_category.detail',$id);
+            return redirect(route('admin.post_category.index'))->with('success', "Xóa danh mục bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 
@@ -142,9 +149,11 @@ class PostCategoryController extends Controller
 
         $status=$request->input('status');
         if($status=='trash'){
-            return redirect(route('admin.post_category.index',['status'=>'trash']))->with('success', 'Cập nhật danh mục bài viết thành công');
+            $route_detail=route('admin.post_category.detail',$id);
+            return redirect(route('admin.post_category.index',['status'=>'trash']))->with('success', "Cập nhật danh mục bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }else{
-            return redirect(route('admin.post_category.index'))->with('success', 'Cập nhật danh mục bài viết thành công');
+            $route_detail=route('admin.post_category.detail',$id);
+            return redirect(route('admin.post_category.index'))->with('success', "Cập nhật danh mục bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 }

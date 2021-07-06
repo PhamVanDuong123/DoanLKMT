@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             @if(!empty($user))
-            <form action="{{route('admin.user.update',$user->id)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.user.updateAdmin',$user->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluild">
                     <div class="row">
@@ -56,7 +56,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Quyền</label>
-                                <select class="form-control" id="" name="permission" disabled>
+                                <select class="form-control" id="" name="permission">
                                     <option value="">Chọn quyền</option>
                                     <option value="2" {{$user->permission==2?"selected='selected'":''}}>Nhân viên quản trị</option>
                                     <option value="3" {{$user->permission==3?"selected='selected'":''}}>Nhân viên bán hàng</option>
