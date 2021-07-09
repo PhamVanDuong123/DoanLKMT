@@ -54,9 +54,10 @@
                     <div class="wp-inner">
                         <a href="{{route('home')}}" title="" id="logo" class="fl-left"><img src="{{asset('user/images/logo.png')}}" /></a>
                         <div id="search-wp" class="fl-left">
-                            <form method="POST" action="">
-                                <input type="text" name="s" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
-                                <button type="submit" id="sm-s">Tìm kiếm</button>
+                            <form method="post" action="{{URL::to('/search')}}">
+                            {{ csrf_field() }}
+                                      <input type="text" name="keyword_submit" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
+                                <button name="search_item" type="submit" id="sm-s">Tìm kiếm</button>
                             </form>
                         </div>                        
                         <div id="action-wp" class="fl-right">

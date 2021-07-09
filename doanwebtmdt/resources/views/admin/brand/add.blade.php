@@ -85,12 +85,8 @@
                         </div>
                     </div>
                    
-                    
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Thêm mới</button>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm mới <i class="fas fa-plus-circle"></i></button>
+                             <a class="btn btn-secondary" href="{{route('admin.promotion.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
                 </div>
             </form>
         </div>

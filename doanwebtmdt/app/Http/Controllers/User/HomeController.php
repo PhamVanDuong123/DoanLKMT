@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
-
+use Illuminate\Database\Eloquent\Collection;
 class HomeController extends Controller
 {
     public function index()
@@ -31,5 +31,12 @@ class HomeController extends Controller
         
         return view('user.index',compact('list_cate','list_pro_selling','list_highlight_pro'));
 
+    }
+     public function search(Request $request)
+    {
+      $keyword=$request->keyword_submit;
+      $search_product = Product::where('name', 'like', "%{$keyword}%")->get();
+
+       return view('user.product.search')->with('search_product',$search_product)->with('keyword',$keyword);
     }
 }
