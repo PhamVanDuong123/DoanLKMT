@@ -29,31 +29,109 @@ class ProductController extends Controller
         $key = $request->input('key');
 
         $status = $request->input('status');
-
-        $list_Product = Product::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-
+        $search_option = $request->input('search_option_product');
         $list_action = array(
             'trash' => 'Xóa tạm thời'
         );
+         //search_option = title
+         if ($search_option == 'title' || $search_option == '') {
+            $list_Product = Product::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
-        if ($status == 'trash') {
-            $list_action = array(
-                'active' => 'Khôi phục',
-                'forceDelete' => 'Xóa vĩnh viễn'
-            );
-            $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
         }
+         //search_option = brand
+        if ($search_option == 'brand') {
+            $brand = Brand::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
-        if ($status == 'approved') {
-            $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
         }
+        //search_option = product_category
+        if ($search_option == 'category') {
+            $product_category = ProductCategory::where('name', 'like', "%{$key}%")->get();
+            $list_id = array();
+            foreach ($product_category as $item) {
+                $list_id[] = $item->id;
+            }
+            $list_Product = Product::whereIn('product_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_Product = Product::whereIn('product_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
 
-        if ($status == 'not approved yet') {
-            $list_action = array(
-                'approved' => 'Duyệt',
-                'trash' => 'Xóa tạm thời'
-            );
-            $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->paginate(5);
+            if ($status == 'approved') {
+                $list_Product = Product::whereIn('product_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_Product = Product::whereIn('product_category_id', $list_id)->orderByDesc('id')->paginate(5);
+            }
+        }
+         //search_option = country
+         if ($search_option == 'country') {
+            $country = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+
+            if ($status == 'trash') {
+                $list_action = array(
+                    'active' => 'Khôi phục',
+                    'forceDelete' => 'Xóa vĩnh viễn'
+                );
+                $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'approved') {
+                $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
+
+            if ($status == 'not approved yet') {
+                $list_action = array(
+                    'approved' => 'Duyệt',
+                    'trash' => 'Xóa tạm thời'
+                );
+                $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            }
         }
 
         $count = array(
@@ -68,7 +146,7 @@ class ProductController extends Controller
 
     function detail($id)
     {
-        $product = Product::find($id);
+        $product = Product::withTrashed()->find($id);
 
         return view('admin.product.detail', compact('product'));
     }
@@ -87,7 +165,7 @@ class ProductController extends Controller
         $request->validate(
             [
                 'name' => 'required|min:5|max:200',
-           
+                'brand_id'=>'required',
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
                 'thumb' => 'required|image|max:20480',
@@ -108,6 +186,7 @@ class ProductController extends Controller
             [
                 'name' => 'Tên sản phẩm',
                 'code' => 'Mã sản phẩm',
+                'brand'=> 'Thương hiệu',
                 'price'=>"Giá bán",
                 'old_price'=>"Giá cũ",
                 'short_desc' => 'Tóm tắt ngắn',
@@ -127,7 +206,7 @@ class ProductController extends Controller
             $thumb = asset('uploads/' . $fileName);
         }
        
-         Product::create([
+            $product = Product::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
             'brand_id' => $request->input('brand_id'),
@@ -147,8 +226,9 @@ class ProductController extends Controller
            
            
         ]); 
-
-        return redirect(route('admin.product.index'))->with('thongbao', 'Thêm sản phẩm mới thành công');
+        $route_detail = route('admin.product.detail',$product->id);
+        
+        return redirect(route('admin.product.index'))->with('success', "Thêm sản phẩm mới thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\"> vào đây </a> để xem chi tiết!");
     }
 
     function delete(Request $request, $id)
@@ -156,10 +236,10 @@ class ProductController extends Controller
         $status = $request->input('status');
         if ($status == 'trash') {
             Product::onlyTrashed()->forceDelete();
-            return redirect(route('admin.product.index', ['status' => 'trash']))->with('thongbao', 'Xóa vĩnh viễn bài viết thành công');
+            return redirect(route('admin.product.index', ['status' => 'trash']))->with('success', 'Xóa vĩnh viễn bài viết thành công');
         } else {
             Product::destroy($id);
-            return redirect(route('admin.product.index'))->with('thongbao', 'Xóa bài viết thành công');
+            return redirect(route('admin.product.index'))->with('success', 'Xóa bài viết thành công');
         }
     }
 
@@ -178,17 +258,17 @@ class ProductController extends Controller
             if ($action == 'approved') {
                 Product::where('status', 'not approved yet')->whereIn('id', $list_Product_id)->update(['status' => 'approved']);
 
-                return redirect(route('admin.product.index', ['status' => 'trash']))->with('thongbao', 'Phê duyệt bài viết thành công');
+                return redirect(route('admin.product.index', ['status' => 'trash']))->with('success', 'Phê duyệt bài viết thành công');
             }
             if ($action == 'active') {
                 Product::onlyTrashed()->whereIn('id', $list_Product_id)->restore();
 
-                return redirect(route('admin.product.index', ['status' => 'trash']))->with('thongbao', 'Khôi phục bài viết thành công');
+                return redirect(route('admin.product.index', ['status' => 'trash']))->with('success', 'Khôi phục bài viết thành công');
             }
             if ($action == 'forceDelete') {
                 Product::onlyTrashed()->whereIn('id', $list_Product_id)->forceDelete();
 
-                return redirect(route('admin.product.index', ['status' => 'trash']))->with('thongbao', 'Xóa vĩnh viễn bài viết thành công');
+                return redirect(route('admin.product.index', ['status' => 'trash']))->with('success', 'Xóa vĩnh viễn bài viết thành công');
             }
 
             return redirect(route('admin.product.index'))->with('error', 'Bạn chưa chọn hành động nào');
@@ -214,16 +294,22 @@ class ProductController extends Controller
         //dd($request->all());
         $request->validate(
             [
-                'name' => 'required|min:10|max:200',
+                'name' => 'required|min:5|max:200',
+                'brand_id'=>'required',
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
-                'thumb' => 'image|max:20480',
+                'thumb' => 'required|image|max:20480',
+                'price'=>'required|numeric',
+                'old_price'=>'required|numeric',
+                
                
             ],
             [
+                
                 'required' => ':attribute không được để trống',
+                'numeric'=>':attribute định dạng là số',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
-                'max' => ':attribute có độ dài tối thiểu là :max ký tự',
+                'max' => ':attribute có độ dài tối đa thiểu là :max ký tự',
                 'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
                 'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
             ],
@@ -231,8 +317,10 @@ class ProductController extends Controller
                 'name' => 'Tiêu đề bài viết',
                 'short_desc' => 'Tóm tắt ngắn',
                 'product_category_id' => 'Danh mục sản phẩm',
-                'thumb' => 'Ảnh đại diện',
-               
+                'thumb' => 'Ảnh sản phẩm',
+                'brand'=>'Thương hiệu',
+                'old_price'=>'Giá cũ',
+                'price'=>'Giá'
             ]
         );
 
@@ -259,10 +347,13 @@ class ProductController extends Controller
              
             ]);
             $status = $request->input('status');
+            
+         
+            $route_detail = route('admin.product.detail',$id);
             if ($status == 'trash') {
-                return redirect(route('admin.product.index', ['status' => 'trash']))->with('thongbao', 'Cập nhật sản phẩm thành công');
+                return redirect(route('admin.product.index', ['status' => 'trash']))->with('success', "Cập nhật bài viết thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
             } else {
-                return redirect(route('admin.product.index'))->with('thongbao', 'Cập nhật sản phẩm thành công');
+                return redirect(route('admin.product.index',['status'=>$status]))->with('success', "Cập nhật khuyến mãi thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
             }
     }
 

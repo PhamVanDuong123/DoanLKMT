@@ -22,6 +22,8 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', 'User\HomeController@index')->name('home');
 
+Route::post('/search', 'User\HomeController@search')->name('search');
+
 //User
 Route::group(['prefix' => '/user'], function () {
     //product
@@ -88,6 +90,7 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
 
         //product category
         Route::get('/product_category', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
+        Route::get('/product_category/detail/{id}', 'Admin\ProductCategoryController@detail')->name('admin.product_category.detail');
         Route::get('/product_category/index', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
         Route::get('/product_category/add', 'Admin\ProductCategoryController@add')->name('admin.product_category.add');
         Route::post('/product_category/add', 'Admin\ProductCategoryController@store')->name('admin.product_category.add');

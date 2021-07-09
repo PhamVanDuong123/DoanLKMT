@@ -27,7 +27,7 @@ class ProductCategoryController extends Controller
 
         $status = $request->input('status');
 
-        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(15);
+        $list_product_category = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
         $list_action = array(
             'trash' => 'Xóa tạm thời'
@@ -90,7 +90,7 @@ class ProductCategoryController extends Controller
         $product_category->description=$request->description;
         $product_category->user_id=Auth::user()->id;
         $product_category->save();
-        return redirect('admin/product_category/index')->with('success','Thêm loại sản phẩm thành công');
+        return redirect('admin/product_category/index')->with('success','Thêm loại sản phẩm thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!"');
 
 
     }
@@ -125,7 +125,7 @@ class ProductCategoryController extends Controller
         if($status=='trash'){
             return redirect(route('admin.product_category.index',['status'=>'trash']))->with('success', 'Cập nhật danh mục sản phẩm thành công');
         }else{
-            return redirect(route('admin.product_category.index'))->with('success', 'Cập nhật danh mục sản phẩm thành công');
+            return redirect(route('admin.product_category.index'))->with('success', 'Cập nhật danh mục sản phẩm thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!"');
         }
         
 
@@ -136,7 +136,11 @@ class ProductCategoryController extends Controller
         return view('admin.product_category.edit',['product_category'=>$product_category]);
 
     }
-  
+    function detail($id){
+        $product_category=ProductCategory::withTrashed()->find($id);
+        return view('admin.product_category.detail',compact('product_category'));
+    }
+
     public function deletecategory(Request $request,$id)
     {
         $status = $request->input('status');

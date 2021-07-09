@@ -1,3 +1,12 @@
+@php
+function show_status($status){
+$list_status=array(
+'approved'=>'<span class="badge badge-success">Được duyệt</span>',
+'not approved yet'=>'<span class="badge badge-danger">Chưa được duyệt</span>',
+);
+return $list_status[$status];
+}
+@endphp
 @extends('layoutadmin.master')
 
 @section('content')
@@ -29,10 +38,10 @@
                         @endforeach
                         @endif
                     </select>
-                    <input type="submit" name="btn-search" value="Áp dụng" class="btn btn-primary">
+                    <button type="submit" name="btn-search" class="btn btn-primary">Áp dụng <i class="far fa-check-circle"></i></button>
                 </div>
                 @if(session('success'))
-                <div class="alert alert-success">{{session('success')}}</div>
+                <div class="alert alert-success">{!!session('success')!!}</div>
                 @elseif(session('error'))
                 <div class="alert alert-danger">{{session('error')}}</div>
                 @endif
@@ -44,15 +53,14 @@
                                 <input name="checkall" type="checkbox">
                             </th>
                             <th scope="col">STT</th>
-                            <th scope="col">Tên thương hiệu</th>
+                            <th scope="col">Tên</th>
                             <th scope="col" style="width: 14rem;">SDT</th>
                             <th scope="col" style="width: 18rem;">Email</th>
-                            <th scope="col">Địa chỉ</th>
+                            <th scope="col"  style="max-width: 18rem">Địa chỉ</th>
                             <th scope="col">Quốc gia</th>
                             <th scope="col">Logo</th>
                             <th scope="col">Website</th>
-                            <th scope="col">Ngày cập nhật</th>
-                            <th scope="col">Ngày xóa</th>
+                            <th scope="col">Trạng thái</th>
                             <th scope="col">Tác vụ</th>
                          
                         </tr>
@@ -69,13 +77,12 @@
                           
                             <td><a href="{{route('admin.brand.detail',$item->id)}}">{{$item->name}}</a></td>
                             <td>{{$item->phone}}</td>
-                            <td>{{$item->email}}</td>
-                            <td>{{$item->address}}</td>
-                            <td>{{$item->country}}</td>
+                            <td >{{$item->email}}</td>
+                            <td style="max-width: 200px">{{$item->address}}</td>
+                            <td style="max-width: 100px">{{$item->country}}</td>
                             <td><img class="thumb-post" src="{{$item->logo}}" alt=""></td>
                             <td>{{$item->website}}</td>
-                            <td>{{$item->updated_at}}</td>
-                            <td>{{$item->deleted_at}}</td>
+                            <td>{!!show_status($item->status)!!}</td>
                             <td>
                                 <a href="{{route('admin.brand.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
                                 <a href="{{route('admin.brand.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa bài viết này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
