@@ -52,7 +52,6 @@ return number_format($currency,0,',','.').$innit;
                 </div>
             </div>
         </div>
-
         <div class="col">
             <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
                 <div class="card-header text-center">TỔNG DOANH THU</div>

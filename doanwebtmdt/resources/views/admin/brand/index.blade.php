@@ -13,12 +13,12 @@ return $list_status[$status];
 <div id="content" class="container-fluid">
     <div class="card">
         <div class="card-header font-weight-bold d-flex justify-content-between align-items-center">
-            <h5 class="m-0 ">Danh sách Thương Hiệu</h5>
+            <h5 class="m-0 ">Danh sách thương hiệu</h5>
             <div class="form-search form-inline">
                 <form action="">
                     @csrf
-                    <input type="text" name="key" class="form-control form-search" placeholder="Tìm kiếm" value="{{request()->key}}">
-                    <input type="submit" name="btn-search" value="Tìm kiếm" class="btn btn-primary">
+                    <input type="text" name="key" class="form-control form-search" placeholder="Nhập tên thương hiệu" value="{{request()->key}}">
+                    <button type="submit" id="btn-search-post" name="btn-search-post" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -84,8 +84,8 @@ return $list_status[$status];
                             <td>{{$item->website}}</td>
                             <td>{!!show_status($item->status)!!}</td>
                             <td>
-                                <a href="{{route('admin.brand.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
-                                <a href="{{route('admin.brand.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa bài viết này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('admin.brand.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
+                                <a href="{{route('admin.brand.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa bài viết này không?')" class="btn btn-danger btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
                             </td>
 
                         </tr>

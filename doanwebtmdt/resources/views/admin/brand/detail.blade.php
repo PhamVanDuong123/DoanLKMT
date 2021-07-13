@@ -13,7 +13,7 @@ return $list_status[$status];
 <div id="content" class="container-fluid">
     <div class="card">
         <div class="card-header font-weight-bold">
-            Chi tiết khuyến mãi
+            Chi tiết thương hiệu
         </div>
         <div class="card-body">
             <div class="container">
@@ -64,7 +64,7 @@ return $list_status[$status];
                         </div>
                     </div>            
                     @endif
-                    <a class="btn btn-secondary" href="{{route('admin.post.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
+                    <a class="btn btn-secondary" href="{{route('admin.brand.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
                 </div>
             </div>
         </div>
