@@ -63,6 +63,9 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/promotion/edit/{id}', 'Admin\PromotionController@edit')->name('admin.promotion.edit');
         Route::post('/promotion/update/{id}', 'Admin\PromotionController@update')->name('admin.promotion.update');
         Route::get('/promotion/detail/{id}', 'Admin\PromotionController@detail')->name('admin.promotion.detail');
+
+        //statistics
+        Route::get('/statistics', 'Admin\StatisticsController@show')->name('admin.statistics.show');
     });
 
     Route::middleware('roleAdmin')->group(function () {

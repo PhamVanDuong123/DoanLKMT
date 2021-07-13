@@ -7,17 +7,11 @@ return [
         'route'=>'admin.dashboard.show',
         'icon' => 'fas fa-tachometer-alt'
     ],
-    'user' => [
-        'name' => 'Quản lý thành viên',
-        'module'=>'user',
-        'route'=>'admin.user.index',
-        'icon' => 'fas fa-users',
-        'items' => [
-            [
-                'name' => 'Danh sách thành viên',
-                'route'=>'admin.user.index'
-            ]
-        ]
+    'statistics' => [
+        'name' => 'Thống kê doanh số',
+        'module'=>'statistics',
+        'route'=>'admin.statistics.show',
+        'icon' => 'fas fa-chart-line'
     ],
     'order' => [
         'name' => 'Quản lý đơn hàng',
@@ -31,6 +25,34 @@ return [
             ]
         ]
     ],
+    'promotion' => [
+        'name'=>'Quản lý khuyến mãi',
+        'module'=>'promotion',
+        'route'=>'admin.promotion.index',
+        'icon'=>'fas fa-percent',
+        'items'=>[
+            [
+                'name'=>'Danh sách khuyến mãi',
+                'route'=>'admin.promotion.index'
+            ],
+            [
+                'name'=>'Thêm khuyến mãi',
+                'route'=>'admin.promotion.add'
+            ]
+        ]
+    ],
+    'user' => [
+        'name' => 'Quản lý thành viên',
+        'module'=>'user',
+        'route'=>'admin.user.index',
+        'icon' => 'fas fa-users',
+        'items' => [
+            [
+                'name' => 'Danh sách thành viên',
+                'route'=>'admin.user.index'
+            ]
+        ]
+    ],    
     'product' => [
         'name'=>'Quản lý sản phẩm',
         'module'=>'product',
@@ -44,11 +66,7 @@ return [
             [
                 'name'=>'Thêm sản phẩm',
                 'route'=>'admin.product.add' 
-            ],
-          /*   [
-                'name'=>'Cập nhật sản phẩm',
-                'route'=>'admin.product.edit' 
-            ] */
+            ]
         ]
     ],
     'product_category' => [
@@ -64,11 +82,7 @@ return [
             [
                 'name'=>'Thêm loại sản phẩm',
                 'route'=>'admin.product_category.add'
-            ],
-            /* [
-                'name'=>'Cập nhật sản phẩm',
-                'route'=>'admin.product_category.edit'
-            ] */
+            ]
         ]
     ],
     'post' => [
@@ -116,22 +130,6 @@ return [
             [
                 'name'=>'Thêm thương hiệu',
                 'route'=>'admin.brand.add'
-            ]
-        ]
-    ],
-    'promotion' => [
-        'name'=>'Quản lý khuyến mãi',
-        'module'=>'promotion',
-        'route'=>'admin.promotion.index',
-        'icon'=>'fas fa-percent',
-        'items'=>[
-            [
-                'name'=>'Danh sách khuyến mãi',
-                'route'=>'admin.promotion.index'
-            ],
-            [
-                'name'=>'Thêm khuyến mãi',
-                'route'=>'admin.promotion.add'
             ]
         ]
     ]
