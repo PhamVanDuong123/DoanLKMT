@@ -25,7 +25,7 @@ return $list_status[$status];
         </div>
         <div class="card-body">
            
-            <form action="{{route('admin.product_category.action')}}" method="post">
+            <form action="{{route('admin.product_category.action')}}" method="get">
             {{ csrf_field() }}
                 <div class="analytic">
                     <a href="{{request()->fullUrlWithQuery(['status'=>'active','page'=>1])}}" class="text-primary">Kích hoạt<span class="text-muted">({{$count['active']}})</span></a>
@@ -42,10 +42,15 @@ return $list_status[$status];
                 <button type="submit" name="btn-search" class="btn btn-primary">Áp dụng <i class="far fa-check-circle"></i></button>
             </div>
             @if(session('success'))
-                <div class="alert alert-success">{!!session('success')!!}</div>
-                @elseif(session('error'))
-                <div class="alert alert-danger">{{session('error')}}</div>
-                @endif
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+            @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{session('error')}}
+            </div>
+            @endif
+
             @if($list_product_category->total()>0)
             <table class="table table-striped table-checkall">
                 <thead>
@@ -56,9 +61,8 @@ return $list_status[$status];
                         <th scope="col">STT</th>
                         <th scope="col">Tên Loại Sản Phẩm</th>
                         <th scope="col">Mã loại sản phẩm</th>
+                        <th scope="col">Mô tả</th>
                         <th scope="col">Người tạo</th> 
-                        <th scope="col">Ngày tạo</th> 
-                        <th scope="col">Tác vụ</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -70,10 +74,11 @@ return $list_status[$status];
                             <input type="checkbox" name="list_product_category_id[]" value="{{$item->id}}">
                         </td>
                         <th scope="row">{{$t}}</th>
+                      
                         <td>{{$item->name}}</td>
                         <td>{{$item->code}}</td>
+                        <td>{{$item->description}}</td>
                         <td>{{$item->user->fullname}}</td>
-                        <td>{{date('d-m-Y h:m:s',strtotime($item->created_at))}}</td>
                         <td>
                             <a href="{{route('admin.product_category.edit',['id'=>$item->id,'status'=>request()->status])}}"class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
                         

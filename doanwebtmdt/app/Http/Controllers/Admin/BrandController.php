@@ -47,11 +47,9 @@ class BrandController extends Controller
         return view('admin.brand.index', compact('list_Brand', 'count', 'list_action'));
     }
 
-    function detail($id)
-    {
-        $Brand = Brand::find($id);
-
-        return view('admin.brand.detail', compact('brand'));
+    function detail($id){
+        $brand=Brand::withTrashed()->find($id);
+        return view('admin.brand.detail',compact('brand'));
     }
 
     function add()
@@ -103,7 +101,7 @@ class BrandController extends Controller
             $logo = asset('uploads/' . $fileName);
         }
 
-        Brand::create([
+        $brand=Brand::create([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
@@ -114,11 +112,9 @@ class BrandController extends Controller
           
           
           
-           
-          //  'thumb' => $thumb
         ]);
-
-        return redirect(route('admin.brand.index'))->with('success', 'Thêm bài viết thành công');
+        $route_detail=route('admin.brand.detail',$brand->id);
+        return redirect(route('admin.brand.index'))->with('success', "Thêm thương hiệu thành công.Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
     }
 
     function delete(Request $request, $id)
@@ -219,12 +215,12 @@ class BrandController extends Controller
             'logo'=>$logo
           
         ]);
-
+        $route_detail=route('admin.brand.detail',$id);
         $status = $request->input('status');
         if ($status == 'trash') {
             return redirect(route('admin.brand.index', ['status' => 'trash']))->with('success', 'Cập nhật thương hiệu thành công');
         } else {
-            return redirect(route('admin.brand.index'))->with('success', 'Cập nhật thương hiệu thành công');
+            return redirect(route('admin.brand.index'))->with('success', "Cập nhật thương hiệu thành công.Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
         }
     }
 

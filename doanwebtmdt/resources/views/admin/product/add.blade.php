@@ -6,18 +6,7 @@
             Thêm sản phẩm
         </div>
         <div class="card-body">
-           <!--  @if(count($errors)>0)
-                   <div class="alert alert-danger">
-                       @foreach($errors->all() as $err)
-                          {{$err}}<br>
-                        @endforeach
-                   </div>
-                @endif
-                @if(session('thongbao'))
-                   <div class="allert alert-success">
-                    {{session('thongbao')}}
-                    </div>
-                @endif  -->
+
          
                     <form method="post" action="{{route('admin.product.add')}}" enctype="multipart/form-data">
                     @csrf
@@ -123,29 +112,22 @@
                                 </div>
                                
                                
-                                    <!-- <div id="uploadFile" class="custom-file">
-                                        <input type="file" class="custom-file-input" id="thumb" name="thumb">
-                                        <label class="custom-file-label" for="thumb">Chọn ảnh</label>
-                                    </div> -->
+                             
                                
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="detail_desc">Mô tả chi tiết</label>
-                                    <textarea name="detail_desc" id="detail_desc" class="ckeditor form-control"></textarea>
+                                    <textarea name="content" class="form-control form-editor" id="content" cols="30" rows="20"></textarea>
                                     @error('detail_desc')
                                     <span class="form-text text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary">Thêm mới</button>
-                               </div>
-                            </div>
+                            <button type="submit" class="btn btn-primary">Thêm mới <i class="fas fa-plus-circle"></i></button>
+                             <a class="btn btn-secondary" href="{{route('admin.promotion.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
                         </div>
                     </form>
-             
         </div>
     </div>
 </div>
