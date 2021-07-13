@@ -17,9 +17,9 @@ return $list_status[$status];
             <h5 class="m-0 ">Danh sách loại sản phẩm</h5>
             <div class="form-search form-inline">
                 <form action="">
-                    @csrf
-                    <input type="text" name="key" value="{{request()->key}}" class="form-control form-search" placeholder="Tìm kiếm">
-                    <input type="submit" name="btn-search" value="Tìm kiếm" class="btn btn-primary">
+                    @csrf                    
+                    <input type="text" name="key" value="{{request()->key}}" class="form-control form-search" placeholder="Nhập tên loại sản phẩm">
+                    <button type="submit" id="btn-search-post" name="btn-search-post" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -54,8 +54,8 @@ return $list_status[$status];
                             <input type="checkbox" name="checkall">
                         </th>
                         <th scope="col">STT</th>
-                        <th scope="col">Tên Loại Sản Phẩm</th>
-                        <th scope="col">Mã loại sản phẩm</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Mã</th>
                         <th scope="col">Người tạo</th> 
                         <th scope="col">Ngày tạo</th> 
                         <th scope="col">Tác vụ</th> 

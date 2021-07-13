@@ -32,7 +32,7 @@ return number_format($currency,0,',','.').$innit;
                         <option value="country" {{request()->search_option_post=='country'?'selected':''}}>Xuất xứ</option>
                    
                     </select>
-                    <input type="text" id="key" name="key" class="form-control form-search" placeholder="Nhập tiêu đề bài viết" value="{{request()->key}}">
+                    <input type="text" id="key" name="key" class="form-control form-search" placeholder="Nhập tên sản phẩm" value="{{request()->key}}">
                     <button type="submit" id="btn-search-post" name="btn-search-post" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>
@@ -72,14 +72,12 @@ return number_format($currency,0,',','.').$innit;
                             <th><span class="thead-text">STT</th>
                                     <th scope="col" >Ảnh</th>
                                     <th scope="col">Tên</th>
-                                    <th scope="col">Mã</th>   
-                                    <th scope="col">Loại sản phẩm</th>                                
-                                    <th scope="col">Thương hiệu</th>
+                                    <th scope="col">Mã</th>  
+                                    <th scope="col">Thương hiệu</th> 
+                                    <th scope="col">Loại sản phẩm</th> 
                                     <th scope="col">Giá bán</th>
-                                    <th scope="col">Giá cũ</th>
                                     <th scope="col">Số lượng</th>                               
                                     <th scope="col">Người tạo</th>
-
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Tác vụ</th>
                         </tr>
@@ -97,14 +95,11 @@ return number_format($currency,0,',','.').$innit;
                             <td><a href="{{route('admin.product.detail',$item->id)}}">{{$item->name}}</a></td>
      
                                     <td>{{$item->code}}</td>
-                                    <td>{{$item->product_category->name}}</td>
                                     <td>{{$item->brand->name}}</td>
-                                    <td>{{currency_format($item->price)}}</td>
-                                    <td>{{currency_format($item->old_price)}}</td>
+                                    <td>{{$item->product_category->name}}</td>
+                                    <td>{{currency_format($item->price)}}<br><del>{{currency_format($item->old_price)}}</del></td>
                                     <td>{{$item->inventory_num}}</td>
-
-                                    <td>{{$item->user->fullname}}</td>
-                                  
+                                    <td>{{$item->user->fullname}}</td>                                  
                                     <td>{!!show_status($item->status)!!}</td>
                             <td>
                             <a href="{{route('admin.product.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
