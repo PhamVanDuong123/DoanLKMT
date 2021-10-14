@@ -4,6 +4,7 @@
     background: #f7f7f7;
     padding-top: 25px;
     padding-bottom: 75px;
+    min-height: 600px;
 }
 
 .main-content {

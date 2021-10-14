@@ -74,38 +74,33 @@
                             <div id="cart-wp" class="fl-right">
                                 <div id="btn-cart">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="num">2</span>
+                                    <span id="num">{{Cart::count()}}</span>
                                 </div>
                                 <div id="dropdown">
-                                    <p class="desc">Có <span>2 sản phẩm</span> trong giỏ hàng</p>
+                                    <p class="desc">Có <span>{{Cart::count()}} sản phẩm</span> trong giỏ hàng</p>
+                                    @if(Cart::count()>0)
                                     <ul class="list-cart">
+                                        @foreach(Cart::content() as $product)
                                         <li class="clearfix">
                                             <a href="" title="" class="thumb fl-left">
-                                                <img src="{{asset('user/images/img-pro-11.png')}}" alt="">
+                                                <img src="{{$product->options->thumb}}" alt="">
                                             </a>
                                             <div class="info fl-right">
-                                                <a href="" title="" class="product-name">Sony Express X6</a>
-                                                <p class="price">6.250.000đ</p>
-                                                <p class="qty">Số lượng: <span>1</span></p>
+                                                <a href="" title="" class="product-name">{{$product->name}}</a>
+                                                <p class="price">{{number_format($product->price,0,',','.')}}đ</p>
+                                                <p class="qty">Số lượng: <span>{{$product->qty}}</span></p>
                                             </div>
                                         </li>
-                                        <li class="clearfix">
-                                            <a href="" title="" class="thumb fl-left">
-                                                <img src="{{asset('user/images/img-pro-23.png')}}" alt="">
-                                            </a>
-                                            <div class="info fl-right">
-                                                <a href="" title="" class="product-name">Laptop Lenovo 10</a>
-                                                <p class="price">16.250.000đ</p>
-                                                <p class="qty">Số lượng: <span>1</span></p>
-                                            </div>
-                                        </li>
+                                        @endforeach
                                     </ul>
+                                    @endif
+                                    
                                     <div class="total-price clearfix">
                                         <p class="title fl-left">Tổng:</p>
-                                        <p class="price fl-right">18.500.000đ</p>
+                                        <p class="price fl-right"><?php echo Cart::total(); ?>đ</p>
                                     </div>
                                     <dic class="action-cart clearfix">
-                                        <a href="?page=cart" title="Giỏ hàng" class="view-cart fl-left">Giỏ hàng</a>
+                                        <a href="{{route('cart.show')}}" title="Giỏ hàng" class="view-cart fl-left">Giỏ hàng</a>
                                         <a href="?page=checkout" title="Thanh toán" class="checkout fl-right">Thanh toán</a>
                                     </dic>
                                 </div>
