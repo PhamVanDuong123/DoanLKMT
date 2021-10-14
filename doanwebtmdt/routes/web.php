@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\User\HomeController;
 
 
 /*
@@ -41,6 +42,15 @@ Route::group(['prefix' => '/user'], function () {
 
     //page
     Route::get('/page/{name}', 'User\PageController@detail')->name('page.detail');
+    // account
+    Route::get('/account/login','User\HomeController@get_Login')->name('account.login');
+    Route::post('/account/login','User\HomeController@post_Login')->name('account.login');
+    Route::get('/account/logout','User\HomeController@logout')->name('account.logout');
+    Route::get('/account/signup','User\HomeController@get_signup')->name('account.signup');
+    Route::post('/account/signup','User\HomeController@post_signup')->name('account.signup');
+    Route::get('/account/detail','User\HomeController@detail')->name('account.detail');
+    Route::post('/account/detail','User\HomeController@account_detail')->name('account.detail');
+    
 });
 
 //Admin

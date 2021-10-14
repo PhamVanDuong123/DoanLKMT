@@ -6,7 +6,7 @@
         <div class="card-header font-weight-bold">
             Cập nhật sản phẩm
         </div>
-        @if(count($errors)>0)
+               @if(count($errors)>0)
                    <div class="alert alert-danger">
                        @foreach($errors->all() as $err)
                           {{$err}}<br>
