@@ -18,3 +18,7 @@
 .table>tbody>tr>td {
     vertical-align: middle;
 }
+
+.account-info {
+    margin-top: 50px;
+}

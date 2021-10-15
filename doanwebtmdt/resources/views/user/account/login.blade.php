@@ -3,7 +3,7 @@
 <div class="container">
 
 <!-- slider -->
-<div class="row carousel-holder">
+<div class="row carousel-holder account-info">
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <div class="panel panel-default">
@@ -13,7 +13,7 @@
                 <div class="alert alert-danger">{{session('error')}}</div>
                 @endif
 
-              <div class="panel-heading">Đăng nhập</div>
+              <div class="panel-heading text-uppercase font-weight-bold">Đăng nhập</div>
               <div class="panel-body">
               
                 <form  method="post"  action="{{route('account.login')}}"  >
@@ -22,7 +22,7 @@
                   @csrf
                     <div>
                         <label>Email</label>
-                          <input type="email" class="form-control" placeholder="Email" name="email" 
+                          <input type="email" class="form-control" name="email" 
                           >
                     </div>
                     <br>	

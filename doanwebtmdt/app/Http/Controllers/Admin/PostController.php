@@ -156,7 +156,7 @@ class PostController extends Controller
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối thiểu là :max ký tự',
-                'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
+                'thumb.max' => 'Ảnh đại diện có độ dài tối đa là 20Mb',
                 'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
             ],
             [

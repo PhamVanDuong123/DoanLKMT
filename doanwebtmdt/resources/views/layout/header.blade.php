@@ -21,6 +21,7 @@
     <script src="{{asset('user/js/bootstrap/bootstrap.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/carousel/owl.carousel.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/main.js')}}" type="text/javascript"></script>
+    <script src="{{asset('user/js/app.js')}}" type="text/javascript"></script>
     <div class="zalo-chat-widget" data-oaid="3917867475933370364" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
 
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
@@ -70,7 +71,7 @@
                               
                                 @else
                                 <li>
-                                 <a href="{{route('account.login')}}"><span class ="glyphicon glyphicon-user"></span>Đăng nhập </a>
+                                 <a href="{{route('account.login')}}">Đăng nhập <span class ="glyphicon glyphicon-user"></span></a>
                                
                                 </li>
                                

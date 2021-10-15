@@ -11,6 +11,8 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Crypt;
 use Illuminate\Database\Eloquent\Collection;
+use Gloudemans\Shoppingcart\Facades\Cart;
+
 class HomeController extends Controller
 {
     public function index()
@@ -76,6 +78,8 @@ class HomeController extends Controller
     function logout()
     {
         Auth::logout();
+        //clear giỏ hàng khi đăng xuất
+        Cart::destroy();
         return redirect('/');
     }
     function get_signup()
@@ -92,7 +96,7 @@ class HomeController extends Controller
             'phone' => 'min:10|max:12|regex:/^[\d]{10,12}$/|unique:users',
         
             'password' => 'min:8|max:15|regex:/^([\w!@#$%^&*().\_]+){8,15}$/',
-          /*   'passwordAgain'=>"required|same:password" */
+            'passwordAgain'=>"required|same:password" 
       ],
        [
         'email.required'=>'Bạn chưa nhập Email',
@@ -104,10 +108,11 @@ class HomeController extends Controller
         'password.required'=>'Bạn chưa nhập Password',
         'password.min'=>'Password không được nhỏ hơn 8 ký tự',
         'password.max'=>'Password không được lớn hơn 32 ký tự',
-       /* 'passwordAgain.required'=>"Bạn chưa nhập lại mật khẩu",
-        'passwordAgain.same'=>"Mật khẩu bạn nhập lại chưa đúng" */
+        'passwordAgain.required'=>"Bạn chưa nhập lại mật khẩu",
+        'passwordAgain.same'=>"Mật khẩu bạn nhập lại chưa đúng"
 
       ]);
+      //dd($request->all());  
       $user = new User;
       $user->fullname=$request->fullname;
       $user->email=$request->email;
@@ -120,7 +125,8 @@ class HomeController extends Controller
     function detail()
     {
         $user=Auth::user();
-      return view ('user.account.detail',['user'=>$user]);
+        //dd($user);
+        return view ('user.account.detail',['user'=>$user]);
     }
     function account_detail(Request $request)
     {
@@ -128,6 +134,7 @@ class HomeController extends Controller
             [
                 'fullname' => 'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
                 'phone' => 'min:10|max:12|regex:/^[\d]{10,12}$/',
+                'avatar' => 'image|max:20480',
                 'password' => 'min:8|max:15|regex:/^([\w!@#$%^&*().\_]+){8,15}$/',
                 'passwordAgain'=>'required|same:password'
              
@@ -142,26 +149,46 @@ class HomeController extends Controller
                 'passwordAgain.same'=>'Mật khẩu bạn nhập lại chưa khớp',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
-               
+                'avatar.max' => 'Ảnh đại diện có độ dài tối đa là 20Mb',
+                'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
           
             ],
             [
                 'fullname' => 'Họ tên',
                 'password' => 'Mật khẩu',
-              
-            ]
+                'avatar' => 'Ảnh đại diện'
+            ]   
         );
+
+        $avatar = Auth::user()->avatar;
+        //dd($avatar);
+        $this->upload_image($request,'avatar',$avatar);
 
         $user=Auth::User();
         $user->fullname=$request->fullname;
         $user->phone=$request->phone;
+        $user->gender=$request->gender;
+        $user->address=$request->address;
+        $user->avatar=$avatar;
         $user->password= Hash::make($request->input('password'));
         $user->save();
         return redirect(route('account.detail'))->with('success', 'Cập nhật thông tin tài khoản thành công');
        
-        
-      
+    }
+    function upload_image($request, $image,&$thumb)
+    {
+        //kt file có tt
+        if ($request->hasFile($image)) {
+            //lấy file
+            $file = $request->$image;
 
+            //lấy tên file
+            $fileName = $file->getClientOriginalName();
 
+            //đưa file lên server
+            $file->move('public\uploads', $fileName);
+
+            $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
+        }
     }
 }

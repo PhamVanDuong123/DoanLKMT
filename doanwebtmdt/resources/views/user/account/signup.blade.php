@@ -8,19 +8,19 @@
                 @endif
 
 <!-- slider -->
-<div class="row carousel-holder">
+<div class="row carousel-holder account-info">
     <div class="col-md-2">
     </div>
     <div class="col-md-8">
         <div class="panel panel-default">
-              <div class="panel-heading">Đăng ký tài khoản</div>
+              <div class="panel-heading text-uppercase font-weight-bold">Đăng ký tài khoản</div>
               <div class="panel-body">
                 <form method="post"  enctype="multipart/form-data"  action="{{route('account.signup')}}" >
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                   @csrf
                     <div>
                         <label>Họ tên</label>
-                          <input type="text" class="form-control" placeholder="Username" name="fullname" aria-describedby="basic-addon1">
+                          <input type="text" class="form-control" name="fullname" aria-describedby="basic-addon1">
                             @error('fullname')
                                     <span class="form-text text-danger">{{$message}}</span>
                                     @enderror
@@ -28,7 +28,7 @@
                     <br>
                     <div>
                         <label>Email</label>
-                          <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1"
+                          <input type="email" class="form-control" name="email" aria-describedby="basic-addon1"
                           >
                           @error('email')
                                     <span class="form-text text-danger">{{$message}}</span>
@@ -38,7 +38,7 @@
                     <br>
                     <div>
                         <label>Số điện thoại</label>
-                          <input type="phone" class="form-control" placeholder="phone" name="phone" aria-describedby="basic-addon1"
+                          <input type="phone" class="form-control" name="phone" aria-describedby="basic-addon1"
                           >
                           @error('phone')
                                     <span class="form-text text-danger">{{$message}}</span>
@@ -47,20 +47,20 @@
                     <br>		
                     <div>
                       
-                        <label>Nhập mật khẩu</label>
+                        <label>Mật khẩu</label>
                           <input type="password" class="form-control" name="password" aria-describedby="basic-addon1">
                           @error('password')
                                     <span class="form-text text-danger">{{$message}}</span>
                                     @enderror
                     </div>
                     <br>
-                   <!--  <div>
+                    <div>
                         <label>Nhập lại mật khẩu</label>
                           <input type="password" class="form-control" name="passwordAgain" aria-describedby="basic-addon1">
-                          @error('password')
+                          @error('passwordAgain')
                                     <span class="form-text text-danger">{{$message}}</span>
                                     @enderror
-                    </div> -->
+                    </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Đăng Ký<i class="fas fa-plus-circle"></i></button>
 

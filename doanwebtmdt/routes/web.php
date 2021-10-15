@@ -39,6 +39,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/cart/destroy','User\CartController@destroy')->name('cart.destroy');
     Route::post('/cart/update','User\CartController@update')->name('cart.update');
     Route::get('/cart/checkout/{id?}', 'User\CartController@checkout')->name('cart.checkout');
+    Route::post('/cart/pay', 'User\CartController@pay')->name('cart.pay');
 
     //post
     Route::get('/post', 'User\PostController@index')->name('post.index');

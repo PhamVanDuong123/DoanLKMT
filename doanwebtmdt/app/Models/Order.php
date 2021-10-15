@@ -12,6 +12,7 @@ class Order extends Model
     use SoftDeletes;
 
     protected $fillable=[
+        'code',
         'user_id',
         'name',
         'phone',
@@ -37,5 +38,9 @@ class Order extends Model
 
     function products(){
         return $this->belongsToMany('App\Models\Product','order_details','order_id','product_id')->withPivot('order_id','product_id','number','price','created_at');
+    }
+
+    function order_details(){
+        return $this->hasMany('App\Models\OrderDetail');
     }
 }

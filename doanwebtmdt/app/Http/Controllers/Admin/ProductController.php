@@ -360,10 +360,13 @@ class ProductController extends Controller
     function upload_image($request, $image,&$thumb)
     {
         if ($request->hasFile($image)) {
+            //lấy file
             $file = $request->$image;
 
+            //lấy tên file
             $fileName = $file->getClientOriginalName();
 
+            //đưa file lên server
             $file->move('public\uploads', $fileName);
 
             $thumb = 'http://localhost:8081/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;

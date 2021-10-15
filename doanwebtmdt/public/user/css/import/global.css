@@ -189,3 +189,13 @@ iframe {
     width: 350px;
     height: auto;
 }
+
+.account-info {
+    margin-top: 50px;
+}
+
+img.avatar-edit {
+    display: block;
+    width: 100px;
+    height: auto;
+}
