@@ -4,8 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Crypt;
 use Illuminate\Database\Eloquent\Collection;
 class HomeController extends Controller
 {
@@ -38,5 +42,126 @@ class HomeController extends Controller
       $search_product = Product::where('name', 'like', "%{$keyword}%")->get();
 
        return view('user.product.search')->with('search_product',$search_product)->with('keyword',$keyword);
+    }
+    function get_Login()
+    {
+        return view ('user.account.login');
+
+    }
+    public function post_Login(Request $request )
+    {
+        $this->validate($request,[
+            'email'=>'required',
+            'password'=>'required|min:5|max:32'
+
+        ],
+        [
+            'email.required'=>'Bạn chưa nhập Email',
+            'email.email'=>'Bạn chưa nhập đúng định dạng email Email',
+            'password.required'=>'Bạn chưa nhập Password',
+            'password.min'=>'Password không được nhỏ hơn 5 ký tự',
+            'password.max'=>'Password không được lớn hơn 32 ký tự'
+        ]);
+     
+        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))
+        {
+            return redirect('/');
+        }
+        else
+        {
+            return redirect('user/account/login')->with('error', 'Đăng nhập không thành công');
+        }
+
+    }
+    function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+    function get_signup()
+    {
+        return view ('user.account.signup');
+
+    }
+  
+    function post_signup(Request $request )
+    {
+        $this->validate($request,
+        [   'email'=>'required|email|unique:users',
+            'fullname' => 'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
+            'phone' => 'min:10|max:12|regex:/^[\d]{10,12}$/|unique:users',
+        
+            'password' => 'min:8|max:15|regex:/^([\w!@#$%^&*().\_]+){8,15}$/',
+          /*   'passwordAgain'=>"required|same:password" */
+      ],
+       [
+        'email.required'=>'Bạn chưa nhập Email',
+        'fullname.required'=>'Bạn chưa nhập tên người đăng ký',
+        'email.email'=>'Bạn chưa nhập đúng định dạng Email',
+        'email.unique'=>'Email đã tồn tại',
+        'phone.unique'=>"Số điện thoại đã được đăng ký",
+        'confirmed' => 'Xác nhận mật khẩu phải trùng khớp với mật khẩu',
+        'password.required'=>'Bạn chưa nhập Password',
+        'password.min'=>'Password không được nhỏ hơn 8 ký tự',
+        'password.max'=>'Password không được lớn hơn 32 ký tự',
+       /* 'passwordAgain.required'=>"Bạn chưa nhập lại mật khẩu",
+        'passwordAgain.same'=>"Mật khẩu bạn nhập lại chưa đúng" */
+
+      ]);
+      $user = new User;
+      $user->fullname=$request->fullname;
+      $user->email=$request->email;
+      $user->phone=$request->phone;
+      $user->password= Hash::make($request->input('password'));
+      $user->save();
+      return redirect('user/account/signup')->with('success','Chúc mừng bạn đã đăng ký tài khoản thành công');
+
+    }
+    function detail()
+    {
+        $user=Auth::user();
+      return view ('user.account.detail',['user'=>$user]);
+    }
+    function account_detail(Request $request)
+    {
+        $request->validate(
+            [
+                'fullname' => 'required|regex:/^([A-Za-zÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴáàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ\s]+){1,60}$/',
+                'phone' => 'min:10|max:12|regex:/^[\d]{10,12}$/',
+                'password' => 'min:8|max:15|regex:/^([\w!@#$%^&*().\_]+){8,15}$/',
+                'passwordAgain'=>'required|same:password'
+             
+            ],
+            [
+                'fullname.regex' => 'Họ tên phải có định dạng là chữ cái hoặc khoảng trắng',
+                'phone.regex' => 'Số điện thoại phải thuộc các ký tự số',
+                'password.regex' => 'Mật khẩu phải là ký tự hoa, ký tự thường, số, dấu chấm, gạch dưới, ký tự đặc biệt',
+                'confirmed' => 'Xác nhận mật khẩu phải trùng khớp với mật khẩu',
+                'required' => ':attribute không được để trống',
+                'passwordAgain.required'=>'Bạn chưa nhập lại mật khẩu',
+                'passwordAgain.same'=>'Mật khẩu bạn nhập lại chưa khớp',
+                'min' => ':attribute có độ dài tối thiểu là :min ký tự',
+                'max' => ':attribute có độ dài tối đa là :max ký tự',
+               
+          
+            ],
+            [
+                'fullname' => 'Họ tên',
+                'password' => 'Mật khẩu',
+              
+            ]
+        );
+
+        $user=Auth::User();
+        $user->fullname=$request->fullname;
+        $user->phone=$request->phone;
+        $user->password= Hash::make($request->input('password'));
+        $user->save();
+        return redirect(route('account.detail'))->with('success', 'Cập nhật thông tin tài khoản thành công');
+       
+        
+      
+
+
     }
 }

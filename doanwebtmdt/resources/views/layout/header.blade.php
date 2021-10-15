@@ -14,12 +14,16 @@
     <link href="{{asset('user/css/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/style.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/responsive.css')}}" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="fontawesome-free-5.15.1-web/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="{{asset('user/js/jquery-2.2.4.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/elevatezoom-master/jquery.elevatezoom.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/bootstrap/bootstrap.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/carousel/owl.carousel.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/main.js')}}" type="text/javascript"></script>
+    <div class="zalo-chat-widget" data-oaid="3917867475933370364" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
+
+    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
 </head>
 
 <body>
@@ -46,6 +50,39 @@
                                 <li>
                                     <a href="{{route('page.detail','lien-he')}}" title="">Liên hệ</a>
                                 </li>
+                               
+                                 @if(Auth::check())
+                                 <li>
+                               
+                                <a href="{{route('account.detail')}}" title="" >{{Auth::user()->fullname}}
+                                     <span class="glyphicon glyphicon-user"><span>
+                               </a>         
+                                </li> 
+                                <li>
+                               
+                            
+                               </li> 
+                                 <li>
+                                 <a href="{{route('account.logout')}}">Đăng xuất
+                                     <span class="fa fa-sign-in"></span>
+                                    </a>
+                                </li> 
+                              
+                                @else
+                                <li>
+                                 <a href="{{route('account.login')}}"><span class ="glyphicon glyphicon-user"></span>Đăng nhập </a>
+                               
+                                </li>
+                               
+                                <li>
+                                <li>
+                                    <a href="{{route('account.signup')}}">Đăng Ký
+                                     <span class="fa fa-user-plus"></span>
+                                    </a>
+                                 </li>
+                                 </li>
+                                @endif
+                             
                             </ul>
                         </div>
                     </div>

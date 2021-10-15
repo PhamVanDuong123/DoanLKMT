@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Models\User;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -19,4 +21,5 @@ class PageController extends Controller
         }
         return view('user.page.detail',compact('page','list_pro_selling'));
     }
+    
 }
