@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\Cast\Double;
 
 class CartController extends Controller
 {
@@ -56,23 +57,16 @@ class CartController extends Controller
     }
 
     function checkout(){
-        // var_dump(Cart::total());
-        // exit;
-        // $shipping_fee=20000;
-        // $total=(double)Cart::total();
-        //$total=$total+$shipping_fee;
-        // echo $total;
-        // echo "----";
-        // echo $shipping_fee;
-        // echo "----";
-        // echo $total2;
-        // echo "----";
-        // exit;
-        // return view('user.cart.checkout',compact('total'));
-        return view('user.cart.checkout');
+        $shipping_fee = 20000;
+        $total = Cart::total();
+        $total = (Double)str_replace(array(',','.'),'',$total);
+        $total+=$shipping_fee;
+
+        return view('user.cart.checkout', compact('shipping_fee','total'));
     }
 
     function pay(Request $request){
+        $shipping_fee=20000;
         // dd($request->all());
         $this->validate($request,[
             'name'=>'required',
@@ -89,12 +83,12 @@ class CartController extends Controller
         ]);
         
         $order = Order::create([
-            'code'=>'DH-12',
+            'code'=>'DH-'.Order::get()->max()->id+1,
             'name'=>$request->name,            
             'phone'=>$request->phone,
             'address'=>$request->address,
             'note'=>$request->note,
-            'shipping_fee'=>20000,
+            'shipping_fee'=> $shipping_fee,
             'payment'=>$request->payment,
             'promotion_code'=>$request->promotion_code,
             'user_id'=>Auth::id()

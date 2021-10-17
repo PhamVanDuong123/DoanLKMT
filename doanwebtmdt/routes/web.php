@@ -34,7 +34,7 @@ Route::group(['prefix' => '/user'], function () {
 
     //cart
     Route::get('/cart/show','User\CartController@show')->name('cart.show');
-    Route::get('/cart/add/{id}', 'User\CartController@add')->name('cart.add');
+    Route::get('/cart/add/{id}', 'User\CartController@add')->name('cart.add')->middleware('checkLogin');
     Route::get('/cart/remove/{rowId}', 'User\CartController@remove')->name('cart.remove');
     Route::get('/cart/destroy','User\CartController@destroy')->name('cart.destroy');
     Route::post('/cart/update','User\CartController@update')->name('cart.update');

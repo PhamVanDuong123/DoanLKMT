@@ -86,11 +86,11 @@
                         <tfoot>
                             <tr class="order-total">
                                 <td>Phí vận chuyển:</td>
-                                <td><strong class="total-price">20.000đ</strong></td>
+                                <td><strong class="total-price">{{number_format($shipping_fee,0,',','.')}}đ</strong></td>
                             </tr>
                             <tr class="order-total">
                                 <td>Tổng đơn hàng:</td>
-                                <td><strong class="total-price"><?php echo Cart::total(); ?>đ</strong></td>
+                                <td><strong class="total-price">{{number_format($total,0,',','.')}}đ</strong></td>
                             </tr>
                         </tfoot>
                     </table>
