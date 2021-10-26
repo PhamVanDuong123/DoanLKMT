@@ -199,3 +199,11 @@ img.avatar-edit {
     width: 100px;
     height: auto;
 }
+
+img.avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    float: right;
+    margin: 0 10px 10px;
+}

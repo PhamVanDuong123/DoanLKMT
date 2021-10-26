@@ -56,7 +56,8 @@
                                  <li>
                                
                                 <a href="{{route('account.detail')}}" title="" >{{Auth::user()->fullname}}
-                                     <span class="glyphicon glyphicon-user"><span>
+                                     <!-- <span class="glyphicon glyphicon-user"><span> -->
+                                         <img src="@php echo empty(Auth::user()->avatar) ? 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/no-avatar.png' : Auth::user()->avatar @endphp" alt="" class="avatar">
                                </a>         
                                 </li> 
                                 <li>
@@ -139,7 +140,9 @@
                                     </div>
                                     <dic class="action-cart clearfix">
                                         <a href="{{route('cart.show')}}" title="Giỏ hàng" class="view-cart fl-left">Giỏ hàng</a>
-                                        <a href="?page=checkout" title="Thanh toán" class="checkout fl-right">Thanh toán</a>
+                                        @if(Cart::count()>0)
+                                        <a href="{{route('cart.checkout')}}" title="Thanh toán" class="checkout fl-right">Thanh toán</a>
+                                        @endif  
                                     </dic>
                                 </div>
                             </div>

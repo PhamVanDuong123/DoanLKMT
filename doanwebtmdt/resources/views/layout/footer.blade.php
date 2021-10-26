@@ -2,8 +2,8 @@
     <div id="foot-body">
         <div class="wp-inner clearfix">
             <div class="block" id="info-company">
-                <h3 class="title">ISMART</h3>
-                <p class="desc">ISMART luôn cung cấp luôn là sản phẩm chính hãng có thông tin rõ ràng, chính sách ưu đãi cực lớn cho khách hàng có thẻ thành viên.</p>
+                <img id="logo-footer" src="{{asset('user/images/Logo.png')}}" alt="">
+                <p class="desc">HD Computer là một đơn vị luôn cung cấp các sản phẩm bộ phận linh kiện máy tính chính hãng với giá cả hợp lý đến tận tay khách hàng. HD Computer là một đơn vị luôn cung cấp các sản phẩm bộ phận linh kiện máy tính chính hãng với giá cả hợp lý đến tận tay khách hàng.</p>
                 <div id="payment">
                     <div class="thumb">
                         <img src="{{asset('images/img-foot.png')}}" alt="">
@@ -14,48 +14,55 @@
                 <h3 class="title">Thông tin cửa hàng</h3>
                 <ul class="list-item">
                     <li>
-                        <p>106 - Trần Bình - Cầu Giấy - Hà Nội</p>
+                        <p>65 Huỳnh Thúc Kháng, phường Bến Nghé, quận 1, TP Hồ Chí Minh</p>
                     </li>
                     <li>
                         <p>0987.654.321 - 0989.989.989</p>
                     </li>
                     <li>
-                        <p>vshop@gmail.com</p>
+                        <p>hdcomputer@gmail.com</p>
+                    </li>
+                    <li>
+                        <p>www.facebook.com/hdcomputer</p>
+                    </li>
+                    <li>
+                        <p>www.zalo.com/hdcomputer</p>
                     </li>
                 </ul>
             </div>
             <div class="block menu-ft policy" id="info-shop">
-                <h3 class="title">Chính sách mua hàng</h3>
+                <h3 class="title">Thông tin chính sách</h3>
                 <ul class="list-item">
                     <li>
-                        <a href="" title="">Quy định - chính sách</a>
+                        <a href="#" title="">Quy định - chính sách</a>
                     </li>
                     <li>
-                        <a href="" title="">Chính sách bảo hành - đổi trả</a>
+                        <a href="#" title="">Chính sách bảo hành - đổi trả</a>
                     </li>
                     <li>
-                        <a href="" title="">Chính sách hội viện</a>
+                        <a href="#" title="">Chính sách thành viên</a>
                     </li>
                     <li>
-                        <a href="" title="">Giao hàng - lắp đặt</a>
+                        <a href="#" title="">Chính sách sửa chữa</a>
+                    </li>
+                    <li>
+                        <a href="#" title="">Giao hàng - lắp đặt</a>
+                    </li>
+                    <li>
+                        <a href="#" title="">Thanh toán - Trả góp</a>
                     </li>
                 </ul>
             </div>
             <div class="block" id="newfeed">
-                <h3 class="title">Bảng tin</h3>
-                <p class="desc">Đăng ký với chung tôi để nhận được thông tin ưu đãi sớm nhất</p>
-                <div id="form-reg">
-                    <form method="POST" action="">
-                        <input type="email" name="email" id="email" placeholder="Nhập email tại đây">
-                        <button type="submit" id="sm-reg">Đăng ký</button>
-                    </form>
-                </div>
+                <h3 class="title">Chăm sóc khách hàng</h3>
+                <p>Tổng đài CSKH: </p>
+                <h2 class="hotline">19001009</h2>
             </div>
         </div>
     </div>
     <div id="foot-bot">
         <div class="wp-inner">
-            <p id="copyright">© Bản quyền thuộc về unitop.vn | Php Master</p>
+            <p id="copyright">© Bản quyền thuộc Công ty TNHH HD Computer</p>
         </div>
     </div>
 </div>
@@ -107,9 +114,10 @@
         </ul>
     </div>
 </div>
-<div id="btn-top"><img src="{{asset('frontend/images/icon-to-top.png')}}" alt=""/></div>
+<div id="btn-top"><img src="{{asset('frontend/images/icon-to-top.png')}}" alt="" /></div>
 <div id="fb-root"></div>
-<script>(function (d, s, id) {
+<script>
+    (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
             return;
@@ -120,4 +128,5 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 </body>
+
 </html>
