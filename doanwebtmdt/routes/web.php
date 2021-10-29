@@ -2,12 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\User\HomeController;
+
+use Session;
 
 
 /*
@@ -24,7 +28,8 @@ use App\Http\Controllers\User\HomeController;
 Route::get('/', 'User\HomeController@index')->name('home');
 
 Route::post('/search', 'User\HomeController@search')->name('search');
-
+route::get('user/account/login/login_facebook/{provider}', 'SocialController@login_facebook');
+Route::get('user/account/login/callback/{provider}', 'SocialController@callback');
 //User
 Route::group(['prefix' => '/user'], function () {
     //product
@@ -48,6 +53,7 @@ Route::group(['prefix' => '/user'], function () {
     //page
     Route::get('/page/{name}', 'User\PageController@detail')->name('page.detail');
     // account
+  
     Route::get('/account/login','User\HomeController@get_Login')->name('account.login');
     Route::post('/account/login','User\HomeController@post_Login')->name('account.login');
     Route::get('/account/logout','User\HomeController@logout')->name('account.logout');
@@ -160,4 +166,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 //filemanager
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+//locate
+Route::get('/lang/{locale}',function($locale)
+{
+    if(! in_array($locale,['en','vi','cn']))
+    {
+        abort(404);
+    }
+  
+    session()->put('locate',$locale);
+    return redirect()->back();
+
 });
