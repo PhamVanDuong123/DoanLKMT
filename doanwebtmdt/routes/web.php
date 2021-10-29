@@ -11,7 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\User\HomeController;
 
-use Session;
+use Illuminate\Support\Facades\Session;
 
 
 /*
