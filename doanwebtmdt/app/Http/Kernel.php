@@ -37,6 +37,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\Localization::class,
+
         ],
 
         'api' => [
@@ -67,5 +69,8 @@ class Kernel extends HttpKernel
         'roleSale' => \App\Http\Middleware\RoleSale::class,
         'roleAdmin' => \App\Http\Middleware\RoleAdmin::class,
         'checkLogin' => \App\Http\Middleware\CheckLogin::class,
+    
+        'localization' => \App\Http\Middleware\Localization::class,
+        
     ];
 }
