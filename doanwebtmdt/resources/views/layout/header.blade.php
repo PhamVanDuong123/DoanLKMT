@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <title>ISMART STORE</title>
@@ -9,6 +9,7 @@
     <link href="{{asset('user/css/bootstrap/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/css/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/reset.css')}}" rel="stylesheet')}}" type="text/css" />
+    <link href="{{asset('user/main.css')}}" rel="stylesheet')}}" type="text/css" />
     <link href="{{asset('user/css/carousel/owl.carousel.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/css/carousel/owl.theme.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/css/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
@@ -22,9 +23,14 @@
     <script src="{{asset('user/js/carousel/owl.carousel.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/app.js')}}" type="text/javascript"></script>
-    <div class="zalo-chat-widget" data-oaid="3917867475933370364" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
-
+    <div class="zalo-chat-widget" data-oaid="2945463678774668991" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+    <link  rel="canonical" href="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
+    <meta property="og:site_name" content="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+ 
+  
 </head>
 
 <body>
@@ -83,6 +89,7 @@
                                  </li>
                                  </li>
                                 @endif
+                                
                              
                             </ul>
                         </div>
@@ -90,25 +97,38 @@
                 </div>
                 <div id="head-body" class="clearfix">
                     <div class="wp-inner">
+                        
                         <a href="{{route('home')}}" title="" id="logo" class="fl-left"><img src="{{asset('user/images/logo.png')}}" /></a>
+                        
                         <div id="search-wp" class="fl-left">
                             <form method="post" action="{{URL::to('/search')}}">
                             {{ csrf_field() }}
                                       <input type="text" name="keyword_submit" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
                                 <button name="search_item" type="submit" id="sm-s">Tìm kiếm</button>
                             </form>
-                        </div>                        
-                        <div id="action-wp" class="fl-right">
-                            <!-- <div id="advisory-wp" class="fl-left">
-                                <span class="title">Tư vấn</span>
-                                <span class="phone">0987.654.321</span>
+       
+                        </div>                     
+                        <div class="btn-group language" style="margin-top: 20px;">
+                                    <button type="button" class="btn btn-danger">Ngôn Ngữ</button>
+                                     <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                   </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{url('lang/vi')}}">Vietnamese</a>
+                                  <a class="dropdown-item" href="{{url('lang/en')}}">English</a>
+                                  <a class="dropdown-item" href="{{url('lang/cn')}}">Chinese</a>
+                               
+                               
                             </div>
-                            <div id="btn-respon" class="fl-right"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                         </div>
+
+            
+                           <!--  <div id="btn-respon" class="fl-right"><i class="fa fa-bars" aria-hidden="true"></i></div>
                             <a href="?page=cart" title="giỏ hàng" id="cart-respon-wp" class="fl-right">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                 <span id="num">9</span>
                             </a> -->
-                            
+
                             <div id="cart-wp" class="fl-right">
                                 <div id="btn-cart">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>

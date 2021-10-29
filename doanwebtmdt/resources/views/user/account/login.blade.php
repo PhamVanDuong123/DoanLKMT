@@ -31,7 +31,13 @@
                           <input type="password" class="form-control" name="password">
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary">Đăng Nhập <i class="fas fa-plus-circle"></i></button>
+                    <div class="form-group row mb-0">
+                    <div class="col-md-8 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Đăng Nhập <i class="fa fa-sign-in"></i></button>
+                    </div>
+                    </div>
+                    <hr>
+                 
                 </form>
               </div>
         </div>

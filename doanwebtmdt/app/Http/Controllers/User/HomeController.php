@@ -15,11 +15,13 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Response;
 
+
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
     //    dd(Cookie::get());
+        $url_canonical= \URL::current();
         $list_cate = ProductCategory::all();
         foreach ($list_cate as &$cate) {
             $cate['url_list_pro_by_cate'] = route('product.showByCate', $cate->id);
@@ -38,7 +40,7 @@ class HomeController extends Controller
             $product['url_checkout'] = route('cart.checkout');
         }
 
-        return view('user.index', compact('list_cate', 'list_pro_selling', 'list_highlight_pro'));
+        return view('user.index', compact('list_cate', 'list_pro_selling', 'list_highlight_pro','url_canonical'));
     }
     public function search(Request $request)
     {
@@ -115,7 +117,7 @@ class HomeController extends Controller
     {
         return view('user.account.signup');
     }
-
+  
     function post_signup(Request $request)
     {
         $this->validate(

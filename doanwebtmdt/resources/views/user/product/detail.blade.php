@@ -68,6 +68,19 @@
                     {!!$product->detail_desc!!}
                 </div>
             </div>
+            <div class="section" id="comment-product-wp">
+                <div class="section-head">
+                    <h3 class="section-title">Bình luận sản phẩm</h3>
+                  
+                    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1073274126775855&autoLogAppEvents=1" nonce="aDWrCZuZ"></script>
+                </div>
+
+                <div class="section-detail">
+                <div class="fb-comments" data-href="https://laravel-news.com/" data-width="" data-numposts="5"></div>
+                </div>
+            </div>
+           
             <div class="section" id="same-category-wp">
                 @if(!empty($list_pro_same_cate))
                 <div class="section-head">
