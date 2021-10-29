@@ -7,13 +7,28 @@
             <div class="section" id="slider-wp">
                 <div class="section-detail">
                     <div class="item">
-                        <img src="{{url('public/user')}}/images/slider-01.png" alt="">
+                        <img src="{{url('public/user')}}/images/slider-01.jpg" alt="">
                     </div>
                     <div class="item">
-                        <img src="{{url('public/user')}}/images/slider-02.png" alt="">
+                        <img src="{{url('public/user')}}/images/slider-02.jpg" alt="">
                     </div>
                     <div class="item">
-                        <img src="{{url('public/user')}}/images/slider-03.png" alt="">
+                        <img src="{{url('public/user')}}/images/slider-03.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img src="{{url('public/user')}}/images/slider-04.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img src="{{url('public/user')}}/images/slider-05.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img src="{{url('public/user')}}/images/slider-06.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img src="{{url('public/user')}}/images/slider-07.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img src="{{url('public/user')}}/images/slider-08.jpg" alt="">
                     </div>
                 </div>
             </div>
