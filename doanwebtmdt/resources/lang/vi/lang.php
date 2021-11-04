@@ -1,7 +1,7 @@
 <?php
 return [
     'product'=>'Sản Phẩm',
-    'trangchu'=>'Home',
+    'trangchu'=>'Trang Chủ',
     'post'=>'Bài viết',
     'blog'=>'Giới thiệu',
     'contact'=>'Liên hệ',

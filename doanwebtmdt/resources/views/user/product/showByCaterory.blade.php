@@ -22,16 +22,16 @@
                     <div class="filter-wp fl-right">
                         <p class="desc">Hiển thị {{count($list_pro)}} trên {{count($list_pro)}} sản phẩm</p>
                         <div class="form-filter">
-                            <form method="POST" action="">
-                                <select name="select">
-                                    <option value="0">Sắp xếp</option>
-                                    <option value="1">Từ A-Z</option>
-                                    <option value="2">Từ Z-A</option>
-                                    <option value="3">Giá cao xuống thấp</option>
-                                    <option value="3">Giá thấp lên cao</option>
+                        <form method="POST" action="">
+                            @csrf
+                            <select name="sort_by" id="sort_by" wire:model="sorting" >
+                                    <option value="{{Request::url()}}?sort_by=none">Sắp xếp</option>
+                                    <option value="{{Request::url()}}?sort_by=kytu_az">Từ A-Z</option>
+                                    <option value="{{Request::url()}}?sort_by=kytu_za">Từ Z-A</option>
+                                    <option value="{{Request::url()}}?sort_by=giam_dan">Giá cao xuống thấp</option>
+                                    <option value="{{Request::url()}}?sort_by=tang_dan">Giá thấp lên cao</option>
                                 </select>
-                                <button type="submit">Lọc</button>
-                            </form>
+                           <button type="submit">Lọc</button>
                         </div>
                     </div>
                 </div>

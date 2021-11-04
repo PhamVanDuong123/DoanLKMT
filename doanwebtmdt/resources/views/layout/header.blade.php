@@ -28,6 +28,21 @@
     <link  rel="canonical" href="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
     <meta property="og:site_name" content="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+     <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('#sort_by').on('change',function(){
+
+                var url = $(this).val(); 
+              
+                  if (url) { 
+                      window.location = url;
+                  }
+                return false;
+            });
+
+        }); 
+    </script> 
   
  
   
@@ -43,7 +58,7 @@
                         <div id="main-menu-wp" class="fl-right">
                             <ul id="main-menu" class="clearfix">
                                 <li>
-                                    <a href="{{route('home')}}" title="">Trang chủ</a>
+                                    <a href="{{route('home')}}" title="">@lang('lang.trangchu')</a>
                                 </li>
                                 <li>
                                     <a href="{{route('product.index')}}" title="">Sản phẩm</a>

@@ -29,7 +29,7 @@ return number_format($currency,0,',','.').$innit;
                         <option value="title" {{request()->search_option_post=='title'?'selected':''}}>Tên sản phẩm</option>
                         <option value="brand" {{request()->search_option_post=='brand'?'selected':''}}>Thương hiệu</option>
                         <option value="category" {{request()->search_option_post=='category'?'selected':''}}>Loại sản phẩm</option>
-                        <option value="country" {{request()->search_option_post=='country'?'selected':''}}>Xuất xứ</option>
+                     
                    
                     </select>
                     <input type="text" id="key" name="key" class="form-control form-search" placeholder="Nhập tên sản phẩm" value="{{request()->key}}">
