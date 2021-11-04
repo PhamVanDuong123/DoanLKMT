@@ -168,14 +168,18 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], func
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 //locate
-Route::get('/lang/{locale}',function($locale)
+Route::group(['middleware' => ['web']], function ()
 {
-    if(! in_array($locale,['en','vi','cn']))
+    Route::get('/lang/{locale}',function($locale)
     {
-        abort(404);
-    }
-  
-    session()->put('locate',$locale);
-    return redirect()->back();
-
+        if(! in_array($locale,['vi','en','cn']))
+        {
+            abort(404);
+        }
+      
+        session()->put('locate',$locale);
+        return redirect()->back();
+    
+    });
 });
+

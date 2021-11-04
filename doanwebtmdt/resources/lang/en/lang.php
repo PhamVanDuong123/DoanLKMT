@@ -1,7 +1,7 @@
 <?php
 return [
     'product'=>'Products',
-    'trangchu'=>'Trang chủ',
+    'trangchu'=>'Home',
     'post'=>'Posts',
     'blog'=>'Blog',
     'contact'=>'Contact',

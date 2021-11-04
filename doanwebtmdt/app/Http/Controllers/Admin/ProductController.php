@@ -60,17 +60,22 @@ class ProductController extends Controller
          //search_option = brand
         if ($search_option == 'brand') {
             $brand = Brand::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            $list_id = array();
+            foreach ($brand as $item) {
+                $list_id[] = $item->id;
+            }
+            $list_Product = Product::whereIn('brand_id', $list_id)->orderByDesc('id')->paginate(5);
 
             if ($status == 'trash') {
                 $list_action = array(
                     'active' => 'Khôi phục',
                     'forceDelete' => 'Xóa vĩnh viễn'
                 );
-                $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+                $list_Product = Product::whereIn('brand_id', $list_id)->orderByDesc('id')->paginate(5);
             }
 
             if ($status == 'approved') {
-                $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+                $list_Product = Product::whereIn('brand_id', $list_id)->orderByDesc('id')->paginate(5);
             }
 
             if ($status == 'not approved yet') {
@@ -78,7 +83,7 @@ class ProductController extends Controller
                     'approved' => 'Duyệt',
                     'trash' => 'Xóa tạm thời'
                 );
-                $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+                $list_Product = Product::whereIn('brand_id', $list_id)->orderByDesc('id')->paginate(5);
             }
         }
         //search_option = product_category
@@ -110,29 +115,8 @@ class ProductController extends Controller
             }
         }
          //search_option = country
-         if ($search_option == 'country') {
-            $country = ProductCategory::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+       
 
-            if ($status == 'trash') {
-                $list_action = array(
-                    'active' => 'Khôi phục',
-                    'forceDelete' => 'Xóa vĩnh viễn'
-                );
-                $list_Product = Product::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-            }
-
-            if ($status == 'approved') {
-                $list_Product = Product::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-            }
-
-            if ($status == 'not approved yet') {
-                $list_action = array(
-                    'approved' => 'Duyệt',
-                    'trash' => 'Xóa tạm thời'
-                );
-                $list_Product = Product::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
-            }
-        }
 
         $count = array(
             'approved' => Product::where('status', 'approved')->count(),
