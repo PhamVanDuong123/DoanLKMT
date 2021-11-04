@@ -8,10 +8,20 @@ return [
         'icon' => 'fas fa-tachometer-alt'
     ],
     'statistics' => [
-        'name' => 'Thống kê doanh số',
+        'name' => 'Thống kê chi tiết',
         'module'=>'statistics',
-        'route'=>'admin.statistics.show',
-        'icon' => 'fas fa-chart-line'
+        'route'=>'admin.statistics.sale',
+        'icon' => 'fas fa-chart-line',
+        'items' => [
+            [
+                'name' => 'Bán hàng',
+                'route'=>'admin.statistics.sale'
+            ],
+            [
+                'name' => 'Sản phẩm - Bài viết',
+                'route'=>'admin.statistics.product_post'
+            ]
+        ]
     ],
     'order' => [
         'name' => 'Quản lý đơn hàng',

@@ -19,6 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('number');
             $table->double('price');
+            $table->double('price_cost');
             $table->timestamps();
             $table->softDeletes();
 

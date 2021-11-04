@@ -18,6 +18,7 @@ class Product extends Model
         'brand_id',
         'price',
         'old_price',
+        'price_cost',
         'thumb',
         'inventory_num',
         'short_desc',

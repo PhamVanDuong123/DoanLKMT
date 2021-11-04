@@ -11,6 +11,8 @@
     
     <link rel="stylesheet" href="{{asset('admin/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <title>Admintrator</title>
 </head>
 

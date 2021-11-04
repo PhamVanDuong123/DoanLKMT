@@ -88,7 +88,11 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/promotion/detail/{id}', 'Admin\PromotionController@detail')->name('admin.promotion.detail');
 
         //statistics
-        Route::get('/statistics', 'Admin\StatisticsController@show')->name('admin.statistics.show');
+        Route::get('/statistics/sale', 'Admin\StatisticsController@sale')->name('admin.statistics.sale');
+        Route::post('/fillter_by_date', 'Admin\StatisticsController@fillter_by_date')->name('admin.statistics.fillter_by_date');
+        Route::post('/fillter_by_select', 'Admin\StatisticsController@fillter_by_select')->name('admin.statistics.fillter_by_select');
+        Route::post('/statistical_30day', 'Admin\StatisticsController@statistical_30day')->name('admin.statistics.statistical_30day');
+        Route::get('/statistics/product_post', 'Admin\StatisticsController@product_post')->name('admin.statistics.product_post');
     });
 
     Route::middleware('roleAdmin')->group(function () {

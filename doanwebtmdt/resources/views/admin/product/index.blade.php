@@ -71,11 +71,11 @@ return number_format($currency,0,',','.').$innit;
                             </th>
                             <th><span class="thead-text">STT</th>
                                     <th scope="col" >Ảnh</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Mã</th>  
+                                    <th scope="col">Tên</th>                                    
                                     <th scope="col">Thương hiệu</th> 
                                     <th scope="col">Loại sản phẩm</th> 
                                     <th scope="col">Giá bán</th>
+                                    <th scope="col">Giá gốc</th>  
                                     <th scope="col">Số lượng</th>                               
                                     <th scope="col">Người tạo</th>
                                     <th scope="col">Trạng thái</th>
@@ -94,10 +94,11 @@ return number_format($currency,0,',','.').$innit;
                             <td><img class="thumb-post" src="{{$item->thumb}}" alt=""></td>
                             <td><a href="{{route('admin.product.detail',$item->id)}}">{{$item->name}}</a></td>
      
-                                    <td>{{$item->code}}</td>
+                                    
                                     <td>{{$item->brand->name}}</td>
                                     <td>{{$item->product_category->name}}</td>
                                     <td>{{currency_format($item->price)}}<br><del>{{currency_format($item->old_price)}}</del></td>
+                                    <td>{{currency_format($item->price_cost)}}</td>
                                     <td>{{$item->inventory_num}}</td>
                                     <td>{{$item->user->fullname}}</td>                                  
                                     <td>{!!show_status($item->status)!!}</td>

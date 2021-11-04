@@ -169,11 +169,9 @@ class ProductController extends Controller
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
                 'thumb' => 'required|image|max:20480',
-                'price'=>'required|numeric',
-                'old_price'=>'required|numeric',
-                
-
-                
+                'price'=>'required',
+                'old_price'=>'required',
+                'price_cost'=>'required|lte:price',
             ],
             [
                 'required' => ':attribute không được để trống',
@@ -182,17 +180,18 @@ class ProductController extends Controller
                 'max' => ':attribute có độ dài tối đa thiểu là :max ký tự',
                 'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
                 'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
+                'price_cost.lte' =>'Giá gốc không được lớn hơn giá bán'
             ],
             [
                 'name' => 'Tên sản phẩm',
                 'code' => 'Mã sản phẩm',
-                'brand'=> 'Thương hiệu',
+                'brand_id'=> 'Thương hiệu',
                 'price'=>"Giá bán",
                 'old_price'=>"Giá cũ",
+                'price_cost'=>"Giá gốc",
                 'short_desc' => 'Tóm tắt ngắn',
                 'product_category_id' => 'Danh mục sản phẩm',
                 'thumb' => 'Ảnh đại diện',
-                
             ]
         );
 
@@ -204,27 +203,21 @@ class ProductController extends Controller
             $file->move('public\uploads', $fileName);
 
             $thumb = asset('uploads/' . $fileName);
-        }
-       
+        }       
             $product = Product::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
             'brand_id' => $request->input('brand_id'),
-            'price'=>$request->input('price'),
-            'old_price'=>$request->input('old_price'),
-           
+            'price'=>filter_var($request->input('price'),FILTER_SANITIZE_NUMBER_INT),
+            'old_price'=>filter_var($request->input('old_price'),FILTER_SANITIZE_NUMBER_INT),
+            'price_cost'=>filter_var($request->input('price_cost'),FILTER_SANITIZE_NUMBER_INT),
             'inventory_num'=>$request->input('inventory_num'),
             'short_desc' => $request->input('short_desc'),
             'detail_desc'=>$request->input('detail_desc'),
             'warranty'=>$request->input('warranty'),
-
             'product_category_id' => $request->input('product_category_id'),
             'user_id' => Auth::id(),
             'thumb' => $thumb,
-             
-            
-           
-           
         ]); 
         $route_detail = route('admin.product.detail',$product->id);
         
@@ -298,33 +291,32 @@ class ProductController extends Controller
                 'brand_id'=>'required',
                 'short_desc' => 'required|min:10|max:300',
                 'product_category_id' => 'required',
-                'thumb' => 'required|image|max:20480',
-                'price'=>'required|numeric',
-                'old_price'=>'required|numeric',
-                
-               
+                'thumb' => 'image|max:20480',
+                'price'=>'required',
+                'old_price'=>'required',
+                'price_cost'=>'required|lte:price',
             ],
             [
-                
                 'required' => ':attribute không được để trống',
                 'numeric'=>':attribute định dạng là số',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa thiểu là :max ký tự',
                 'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
                 'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
+                'price_cost.lte' =>'Giá gốc không được lớn hơn giá bán'
             ],
             [
-                'name' => 'Tiêu đề bài viết',
+                'name' => 'Tên sản phẩm',
+                'code' => 'Mã sản phẩm',
+                'brand_id'=> 'Thương hiệu',
+                'price'=>"Giá bán",
+                'old_price'=>"Giá cũ",
+                'price_cost'=>"Giá gốc",
                 'short_desc' => 'Tóm tắt ngắn',
                 'product_category_id' => 'Danh mục sản phẩm',
-                'thumb' => 'Ảnh sản phẩm',
-                'brand'=>'Thương hiệu',
-                'old_price'=>'Giá cũ',
-                'price'=>'Giá'
+                'thumb' => 'Ảnh đại diện',
             ]
-        );
-
-      
+        );      
             $thumb = Product::withTrashed()->find($id)->thumb;
 
             $this->upload_image($request, 'thumb',$thumb);
@@ -333,16 +325,14 @@ class ProductController extends Controller
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),
             'brand_id' => $request->input('brand_id'),
-            'price'=>$request->input('price'),
-            'old_price'=>$request->input('old_price'),
-           
+            'price'=>filter_var($request->input('price'),FILTER_SANITIZE_NUMBER_INT),
+            'old_price'=>filter_var($request->input('old_price'),FILTER_SANITIZE_NUMBER_INT),
+            'price_cost'=>filter_var($request->input('price_cost'),FILTER_SANITIZE_NUMBER_INT),
             'inventory_num'=>$request->input('inventory_num'),
             'short_desc' => $request->input('short_desc'),
             'detail_desc'=>$request->input('detail_desc'),
             'warranty'=>$request->input('warranty'),
-
-            'product_category_id' => $request->input('product_category_id'),
-           
+            'product_category_id' => $request->input('product_category_id'),           
             'thumb' => $thumb,
              
             ]);

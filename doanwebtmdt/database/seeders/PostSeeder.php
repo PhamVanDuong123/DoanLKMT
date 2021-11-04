@@ -38,6 +38,7 @@ class PostSeeder extends Seeder
                 'post_category_id'=>1,
                 'user_id'=>3,
                 'thumb'=>'https://phongvu.vn/cong-nghe/wp-content/uploads/2021/05/pixel-0_800x450-218x150.jpg',
+                'views'=>242142,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -65,6 +66,7 @@ class PostSeeder extends Seeder
                 'post_category_id'=>1,
                 'user_id'=>1,
                 'thumb'=>'https://phongvu.vn/cong-nghe/wp-content/uploads/2021/05/One-Xplayer-phong-vu-1-218x150.jpeg',
+                'views'=>2553,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -108,6 +110,7 @@ class PostSeeder extends Seeder
                 'post_category_id'=>2,
                 'user_id'=>1,
                 'thumb'=>'https://phongvu.vn/cong-nghe/wp-content/uploads/2021/05/Screenshot_217-218x150.jpg',
+                'views'=>242,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -138,6 +141,7 @@ class PostSeeder extends Seeder
                 'post_category_id'=>2,
                 'user_id'=>3,
                 'thumb'=>'https://phongvu.vn/cong-nghe/wp-content/uploads/2021/04/Premiere-Product-Image-1-218x150.jpg',
+                'views'=>142,
                 'status'=>'approved',
                 'created_at'=>date('Y-m-d H:m:s',time())
             ]

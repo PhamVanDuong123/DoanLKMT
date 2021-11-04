@@ -83,7 +83,7 @@ class CartController extends Controller
         ]);
         
         $order = Order::create([
-            'code'=>'DH-'.Order::get()->max()->id+1,
+            'code'=>'DH-0'.Order::get()->max()->id+1,
             'name'=>$request->name,            
             'phone'=>$request->phone,
             'address'=>$request->address,
@@ -100,6 +100,7 @@ class CartController extends Controller
                 'product_id' =>$item->id,
                 'number'=>$item->qty,
                 'price'=>$item->price,
+                'price_cost'=>Product::where('id',$item->id)->first()->price_cost
             ]);
         }
 

@@ -18,7 +18,7 @@ return $list_status[$status];
                 <form action="">
                     @csrf
                     <select name="search_option_post" class="form-control" id="search_option_post">
-                        <option value="title" {{request()->search_option_post=='title'?'selected':''}}>Tiêu dề</option>
+                        <option value="title" {{request()->search_option_post=='title'?'selected':''}}>Tiêu đề</option>
                         <option value="category" {{request()->search_option_post=='category'?'selected':''}}>Danh mục</option>
                         <option value="actor" {{request()->search_option_post=='actor'?'selected':''}}>Tác giả</option>
                     </select>

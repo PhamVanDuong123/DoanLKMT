@@ -19,49 +19,57 @@ class OrderDetailSeeder extends Seeder
                 'order_id'=>1,
                 'product_id'=>1,
                 'number'=>2,
-                'price'=>150000
+                'price'=>990000,
+                'price_cost'=>900000
             ],
             [
                 'order_id'=>1,
                 'product_id'=>3,
                 'number'=>1,
-                'price'=>200000
+                'price'=>5050000,
+                'price_cost'=>5000000
             ],
             [
                 'order_id'=>2,
                 'product_id'=>2,
                 'number'=>1,
-                'price'=>200000
+                'price'=>3190000,
+                'price_cost'=>3000000
             ],
             [
                 'order_id'=>3,
                 'product_id'=>5,
                 'number'=>1,
-                'price'=>200000
+                'price'=>2450000,
+                'price_cost'=>2200000
             ],
             [
                 'order_id'=>3,
                 'product_id'=>3,
                 'number'=>10,
-                'price'=>200000
+                'price'=>5050000,
+                'price_cost'=>5000000
             ],
             [
                 'order_id'=>4,
                 'product_id'=>3,
                 'number'=>1,
-                'price'=>200000
+                'price'=>5050000,
+                'price_cost'=>5000000
             ],
             [
                 'order_id'=>4,
-                'product_id'=>3,
-                'number'=>3,
-                'price'=>200000
+                'product_id'=>6,
+                'number'=>2,
+                'price'=>4690000,
+                'price_cost'=>4500000
             ],
             [
                 'order_id'=>5,
                 'product_id'=>3,
                 'number'=>2,
-                'price'=>50000
+                'price'=>5050000,
+                'price_cost'=>5000000
             ]
         ]);
     }

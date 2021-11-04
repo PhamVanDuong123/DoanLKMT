@@ -16,14 +16,14 @@ return number_format($total,0,',','.');
 }
 
 function show_status($status){
+if(!empty($status)){
 $list_status=array(
-'cancelled'=>'<span class="badge badge-secondary">Bị hủy</span>',
-'received'=>'<span class="badge badge-primary">Chưa xử lý</span>',
-'processing'=>'<span class="badge badge-warning">Đang xử lý</span>',
-'being transported'=>'<span class="badge badge-info">Đang vận chuyển</span>',
-'delivered'=>'<span class="badge badge-success">Đã giao hàng</span>',
+0=>'<span class="badge badge-secondary">Bị hủy</span>',
+1=>'<span class="badge badge-warning">Chờ xử lý</span>',
+2=>'<span class="badge badge-primary">Đã xử lý</span>',
 );
 return $list_status[$status];
+}
 }
 
 function currency_format($currency,$innit='đ'){
@@ -35,42 +35,91 @@ return number_format($currency,0,',','.').$innit;
 
 @section('content')
 <div class="container-fluid py-5">
-    <div class="row">
-        <div class="col">
-            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-                <div class="card-header text-center">ĐƠN HÀNG THÀNH CÔNG</div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{$num_order_success}}</h5>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header font-weight-bold">
+            TỔNG QUAN
         </div>
-        <div class="col">
-            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                <div class="card-header text-center">ĐANG XỬ LÝ</div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{$num_order_processing}}</h5>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">ĐƠN HÀNG ĐÃ XỬ LÝ</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{$num_order_success}}</h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-header text-center">TỔNG DOANH THU</div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{currency_format($revenue)}}</h5>
+                <div class="col">
+                    <div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">ĐANG CHỜ XỬ LÝ</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{$num_order_processing}}</h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header text-center">ĐƠN HÀNG HỦY</div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{$num_order_cancelled}}</h5>
+                <div class="col">
+                    <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">TỔNG DOANH THU</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{currency_format($revenue)}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">ĐƠN HÀNG HỦY</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{$num_order_cancelled}}</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end analytic  -->
-    <div class="card">
+
+    <div class="card mt-4">
+        <div class="card-header font-weight-bold">
+            HÔM NAY
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">DOANH THU</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{currency_format($revenue_today)}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">LỢI NHUẬN</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{currency_format($profit_today)}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">DOANH SỐ</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{$qty_today}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header text-center">ĐƠN HÀNG</div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{$order_today}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
         <div class="card-header font-weight-bold">
             ĐƠN HÀNG MỚI
         </div>
@@ -108,9 +157,9 @@ return number_format($currency,0,',','.').$innit;
                         <td>{!!show_status($item->status)!!}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <!-- Chỉ xử lý đơn hàng trạng thái đã nhận hoặc đang được xử lý -->
-                            @if($item->status=='received' || $item->status=='processing')
-                            <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
+                            <!-- Chỉ xử lý đơn hàng trạng thái chờ xử lý -->
+                            @if($item->status==1)
+                            <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
                             @endif
                         </td>
                     </tr>

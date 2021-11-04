@@ -8,6 +8,10 @@ $list_status=array(
 );
 return $list_status[$status];
 }
+
+function currency_format($currency,$innit='đ'){
+return number_format($currency,0,',','.').$innit;
+}
 @endphp
 
 
@@ -35,36 +39,39 @@ return $list_status[$status];
                                 <label for="" class="font-weight-bold">Mã sản phẩm: </label>
                                 <p>{{$product->code}}</p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Loại sản phẩm: </label>
                                 <p>{{$product->product_category->name}}</p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Thương hiệu: </label>
                                 <p>{{$product->brand->name}}</p>
-                            </div>
-                            
-                            <div class="col-md-3">
+                            </div>                            
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Số lượng: </label>
                                 <p>{{$product->inventory_num}}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <label for="" class="font-weight-bold">Giá bán: </label>
+                                <p>{{currency_format($product->price)}}</p>
+                            </div>
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Giá cũ: </label>
-                                <p>{{$product->old_price}}</p>
+                                <p>{{currency_format($product->old_price)}}</p>
                             </div>
-                            <div class="col-md-3">
-                                <label for="" class="font-weight-bold">Giá mới: </label>
-                                <p>{{$product->price}}</p>
+                            <div class="col-md-4">
+                                <label for="" class="font-weight-bold">Giá gốc: </label>
+                                <p>{{currency_format($product->price_cost)}}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Trạng thái: </label>
                                 <p>{!!show_status($product->status)!!}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Thời gian tạo: </label>
                                 <p>{{date('d-m-Y h:m:s',strtotime($product->created_at))}}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="" class="font-weight-bold">Thời gian cập nhật: </label>
                                 <p>{{date('d-m-Y h:m:s',strtotime($product->updated_at))}}</p>
                             </div>

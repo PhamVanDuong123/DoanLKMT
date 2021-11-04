@@ -20,11 +20,13 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->double('price');
             $table->double('old_price')->nullable();
+            $table->double('price_cost');
             $table->string('thumb',150)->nullable();
             $table->integer('inventory_num')->default(0);
             $table->string('short_desc',300);
             $table->text('detail_desc');
             $table->integer('warranty');
+            $table->integer('views')->nullable();
             $table->unsignedBigInteger('product_category_id');
             $table->unsignedBigInteger('user_id');
             $table->enum('status',['approved','not approved yet'])->default('not approved yet');

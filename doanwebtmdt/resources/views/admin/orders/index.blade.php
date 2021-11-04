@@ -16,14 +16,14 @@ return number_format($total,0,',','.');
 }
 
 function show_status($status){
+if(!empty($status)){
 $list_status=array(
-'cancelled'=>'<span class="badge badge-secondary">Bị hủy</span>',
-'received'=>'<span class="badge badge-primary">Chưa xử lý</span>',
-'processing'=>'<span class="badge badge-warning">Đang xử lý</span>',
-'being transported'=>'<span class="badge badge-info">Đang vận chuyển</span>',
-'delivered'=>'<span class="badge badge-success">Đã giao hàng</span>',
+0=>'<span class="badge badge-secondary">Bị hủy</span>',
+1=>'<span class="badge badge-warning">Chờ xử lý</span>',
+2=>'<span class="badge badge-primary">Đã xử lý</span>',
 );
 return $list_status[$status];
+}
 }
 @endphp
 
@@ -50,10 +50,8 @@ return $list_status[$status];
         <div class="card-body">
             <div class="analytic">
                 <a href="{{request()->fullUrlWithQuery(['status'=>'all','page'=>1])}}" class="text-primary">Tất cả<span class="text-muted">({{$count['all']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'received','page'=>1])}}" class="text-primary">Chưa xử lý<span class="text-muted">({{$count['received']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'processing','page'=>1])}}" class="text-primary">Đang xử lý<span class="text-muted">({{$count['processing']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'being transported','page'=>1])}}" class="text-primary">Đang vận chuyển<span class="text-muted">({{$count['being transported']}})</span></a>
-                <a href="{{request()->fullUrlWithQuery(['status'=>'delivered','page'=>1])}}" class="text-primary">Đã giao<span class="text-muted">({{$count['delivered']}})</span></a>
+                <a href="{{request()->fullUrlWithQuery(['status'=>'processing','page'=>1])}}" class="text-primary">Chờ xử lý<span class="text-muted">({{$count['processing']}})</span></a>
+                <a href="{{request()->fullUrlWithQuery(['status'=>'processed','page'=>1])}}" class="text-primary">Đã xử lý<span class="text-muted">({{$count['processed']}})</span></a>
                 <a href="{{request()->fullUrlWithQuery(['status'=>'cancelled','page'=>1])}}" class="text-primary">Bị hủy<span class="text-muted">({{$count['cancelled']}})</span></a>
             </div>
             <div class="form-action form-inline py-3">
@@ -80,7 +78,7 @@ return $list_status[$status];
                         <th scope="col">Số sản phẩm</th>
                         <th scope="col">Giá trị</th>
                         <th scope="col">Thời gian đặt</th>
-                        <th scope="col">Trạng thái</th>                        
+                        <th scope="col">Trạng thái</th>
                         <th scope="col">Tác vụ</th>
                     </tr>
                 </thead>
@@ -98,10 +96,10 @@ return $list_status[$status];
                         <td>{{count_num_pro_in_order($item)}}</td>
                         <td>{{get_total_order($item)}}đ</td>
                         <td>{{date('d-m-Y h:m:s',strtotime($item->created_at))}}</td>
-                        <td>{!!show_status($item->status)!!}</td>                           
+                        <td>{!!show_status($item->status)!!}</td>
                         <td>
-                            <!-- Chỉ xử lý đơn hàng trạng thái đã nhận hoặc đang được xử lý -->
-                            @if($item->status=='received' || $item->status=='processing')
+                            <!-- Chỉ xử lý đơn hàng trạng thái chờ xử lý -->
+                            @if($item->status==1)
                             <a href="{{route('admin.order.process',['id'=>$item->id])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Xử lý đơn hàng"><i class="fa fa-edit"></i></a>
                             @endif
                         </td>

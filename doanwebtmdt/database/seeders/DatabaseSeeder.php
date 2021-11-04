@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Statistical;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             OrderSeeder::class,
             OrderDetailSeeder::class,
+            StatisticalSeeder::class
         ]);
     }
 }

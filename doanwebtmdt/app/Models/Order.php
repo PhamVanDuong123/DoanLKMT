@@ -23,6 +23,7 @@ class Order extends Model
         'promotion_code',
         'total',
         'status',
+        'order_date',
         'created_at',
         'updated_at',
         'deleted_at'

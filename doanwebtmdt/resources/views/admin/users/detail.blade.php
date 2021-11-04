@@ -1,5 +1,6 @@
 @php
 function show_permission($permission){
+if(!empty($permission)){
 $list_per=array(
 '1'=>'Chủ hệ thống',
 '2'=>'Quản trị',
@@ -7,15 +8,17 @@ $list_per=array(
 );
 return $list_per[$permission];
 }
+}
 
 function show_gender($gender){
+if(!empty($gender)){
 $list_gender=array(
 'male'=>'Nam',
 'female'=>'Nữ'
 );
 return $list_gender[$gender];
 }
-
+}
 @endphp
 @extends('layoutadmin.master')
 
@@ -30,7 +33,7 @@ return $list_gender[$gender];
                 <div class="row">
                     @if(!empty($user))
                     <div class="col-md-3">
-                        <img class="avatar_detial" src="{{asset($user->avatar)}}" alt="">
+                        <img class="avatar_detial" src="{{isset($user->avatar)?asset($user->avatar):'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/no-avatar.png'}}" alt="">
                     </div>
                     <div class="col-md-9">
                         <div class="row">

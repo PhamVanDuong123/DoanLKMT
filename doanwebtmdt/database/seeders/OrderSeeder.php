@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
                 'promotion_code'=>'kmdb-01',
-                'status'=>'received',
+                'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
             [
@@ -38,7 +38,7 @@ class OrderSeeder extends Seeder
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
                 'promotion_code'=>'kmdb-02',
-                'status'=>'processing',
+                'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
             [
@@ -51,7 +51,7 @@ class OrderSeeder extends Seeder
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
                 'promotion_code'=>'kmdb-01',
-                'status'=>'being transported',
+                'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
             [
@@ -64,7 +64,7 @@ class OrderSeeder extends Seeder
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
                 'promotion_code'=>'kmdb-01',
-                'status'=>'delivered',
+                'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
             [
@@ -77,7 +77,7 @@ class OrderSeeder extends Seeder
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
                 'promotion_code'=>'kmdb-01',
-                'status'=>'cancelled',
+                'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())                
             ]
             ]);

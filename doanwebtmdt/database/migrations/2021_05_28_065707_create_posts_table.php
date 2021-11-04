@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('post_category_id');
             $table->unsignedBigInteger('user_id');
             $table->string('thumb',150);
+            $table->integer('views')->nullable();
             $table->enum('status',['approved','not approved yet'])->default('not approved yet');
             $table->timestamps();
             $table->softDeletes();

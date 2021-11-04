@@ -15,6 +15,7 @@ class OrderDetail extends Model
         'product_id',
         'number',
         'price',
+        'price_cost',
         'created_at',
         'updated_at',
         'deleted_at'
@@ -22,5 +23,9 @@ class OrderDetail extends Model
 
     function order(){
         return $this->belongsTo('App\Models\Order');
+    }
+
+    function product(){
+        return $this->belongsTo('App\Models\Product');
     }
 }

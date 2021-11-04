@@ -70,9 +70,9 @@ function get_total($order){
                                 <div class="form-group">
                                     <label for="">Trạng thái đơn hàng</label>
                                     <select class="form-control" id="" name="status">
-                                        <option value="">Chọn</option>
-                                        <option value="processing" {{$order->status=='processing'?'selected':''}}>Đang xử lý</option>
-                                        <option value="being transported" {{$order->status=='being transported'?'selected':''}}>Đã xử lý</option>
+                                        <option value="">-- Chọn --</option>
+                                        <option value="1" {{$order->status==1?'selected':''}} {{$order->status==2?'disabled':''}}>Đang xử lý</option>
+                                        <option value="2" {{$order->status=='2'?'selected':''}}>Đã xử lý</option>
                                     </select>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@ function get_total($order){
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Cập nhật <i class="fa fa-edit"></i></button>
-                        <a class="btn btn-secondary" href="{{route('admin.order.exit',$order->id)}}">Quay lại <i class="fas fa-backspace"></i></a>
+                        <a class="btn btn-secondary" href="{{route('admin.order.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
                     </form>
                 </div>
             </div>
@@ -132,7 +132,7 @@ function get_total($order){
                             @php $t++; @endphp
                             <tr>
                                 <th scope="row">{{$t}}</th>
-                                <td>{{$item->name}}</td>
+                                <td><a href="{{route('admin.product.detail',$item->pivot->product_id)}}">{{$item->name}}</a></td>
                                 <td>{{currency_format($item->pivot->price)}}</td>
                                 <td>{{$item->pivot->number}}</td>
                                 <td>{{$item->inventory_num}}</td>
