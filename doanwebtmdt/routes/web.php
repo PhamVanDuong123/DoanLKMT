@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Session;
 */
 
 Route::get('/', 'User\HomeController@index')->name('home');
-
+Route::post('/autocomplete-ajax','User\HomeController@autocomplete_ajax')->name('autocomplete-ajax');
 Route::post('/search', 'User\HomeController@search')->name('search');
 route::get('user/account/login/login_facebook/{provider}', 'SocialController@login_facebook');
 Route::get('user/account/login/callback/{provider}', 'SocialController@callback');
@@ -36,6 +36,8 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/product', 'User\ProductController@index')->name('product.index');
     Route::get('/product/showByCategory/{cate_id}', 'User\ProductController@showByCategory')->name('product.showByCate');
     Route::get('/product/{id}', 'User\ProductController@detail')->name('product.detail');
+    Route::post('/insert-rating','User\ProductController@insert_rating');
+
 
     //cart
     Route::get('/cart/show','User\CartController@show')->name('cart.show');

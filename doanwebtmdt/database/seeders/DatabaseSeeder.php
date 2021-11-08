@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             OrderSeeder::class,
             OrderDetailSeeder::class,
-            StatisticalSeeder::class
+            StatisticalSeeder::class,
+          
         ]);
     }
 }
