@@ -88,10 +88,15 @@ class ProductController extends Controller
            }
            elseif($sort_by=='kytu_az'){
 
+
               
 
+         
             $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','ASC')->paginate(4);
-            }
+
+          
+            }           
+
 
         }
       
