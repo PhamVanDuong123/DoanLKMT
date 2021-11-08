@@ -73,52 +73,38 @@ class PromotionController extends Controller
         $request->validate(
             [
                 'name' => 'required|min:5|max:50',
-                'code' => 'required|min:5|max:30|unique:promotions',
+                'code' => 'required|min:5|max:30',
                 'start_day' => 'required|after:today',
                 'end_day' => 'required|after_or_equal:start_day',
-                'percents' => 'required|min:1|max:100',
                 'number' => 'required|min:1',
-                'thumb' => 'required|image|max:20480',
+                'qty' => 'required|min:1',
+                'condition' => 'required',
             ],
             [
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
                 'unique' => 'Mã khuyến mãi đã được sử dụng',
-                'start_day.after' => 'Ngày bắt đầu phải sau ngày hiện tại',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',
-                'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
-                'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
             ],
             [
                 'name' => 'Tên khuyến mãi',
                 'code' => 'Mã khuyến mãi',
                 'start_day' => 'Ngày bắt đầu',
                 'end_day' => 'Ngày kết thúc',
-                'percents' => 'Phần trăm',
-                'number' => 'Số lượng',
-                'thumb' => 'Ảnh đại diện',
+                'qty' => 'Số lượng',
+                'number' => 'Giá trị giảm',
+                'condition' => 'Hình thức giảm',
             ]
         );
-        
-        if ($request->hasFile('thumb')) {
-            $file = $request->thumb;
-
-            $fileName = $file->getClientOriginalName();
-
-            $file->move('public\uploads', $fileName);
-
-            $thumb = asset('uploads/' . $fileName);
-        }
 
         $promotion = Promotion::create([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
-            'thumb' => $thumb,
-            'description' => $request->input('description'),
+            'condition' => $request->input('condition'),
             'start_day' => $request->input('start_day'),
             'end_day' => $request->input('end_day'),
-            'percents' => $request->input('percents'),
+            'qty' => $request->input('qty'),
             'number' => $request->input('number'),
         ]);
 
@@ -194,44 +180,29 @@ class PromotionController extends Controller
             [
                 'name' => 'required|min:5|max:50',
                 'code' => 'required|min:5|max:30',
-                'start_day' => 'required|after:today',
+                'start_day' => 'required',
                 'end_day' => 'required|after_or_equal:start_day',
-                'percents' => 'required|min:1|max:100',
                 'number' => 'required|min:1',
-                'thumb' => 'image|max:20480',
+                'qty' => 'required|min:1',
+                'condition' => 'required',
             ],
             [
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
                 'unique' => 'Mã khuyến mãi đã được sử dụng',
-                'start_day.after' => 'Ngày bắt đầu phải sau ngày hiện tại',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',
-                'image' => ':attribute phải là định dạng (jpg, jpeg, png, bmp, gif, svg, hoặc webp)',
-                'thumb.max' => 'Ảnh đại diện có độ dài tối thiểu là 20Mb',
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
             ],
             [
                 'name' => 'Tên khuyến mãi',
                 'code' => 'Mã khuyến mãi',
                 'start_day' => 'Ngày bắt đầu',
                 'end_day' => 'Ngày kết thúc',
-                'percents' => 'Phần trăm',
-                'number' => 'Số lượng',
-                'thumb' => 'Ảnh đại diện',
+                'qty' => 'Số lượng',
+                'number' => 'Giá trị giảm',
+                'condition' => 'Hình thức giảm',
             ]
         );
-        
-        $thumb = Promotion::withTrashed()->find($id)->thumb;
-        
-        if ($request->hasFile('thumb')) {
-            $file = $request->thumb;
-
-            $fileName = $file->getClientOriginalName();
-
-            $file->move('public\uploads', $fileName);
-
-            $thumb = asset('uploads/' . $fileName);
-        }
 
         $t = Promotion::withTrashed()->where('code', $request->input('code'))->where('id', '!=', $id)->count();
         if ($t > 0) {
@@ -241,11 +212,10 @@ class PromotionController extends Controller
         Promotion::withTrashed()->where('id', $id)->update([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
-            'thumb' => $thumb,
-            'description' => $request->input('description'),
+            'qty' => $request->input('qty'),
             'start_day' => $request->input('start_day'),
             'end_day' => $request->input('end_day'),
-            'percents' => $request->input('percents'),
+            'condition' => $request->input('condition'),
             'number' => $request->input('number'),
         ]);
 

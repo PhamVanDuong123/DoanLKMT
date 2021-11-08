@@ -49,7 +49,7 @@
                                     <span class="old">{{number_format($product->old_price)}}đ</span>
                                 </div>
                                 <div class="action clearfix">
-                                    <a href="{{$product->url_add_cart}}" title="Thêm giỏ hàng" class="add-cart fl-left">Thêm giỏ hàng</a>
+                                    <a href="javacript:" title="Thêm giỏ hàng" data-id="{{$product->id}}" class="add-cart fl-left">Thêm giỏ hàng</a>
                                     <a href="{{$product->url_checkout}}" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
                                 </div>
                             </li>

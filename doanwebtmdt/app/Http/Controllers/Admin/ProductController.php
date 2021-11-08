@@ -317,8 +317,7 @@ class ProductController extends Controller
             'detail_desc'=>$request->input('detail_desc'),
             'warranty'=>$request->input('warranty'),
             'product_category_id' => $request->input('product_category_id'),           
-            'thumb' => $thumb,
-             
+            'thumb' => $thumb             
             ]);
             $status = $request->input('status');
             

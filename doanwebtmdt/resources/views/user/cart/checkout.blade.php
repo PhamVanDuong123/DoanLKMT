@@ -17,7 +17,6 @@
         </div>
     </div>
     <div id="wrapper" class="wp-inner clearfix">
-        
         <form method="POST" action="{{route('cart.pay')}}" name="form-checkout">
             @csrf
             <div class="section" id="customer-info-wp">
@@ -30,14 +29,14 @@
                             <label for="name">Họ tên</label>
                             <input type="text" name="name" id="name">
                             @error('name')
-                                <span class="text-danger">{{$message}}</span>
+                            <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="form-col fl-right">
                             <label for="phone">Số điện thoại</label>
                             <input type="tel" name="phone" id="phone">
                             @error('phone')
-                                <span class="text-danger">{{$message}}</span>
+                            <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                     </div>
@@ -46,7 +45,7 @@
                             <label for="address">Địa chỉ</label>
                             <input type="text" name="address" id="address">
                             @error('address')
-                                <span class="text-danger">{{$message}}</span>
+                            <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                         <div class="form-col fl-right">
@@ -106,8 +105,8 @@
                             </li>
                         </ul>
                         @error('payment')
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="place-order-wp clearfix">
                         <input type="submit" id="order-now" value="Đặt hàng">

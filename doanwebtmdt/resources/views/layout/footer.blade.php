@@ -126,6 +126,138 @@
         js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=849340975164592";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    //them gio hang
+    $('.add-cart').on('click',function(){
+        var id = $(this).attr('data-id');
+        var url="http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/add/"+id;
+
+        $.ajax({
+            url: url,
+            method: "get",
+            dataType: "json",
+            success: function(data){
+                alert(data.success);
+                //location.reload();
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                //console.log(data)
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                alert('Lỗi: '+xhr.status+' - '+thrownError);
+                //console.log(data)
+            }
+        })
+    });
+
+    //cập nhật số lượng giỏ hàng
+    $('.num-order').change(function(){
+        var _token = $("input[name='_token']").val();
+        let qty = $(this).val();
+        var id = $(this).attr('data-rowId');
+        
+        $.ajax({
+            url: "{{route('cart.update')}}",
+            dataType: "json",
+            method: "post",
+            data: {
+                _token:_token,
+                id:id,
+                qty:qty
+            },
+            success: function(data){
+                //cập nhật html thanh thông báo giỏ hàng
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                $('#cart-qty').html(data.num_cart);
+                
+                //cập nhật thành tiền
+                $('td.subtotal-'+data.product_cart.rowId).html(number_format(data.product_cart.qty*data.product_cart.price,0,',','.')+'đ');
+                
+                //cập nhật tổng tiền      
+                var total=0;
+                //tính tổng hóa đơn
+                $.each(data.cart,function(key,value){
+                    total+=value.price*value.qty;
+                });
+                
+                //gám gt giỏ hàng
+                $('span#total').html(number_format(total,0,',','.')+'đ')
+                $.each(data.promotion,function(key,value){
+                    if(value.condition==1){
+                        $('span#total_after_promotion').html(number_format(total-(total*value.number/100),0,',','.')+'đ')
+                        $('span#money_promotion').html(number_format(total*value.number/100,0,',','.')+'đ')
+                    }else if(value.condition==2){
+                        $('span#total_after_promotion').html(number_format(total-value.number,0,',','.')+'đ')
+                    }
+                })
+                
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                alert("Lỗi: "+xhr+" - "+thrownError);
+            }
+        })
+    });
+    
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        number = number.toFixed(decimals);
+
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
+    }
+
+    //xóa sp trong giỏ hàng
+    $('.del-product').on('click',function(){
+        var id = $(this).attr('data-rowId');
+        
+        $.ajax({
+            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/remove/"+id,
+            dataType: "json",
+            method: "get",
+            success: function(data){
+                //cập nhật html thanh thông báo giỏ hàng
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                //cập nhật html giỏ hàng
+                // $('#info-cart-wp').empty();
+                // $('#info-cart-wp').html(data.cart);
+                location.reload();
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                alert("Lỗi: "+xhr+" - "+thrownError);
+            }
+        })
+    });
+
+    //xóa toàn bộ giỏ hàng
+    $('#destroy-cart').on('click',function(){
+        $.ajax({
+            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/destroy",
+            dataType: "json",
+            method: "get",
+            success: function(data){
+                //cập nhật html thanh thông báo giỏ hàng
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                //cập nhật html giỏ hàng
+                $('#info-cart-wp').empty();
+                $('#cart-qty').html("<p>Có <strong>0</strong> sản phẩm trong giỏ hàng</p>");
+                //location.reload();
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                alert("Lỗi: "+xhr+" - "+thrownError);
+            }
+        })
+    })
 </script>
 </body>
 

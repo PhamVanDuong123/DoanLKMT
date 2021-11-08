@@ -17,6 +17,26 @@
 
 <script>
     $(function() {
+        //ràng buộc giá trị khuyến mãi promotion/edit 
+        $('#condition').on('change',function(){
+            var condition = $(this).val()
+            var value = $('#number').val()
+
+            if(condition==1 && value>100){
+                alert('Giá trị giảm không được lớn hơn 100%');
+                $(this).val(2);
+            }
+        })
+
+        $('#number').on('change',function(){
+            var condition = $('#condition').val()
+            var value = $(this).val()
+            if(condition==1 && value>100){
+                alert('Giá trị giảm không được lớn hơn 100%');
+                $(this).val('');
+            }
+        })
+
         $('.money').simpleMoneyFormat();
 
         chart30day();
@@ -76,7 +96,7 @@
                     console.log(data)
                 },
                 // error: function(xhr, ajaxOptions, thrownError) {
-                //     alert(xhr.status + ' - ' + thrownError);
+                //     alert('Lỗi: '+xhr.status+' - '+thrownError);
                 // }
             })
         }
@@ -100,7 +120,7 @@
                     //console.log(data)
                 },
                 // error: function(xhr, ajaxOptions, thrownError) {
-                //     alert(xhr.status + ' - ' + thrownError);
+                //     alert('Lỗi: '+xhr.status+' - '+thrownError);
                 // }
             })
         })
@@ -125,11 +145,10 @@
                     //console.log(data)
                 },
                 // error: function(xhr, ajaxOptions, thrownError) {
-                //     alert(xhr.status + ' - ' + thrownError);
+                //     alert('Lỗi: '+xhr.status+' - '+thrownError);
                 // }
             })
-        })
-
+        })        
     });
 </script>
 <!-- Khai báo trình soạn thảo bài viết  -->

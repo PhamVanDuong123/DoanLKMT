@@ -3,6 +3,7 @@
 return [
     'boss'=>[
         'dashboard',
+        'statistics',
         'order',
         'promotion',
         'user',
@@ -22,6 +23,7 @@ return [
     ],
     [
         'dashboard',
+        'statistics',
         'order',
         'promotion'
     ]
