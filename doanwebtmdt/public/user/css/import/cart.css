@@ -189,3 +189,13 @@
 .table>tbody>tr>td {
     border-bottom: 1px solid #ddd;
 }
+
+.form-promotion_code {
+    margin: 20px 0;
+}
+
+#promotion_code {
+    margin: 0 10px 0 5px;
+    height: 32px;
+    width: 200px;
+}

@@ -11,7 +11,7 @@
                 @csrf
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label for="name">Tên khuyến mãi</label>
                                 <input class="form-control" type="text" name="name" id="name">
@@ -20,7 +20,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label for="code">Mã khuyến mãi</label>
                                 <input class="form-control" type="text" name="code" id="code">
@@ -29,26 +29,37 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <label for="percents">Phần trăm giảm (%)</label>
-                                <input class="form-control" type="number" min="1" max="100" name="percents" id="percents">
-                                @error('percents')
+                                <label for="qty">Số lượng</label>
+                                <input class="form-control" type="number" min="1" name="qty" id="qty">
+                                @error('qty')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="number">Số lượng</label>
-                                <input class="form-control" type="number" min="1" name="number" id="number">
+                                <label for="condition">Chọn hình thức giảm</label>
+                                <select name="condition" id="condition" class="form-control">
+                                    <option value="">-- Chọn --</option>
+                                    <option value="1">Giảm theo %</option>
+                                    <option value="2">Giảm theo giá tiền</option>
+                                </select>
+                                @error('condition')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="number">Giá trị giảm</label>
+                                <input class="form-control" type="number" min="1" name="number" id="number" value="">
                                 @error('number')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>                     
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="start_day">Từ ngày (Ngày bắt đầu)</label>
@@ -63,29 +74,6 @@
                                 <label for="end_day">Đến ngày (Ngày kết thúc)</label>
                                 <input class="form-control" type="date" name="end_day" id="end_day">
                                 @error('end_day')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="thumb">Ảnh đại diện</label>
-                                <div class="row">
-                                    <div class="col-md-2"><img class="image-preview avatar-edit" src="" alt=""></div>
-                                    <div class="col-md-10"> <input class="form-control-file file-image" type="file" name="thumb" id="thumb"></div>
-                                </div>
-                                @error('thumb')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="description">Mô tả</label>
-                                <textarea class="form-control form-editor" name="description" id="description" cols="30" rows="20"></textarea>
-                                @error('description')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>

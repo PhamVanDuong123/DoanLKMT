@@ -56,7 +56,7 @@
                             <input type="text" name="num-order" value="1" id="num-order">
                             <a title="" id="plus"><i class="fa fa-plus"></i></a>
                         </div>
-                        <a href="{{$product->url_add_cart}}" title="Thêm giỏ hàng" class="add-cart">Thêm giỏ hàng</a>
+                        <a href="javacript:" title="Thêm giỏ hàng" data-id="{{$product->id}}" class="add-cart">Thêm giỏ hàng</a>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                                     <span class="old">{{number_format($product->old_price)}}đ</span>
                                 </div>
                                 <div class="action clearfix">
-                                    <a href="{{$product->url_add_cart}}" title="" class="add-cart fl-left">Thêm giỏ hàng</a>
+                                    <a href="javacript:" title="" data-id="{{$product->id}}" class="add-cart fl-left">Thêm giỏ hàng</a>
                                     <a href="{{$product->url_checkout}}" title="" class="buy-now fl-right">Mua ngay</a>
                                 </div>
                             </li>

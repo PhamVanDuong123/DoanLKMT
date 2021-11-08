@@ -58,7 +58,7 @@ return $list_status[$status];
                             <th scope="col">STT</th>
                             <th scope="col">Tên</th>
                             <th scope="col">Mã</th>
-                            <th scope="col">Phần trăm giảm</th>
+                            <th scope="col">Giảm giá</th>
                             <th scope="col">Số lượng</th>                            
                             <th scope="col">Bắt đầu</th>
                             <th scope="col">Kết thúc</th>
@@ -77,8 +77,12 @@ return $list_status[$status];
                             <th scope="row">{{$t}}</th>
                             <td><a href="{{route('admin.promotion.detail',$item->id)}}">{{$item->name}}</a></td>
                             <td>{{$item->code}}</td>
-                            <td>{{$item->percents}}%</td>
-                            <td>{{$item->number}}</td>                            
+                            @if($item->condition==1)
+                            <td>{{$item->number}}%</td>
+                            @elseif($item->condition==2)
+                            <td>{{number_format($item->number,0,',','.')}}đ</td>
+                            @endif
+                            <td>{{$item->qty}}</td>                            
                             <td>{{date('d-m-Y h:m:s',strtotime($item->start_day))}}</td>
                             <td>{{date('d-m-Y h:m:s',strtotime($item->end_day))}}</td>
                             <td>{!!show_status($item->status)!!}</td>

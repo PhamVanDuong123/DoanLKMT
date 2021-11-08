@@ -64,21 +64,14 @@ class ProductController extends Controller
         $cate=ProductCategory::find($cate_id);
         
         $list_pro=Product::where('product_category_id',$cate_id)->paginate(4);
-        if(!empty($list_pro)){
-            foreach($list_pro as &$product){
-                $product['url']=route('product.detail',$product->id);
-                $product['url_add_cart']=route('cart.add',$product->id);
-                $product['url_checkout']=route('cart.checkout');
-            }
-        }
      
         $list_cate=ProductCategory::all();
         foreach($list_cate as &$catetegory){
             $catetegory['url_list_pro_by_cate']=route('product.showByCate',$catetegory->id);
         }
      
-          if(isset($_GET['sort_by']))
-          {
+        if(isset($_GET['sort_by']))
+        {
             $sort_by = $_GET['sort_by'];
          
             if($sort_by=='giam_dan')
@@ -94,10 +87,21 @@ class ProductController extends Controller
             $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(4);
            }
            elseif($sort_by=='kytu_az'){
+
             $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','ASC')->paginate(4);
-            }
+
+          
+            }           
+
         }
       
+        if(!empty($list_pro)){
+            foreach($list_pro as &$product){
+                $product['url']=route('product.detail',$product->id);
+                $product['url_add_cart']=route('cart.add',$product->id);
+                $product['url_checkout']=route('cart.checkout');
+            }
+        }
          
         return view('user.product.showByCaterory',compact('cate','list_pro','list_cate'));
     }

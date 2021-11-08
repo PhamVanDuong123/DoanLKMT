@@ -48,14 +48,17 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/cart/checkout/{id?}', 'User\CartController@checkout')->name('cart.checkout');
     Route::post('/cart/pay', 'User\CartController@pay')->name('cart.pay');
 
+    //promotion
+    Route::post('/promotion/process','User\PromotionController@process')->name('promotion.process');
+
     //post
     Route::get('/post', 'User\PostController@index')->name('post.index');
     Route::get('/post/{id}', 'User\PostController@detail')->name('post.detail');
 
     //page
     Route::get('/page/{name}', 'User\PageController@detail')->name('page.detail');
-    // account
-  
+    
+    // account  
     Route::get('/account/login','User\HomeController@get_Login')->name('account.login');
     Route::post('/account/login','User\HomeController@post_Login')->name('account.login');
     Route::get('/account/logout','User\HomeController@logout')->name('account.logout');

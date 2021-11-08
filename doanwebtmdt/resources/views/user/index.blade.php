@@ -91,7 +91,7 @@
                                 <span class="old">{{number_format($product->old_price)}}đ</span>
                             </div>
                             <div class="action clearfix">
-                                <a href="{{$product->url_add_cart}}" title="" class="add-cart fl-left">Thêm giỏ hàng</a>
+                                <a href="javacript:" title="" data-id="{{$product->id}}" class="add-cart fl-left">Thêm giỏ hàng</a>
                                 <a href="{{$product->url_checkout}}" title="" class="buy-now fl-right">Mua ngay</a>
                             </div>
                         </li>
@@ -128,7 +128,7 @@
                                 <span class="old">{{number_format($product->old_price)}}đ</span>
                             </div>
                             <div class="action clearfix">
-                                <a href="{{$product->url_add_cart}}" title="" class="add-cart fl-left">Thêm giỏ hàng</a>
+                                <a href="javacript:" title="" data-id="{{$product->id}}" class="add-cart fl-left">Thêm giỏ hàng</a>
                                 <a href="{{$product->url_checkout}}" title="" class="buy-now fl-right">Mua ngay</a>
                             </div>
                         </li>

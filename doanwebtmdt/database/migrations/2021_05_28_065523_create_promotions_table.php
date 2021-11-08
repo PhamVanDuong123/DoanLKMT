@@ -17,13 +17,12 @@ class CreatePromotionsTable extends Migration
             $table->id();
             $table->string('name',50);
             $table->string('code',30)->unique();
-            $table->string('thumb');
-            $table->text('description')->nullable();
-            $table->date('start_day')->default(now());
-            $table->date('end_day');
-            $table->double('percents');
+            $table->enum('condition',[1,2])->comment("1: giảm giá theo %, 2: giảm giá tiền");
             $table->integer('number');
-            $table->enum('status',['approved','not approved yet'])->default('not approved yet');
+            $table->integer('qty');
+            $table->date('start_day')->default(now());
+            $table->date('end_day');           
+            $table->enum('status',['approved','not approved yet'])->comment("approved: được duyệt, not approved yet: chưa được duyệt")->default('not approved yet');
             $table->timestamps();
             $table->softDeletes();
         });

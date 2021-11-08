@@ -179,7 +179,7 @@
 
                             <div id="cart-wp" class="fl-right">
                                 <div id="btn-cart">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    <a class="text-white" href="{{route('cart.show')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                                     <span id="num">{{Cart::count()}}</span>
                                 </div>
                                 <div id="dropdown">
@@ -213,7 +213,6 @@
                                     </dic>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

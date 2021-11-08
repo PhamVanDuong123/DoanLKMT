@@ -16,34 +16,49 @@ class PromotionSeeder extends Seeder
     {        
         DB::table('promotions')->insert([
             [
-                'name'=>'Sale 1.1',
-                'code'=>'sale-1-1',
-                'thumb'=>'uploads/huynhhoanghung.jpg',
-                'description'=>'Giảm giá khủng ngày 1.1',
-                'start_day'=>'2021-1-1',
-                'end_day'=>'2021-1-2',
-                'number'=>5,
-                'percents'=>10
-            ],
-            [
-                'name'=>'Sale 2.2',
-                'code'=>'sale-2-2',
-                'thumb'=>'uploads/huynhhoanghung.jpg',
-                'description'=>'Giảm giá khủng ngày 2.2',
-                'start_day'=>'2021-2-2',
-                'end_day'=>'2021-2-3',
-                'number'=>15,
-                'percents'=>10
-            ],
-            [
-                'name'=>'Sale 3.3',
-                'code'=>'sale-3-3',
-                'thumb'=>'uploads/huynhhoanghung.jpg',
-                'description'=>'Giảm giá khủng ngày 3.3',
-                'start_day'=>'2021-3-3',
-                'end_day'=>'2021-3-4',
+                'name'=>'Giảm giá sau dịch',
+                'code'=>'giamgiasaudich',
+                'condition'=>1,
                 'number'=>10,
-                'percents'=>10
+                'qty'=>5,
+                'start_day'=>'2021-11-1',
+                'end_day'=>'2021-12-1'                
+            ],
+            [
+                'name'=>'COVID-19',
+                'code'=>'covid-19',
+                'condition'=>2,
+                'number'=>20000,
+                'qty'=>5,
+                'start_day'=>'2021-11-1',
+                'end_day'=>'2021-12-1'                
+            ],
+            [
+                'name'=>'Giảm giá cuối năm',
+                'code'=>'giamgiacuoinam',
+                'condition'=>1,
+                'number'=>20,
+                'qty'=>5,
+                'start_day'=>'2021-11-1',
+                'end_day'=>'2021-12-1'                
+            ],
+            [
+                'name'=>'Giảm giá 11/11',
+                'code'=>'giamgia11_11',
+                'condition'=>1,
+                'number'=>11,
+                'qty'=>5,
+                'start_day'=>'2021-11-1',
+                'end_day'=>'2021-12-1'                
+            ],
+            [
+                'name'=>'Giảm giá 200k',
+                'code'=>'giamgia200k',
+                'condition'=>2,
+                'number'=>200000,
+                'qty'=>5,
+                'start_day'=>'2021-11-1',
+                'end_day'=>'2021-12-1'                
             ]
         ]);
     }
