@@ -5,12 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Rating;
 use App\Models\ProductCategory;
 use App\Models\ProductImage;
-
+use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
-    public $sorting;
+ 
     function index(){
         $list_pro=Product::paginate(10);
         if(!empty($list_pro)){
@@ -21,6 +22,34 @@ class ProductController extends Controller
             }
         }
 
+        if(isset($_GET['sort_by']))
+        {
+          $sort_by = $_GET['sort_by'];
+       
+          if($sort_by=='giam_dan')
+          {
+              $list_pro=Product::orderBy('price','DESC')->paginate(10);
+          }
+          elseif($sort_by=='tang_dan')
+          {
+              $list_pro=Product::orderBy('price','ASC')->paginate(10);
+          }
+         elseif($sort_by=='kytu_za')
+         {
+          $list_pro=Product::orderBy('name','DESC')->paginate(10);
+         }
+         elseif($sort_by=='kytu_az'){
+          $list_pro=Product::oderBy('name','ASC')->paginate(10);
+          }
+        }
+        if(!empty($list_pro)){
+            foreach($list_pro as &$product){
+                $product['url']=route('product.detail',$product->id);
+                $product['url_add_cart']=route('cart.add',$product->id);
+                $product['url_checkout']=route('cart.checkout');
+            }
+        }
+    
         $list_cate=ProductCategory::all();
         foreach($list_cate as &$catetegory){
             $catetegory['url_list_pro_by_cate']=route('product.showByCate',$catetegory->id);
@@ -54,18 +83,18 @@ class ProductController extends Controller
          
             if($sort_by=='giam_dan')
             {
-                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','DESC')->paginate(6);
+                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','DESC')->paginate(4);
             }
             elseif($sort_by=='tang_dan')
             {
-                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','ASC')->paginate(6);
+                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','ASC')->paginate(4);
             }
            elseif($sort_by=='kytu_za')
            {
-            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(6);
+            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(4);
            }
            elseif($sort_by=='kytu_az'){
-            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(6);
+            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','ASC')->paginate(4);
             }
         }
       
@@ -123,13 +152,12 @@ class ProductController extends Controller
         foreach($list_cate as &$cate){
             $cate['url_list_pro_by_cate']=route('product.showByCate',$cate->id);
         }
+     
 
         return view('user.product.detail',compact('product','list_pro_image','list_pro_same_cate','list_cate'));
     }
-        
-
-
-    }
+   
+}
     
 
 
