@@ -28,6 +28,7 @@
     <link  rel="canonical" href="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
     <meta property="og:site_name" content="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   
      <script type="text/javascript">
         $(document).ready(function(){
 
@@ -43,9 +44,36 @@
 
         }); 
     </script> 
-  
+    <script type="text/javascript">
+    $('#s').keyup(function(){
+        var query = $(this).val();
+        alert(query);
+    
+             if(query != '')
+            {
+             var _token = $('input[name="_token"]').val();
+
+             $.ajax({
+              url:"{{url('/autocomplete-ajax')}}",
+              method:"POST",
+              data:{query:query, _token:_token},
+              success:function(data){
+               $('#search_ajax').fadeIn();  
+                $('#search_ajax').html(data);
+              }
+             });
+
+            }else{
+
+                $('#search_ajax').fadeOut();  
+            }    
+    });
  
-  
+    $(document).on('click', '.li_search_ajax', function(){  
+        $('#s').val($(this).text());  
+        $('#search_ajax').fadeOut();  
+    }); 
+</script>
 </head>
 
 <body>
@@ -117,11 +145,15 @@
                         <a href="{{route('home')}}" title="" id="logo" class="fl-left"><img src="{{asset('user/images/logo.png')}}" /></a>
                         
                         <div id="search-wp" class="fl-left">
-                            <form method="post" action="{{URL::to('/search')}}">
-                            {{ csrf_field() }}
-                                      <input type="text" name="keyword_submit" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
-                                <button name="search_item" type="submit" id="sm-s">Tìm kiếm</button>
-                            </form>
+                        <form method="POST" action="{{URL::to('/search')}}"  >
+                        {{csrf_field()}}
+                         
+                                 <input type="text" style="with: 100%" name="keyword_submit" id ="s" placeholder="Nhập từ khóa tìm kiếm tại đây!"/> 
+                                 <button name="search_item" type="submit" id="sm-s">Tìm kiếm</button>
+                               <div id ="search_ajax"></div>
+                               
+                             </div>
+                        </form>
        
                         </div>                     
                         <div class="btn-group language" style="margin-top: 20px;">
@@ -185,3 +217,33 @@
                     </div>
                 </div>
             </div>
+    <!-- script ajax autocomplete -->
+    <script type="text/javascript">
+    $('#s').keyup(function(){
+        var query = $(this).val();
+     
+            if(query != '')
+            {
+             var _token = $('input[name="_token"]').val();
+
+             $.ajax({
+              url:"{{url('/autocomplete-ajax')}}",
+              method:"POST",
+              data:{query:query, _token:_token},
+              success:function(data){
+               $('#search_ajax').fadeIn();  
+                $('#search_ajax').html(data);
+              }
+             });
+
+            }else{
+
+                $('#search_ajax').fadeOut();  
+            }   
+    });
+ 
+    $(document).on('click', '.li_search_ajax', function(){  
+        $('#s').val($(this).text());  
+        $('#search_ajax').fadeOut();  
+    }); 
+</script>
