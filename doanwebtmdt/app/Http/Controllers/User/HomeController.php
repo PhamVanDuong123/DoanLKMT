@@ -20,7 +20,6 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-    //    dd(Cookie::get());
         $url_canonical= \URL::current();
         $list_cate = ProductCategory::all();
         foreach ($list_cate as &$cate) {
@@ -44,11 +43,19 @@ class HomeController extends Controller
     }
     public function search(Request $request)
     {
+       
+        
         $keyword = $request->keyword_submit;
         $search_product = Product::where('name', 'like', "%{$keyword}%")->get();
+        $list_cate=ProductCategory::all();
+        foreach($list_cate as &$catetegory){
+            $catetegory['url_list_pro_by_cate']=route('product.showByCate',$catetegory->id);
+        }
 
-        return view('user.product.search')->with('search_product', $search_product)->with('keyword', $keyword);
+        return view('user.product.search')->with('search_product', $search_product)->with('keyword', $keyword)->with('list_cate',$list_cate);
     }
+    // search with auto complete
+    
     function get_Login()
     {
         return view('user.account.login');
@@ -222,4 +229,28 @@ class HomeController extends Controller
             $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
     }
+    public function autocomplete_ajax(Request $request){
+        $data = $request->all();
+
+        if($data['query']){
+
+            $product = Product::where('name','LIKE','%'.$data['query'].'%')->get();
+
+            $output = '
+            <ul class="dropdown-menu" style="display:block; position:relative">'
+            ;
+
+            foreach($product as $key => $val){
+               $output .= '
+               <li class="li_search_ajax"><a href="#">'.$val->name.'</a></li>
+               ';
+            }
+
+            $output .= '</ul>';
+            echo $output;
+        }
+
+
+    }
+
 }

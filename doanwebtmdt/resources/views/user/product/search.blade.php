@@ -15,23 +15,17 @@
             </div>
         </div>
         <div class="main-content fl-right">
+            
         <h2>Tìm kiếm với từ khóa: <span>{{$keyword}}</span></h2>
+            
             @if(!empty($search_product))
             <div class="section" id="list-product-wp">
                 <div class="section-head clearfix">
+                <h3 class="section-title fl-left"></h3>
                     <div class="filter-wp fl-right">
                         <p class="desc">Hiển thị {{count($search_product)}} trên {{count($search_product)}} sản phẩm</p>
                         <div class="form-filter">
-                            <form method="POST" action="">
-                                <select name="select">
-                                    <option value="0">Sắp xếp</option>
-                                    <option value="1">Từ A-Z</option>
-                                    <option value="2">Từ Z-A</option>
-                                    <option value="3">Giá cao xuống thấp</option>
-                                    <option value="3">Giá thấp lên cao</option>
-                                </select>
-                                <button type="submit">Lọc</button>
-                            </form>
+                     
                         </div>
                     </div>
                 </div>
@@ -63,7 +57,8 @@
             </div>
             @else
                 <h3>Không tồn tại sản phẩm nào!!!</h3>
-            @endif            
+            @endif   
+               
         </div>
         <div class="sidebar fl-left">
             @include('layout.sb-cate-pro')
