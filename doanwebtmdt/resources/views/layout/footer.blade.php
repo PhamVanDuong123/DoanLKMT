@@ -127,78 +127,6 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-    //them gio hang
-    $('.add-cart').on('click',function(){
-        var id = $(this).attr('data-id');
-        var url="http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/add/"+id;
-
-        $.ajax({
-            url: url,
-            method: "get",
-            dataType: "json",
-            success: function(data){
-                alert(data.success);
-                //location.reload();
-                $('#cart-wp').empty();
-                $('#cart-wp').html(data.html_cart);
-                //console.log(data)
-            },
-            error: function(xhr, ajaxOptions, thrownError){
-                alert('Lỗi: '+xhr.status+' - '+thrownError);
-                //console.log(data)
-            }
-        })
-    });
-
-    //cập nhật số lượng giỏ hàng
-    $('.num-order').change(function(){
-        var _token = $("input[name='_token']").val();
-        let qty = $(this).val();
-        var id = $(this).attr('data-rowId');
-        
-        $.ajax({
-            url: "{{route('cart.update')}}",
-            dataType: "json",
-            method: "post",
-            data: {
-                _token:_token,
-                id:id,
-                qty:qty
-            },
-            success: function(data){
-                //cập nhật html thanh thông báo giỏ hàng
-                $('#cart-wp').empty();
-                $('#cart-wp').html(data.html_cart);
-                $('#cart-qty').html(data.num_cart);
-                
-                //cập nhật thành tiền
-                $('td.subtotal-'+data.product_cart.rowId).html(number_format(data.product_cart.qty*data.product_cart.price,0,',','.')+'đ');
-                
-                //cập nhật tổng tiền      
-                var total=0;
-                //tính tổng hóa đơn
-                $.each(data.cart,function(key,value){
-                    total+=value.price*value.qty;
-                });
-                
-                //gám gt giỏ hàng
-                $('span#total').html(number_format(total,0,',','.')+'đ')
-                $.each(data.promotion,function(key,value){
-                    if(value.condition==1){
-                        $('span#total_after_promotion').html(number_format(total-(total*value.number/100),0,',','.')+'đ')
-                        $('span#money_promotion').html(number_format(total*value.number/100,0,',','.')+'đ')
-                    }else if(value.condition==2){
-                        $('span#total_after_promotion').html(number_format(total-value.number,0,',','.')+'đ')
-                    }
-                })
-                
-            },
-            error: function(xhr, ajaxOptions, thrownError){
-                alert("Lỗi: "+xhr+" - "+thrownError);
-            }
-        })
-    });
-    
     function number_format(number, decimals, dec_point, thousands_sep) {
         number = number.toFixed(decimals);
 
@@ -215,15 +143,151 @@
         return x1 + x2;
     }
 
-    //xóa sp trong giỏ hàng
-    $('.del-product').on('click',function(){
-        var id = $(this).attr('data-rowId');
-        
+    //load huyện theo tỉnh, xã theo huyện (tính phí vc)
+    $('.choose').on('change', function() {
+        var _token = $('input[name="_token"]').val()
+        var select_id = $(this).attr('id');
+        var select_val = $(this).val();
+        var result;
+
+        if (select_id == 'province') {
+            result = 'district'
+        } else {
+            result = 'ward'
+        }
+
         $.ajax({
-            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/remove/"+id,
+            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/load_district_ward_user",
+            method: "post",
+            dataType: "html",
+            data: {
+                _token: _token,
+                select_val: select_val,
+                result: result
+            },
+            success: function(data) {
+                $('#' + result).html(data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+            }
+        })
+    })
+
+    //tính phí vận chuyển
+    $('#calculator-feeship').on('click', function() {
+        var _token = $('input[name="_token"]').val();
+        var province_id = $('select#province').val();
+        var district_id = $('select#district').val();
+        var ward_id = $('select#ward').val();
+
+        if (province_id == '') {
+            alert('Tỉnh/thành phố không được để trống!')
+        } else if (district_id == '') {
+            alert('Quận/huyện không được để trống!')
+        } else if (ward_id == '') {
+            alert('Xã/phường không được để trống!')
+        } else {
+            $.ajax({
+                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/calculator_feeship",
+                method: "post",
+                data: {
+                    _token: _token,
+                    province_id: province_id,
+                    district_id: district_id,
+                    ward_id: ward_id
+                },
+                success: function() {     
+                    location.reload();
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                }
+            })
+        }
+    })
+
+    //them gio hang
+    $('.add-cart').on('click', function() {
+        var id = $(this).attr('data-id');
+        var url = "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/add/" + id;
+
+        $.ajax({
+            url: url,
+            method: "get",
+            dataType: "json",
+            success: function(data) {
+                alert(data.success);
+                //location.reload();
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                //console.log(data)
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
+                //console.log(data)
+            }
+        })
+    });
+
+    //cập nhật số lượng giỏ hàng
+    $('.num-order').change(function() {
+        var _token = $("input[name='_token']").val();
+        let qty = $(this).val();
+        var id = $(this).attr('data-rowId');
+
+        $.ajax({
+            url: "{{route('cart.update')}}",
+            dataType: "json",
+            method: "post",
+            data: {
+                _token: _token,
+                id: id,
+                qty: qty
+            },
+            success: function(data) {
+                //cập nhật html thanh thông báo giỏ hàng
+                $('#cart-wp').empty();
+                $('#cart-wp').html(data.html_cart);
+                $('#cart-qty').html(data.num_cart);
+
+                //cập nhật thành tiền
+                $('td.subtotal-' + data.product_cart.rowId).html(number_format(data.product_cart.qty * data.product_cart.price, 0, ',', '.') + 'đ');
+
+                //cập nhật tổng tiền      
+                var total = 0;
+                //tính tổng hóa đơn
+                $.each(data.cart, function(key, value) {
+                    total += value.price * value.qty;
+                });
+
+                //gám gt giỏ hàng
+                $('span#total').html(number_format(total, 0, ',', '.') + 'đ')
+                $.each(data.promotion, function(key, value) {
+                    if (value.condition == 1) {
+                        $('span#total_after_promotion').html(number_format(total - (total * value.number / 100), 0, ',', '.') + 'đ')
+                        $('span#money_promotion').html(number_format(total * value.number / 100, 0, ',', '.') + 'đ')
+                    } else if (value.condition == 2) {
+                        $('span#total_after_promotion').html(number_format(total - value.number, 0, ',', '.') + 'đ')
+                    }
+                })
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert("Lỗi: " + xhr + " - " + thrownError);
+            }
+        })
+    });
+
+    //xóa sp trong giỏ hàng
+    $('.del-product').on('click', function() {
+        var id = $(this).attr('data-rowId');
+
+        $.ajax({
+            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/remove/" + id,
             dataType: "json",
             method: "get",
-            success: function(data){
+            success: function(data) {
                 //cập nhật html thanh thông báo giỏ hàng
                 $('#cart-wp').empty();
                 $('#cart-wp').html(data.html_cart);
@@ -232,19 +296,19 @@
                 // $('#info-cart-wp').html(data.cart);
                 location.reload();
             },
-            error: function(xhr, ajaxOptions, thrownError){
-                alert("Lỗi: "+xhr+" - "+thrownError);
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert("Lỗi: " + xhr + " - " + thrownError);
             }
         })
     });
 
     //xóa toàn bộ giỏ hàng
-    $('#destroy-cart').on('click',function(){
+    $('#destroy-cart').on('click', function() {
         $.ajax({
             url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/destroy",
             dataType: "json",
             method: "get",
-            success: function(data){
+            success: function(data) {
                 //cập nhật html thanh thông báo giỏ hàng
                 $('#cart-wp').empty();
                 $('#cart-wp').html(data.html_cart);
@@ -253,8 +317,8 @@
                 $('#cart-qty').html("<p>Có <strong>0</strong> sản phẩm trong giỏ hàng</p>");
                 //location.reload();
             },
-            error: function(xhr, ajaxOptions, thrownError){
-                alert("Lỗi: "+xhr+" - "+thrownError);
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert("Lỗi: " + xhr + " - " + thrownError);
             }
         })
     })

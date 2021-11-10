@@ -22,7 +22,7 @@ class CreatePromotionsTable extends Migration
             $table->integer('qty');
             $table->date('start_day')->default(now());
             $table->date('end_day');           
-            $table->enum('status',['approved','not approved yet'])->comment("approved: được duyệt, not approved yet: chưa được duyệt")->default('not approved yet');
+            $table->enum('status',['approved','not approved yet'])->comment("approved: được duyệt, not approved yet: chưa được duyệt")->default('approved');
             $table->timestamps();
             $table->softDeletes();
         });

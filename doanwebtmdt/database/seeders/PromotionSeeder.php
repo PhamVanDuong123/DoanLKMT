@@ -20,7 +20,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'giamgiasaudich',
                 'condition'=>1,
                 'number'=>10,
-                'qty'=>5,
+                'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
             ],
@@ -29,7 +29,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'covid-19',
                 'condition'=>2,
                 'number'=>20000,
-                'qty'=>5,
+                'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
             ],
@@ -38,7 +38,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'giamgiacuoinam',
                 'condition'=>1,
                 'number'=>20,
-                'qty'=>5,
+                'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
             ],
@@ -47,7 +47,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'giamgia11_11',
                 'condition'=>1,
                 'number'=>11,
-                'qty'=>5,
+                'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
             ],
@@ -56,7 +56,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'giamgia200k',
                 'condition'=>2,
                 'number'=>200000,
-                'qty'=>5,
+                'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
             ]

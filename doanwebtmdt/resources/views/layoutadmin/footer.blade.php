@@ -17,21 +17,137 @@
 
 <script>
     $(function() {
+        load_feeship();
+
+        function load_feeship(){
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/load_feeship",
+                method: "post",
+                dataType: "html",
+                data: {
+                    _token: _token,
+                },
+                success: function(data) {
+                    $('#list_feeship').html(data);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                }
+            })
+        }
+
+        //load huyện theo tỉnh, xã theo huyện (vận chuyển)
+        $('.choose').on('change', function() {
+            var _token = $('input[name="_token"]').val()
+            var select_id = $(this).attr('id');
+            var select_val = $(this).val();
+            var result;
+
+            if (select_id == 'province') {
+                result = 'district'
+            } else {
+                result = 'ward'
+            }
+
+            $.ajax({
+                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/load_district_ward",
+                method: "post",
+                dataType: "html",
+                data: {
+                    _token: _token,
+                    select_val: select_val,
+                    result: result
+                },
+                success: function(data) {
+                    $('#' + result).html(data);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                }
+            })
+        })
+
+        //cập nhật phí vận chuyển
+        $(document).on('blur','td.edit_feeship',function(){
+            var _token = $('input[name="_token"]').val();
+            var id=$(this).data('id');
+            var fee=$(this).text();
+            
+            $.ajax({
+                    url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/edit_feeship",
+                    method: "post",
+                    dataType: "html",
+                    data: {
+                        _token: _token,
+                        id: id,
+                        fee: fee
+                    },
+                    success: function(data) {
+                        alert('Cập nhật phí vận chuyển thành công');
+                    },
+                    error: function(xhr, ajaxOptions,thrownError){
+                        alert('Lỗi: '+xhr.status+' - '+thrownError)
+                    }
+                })
+        })
+
+        //thêm phí vận chuyển
+        $('#add-feeship').on('click', function() {
+            var _token = $('input[name="_token"]').val();
+            var province_id = $('select#province').val();
+            var district_id = $('select#district').val();
+            var ward_id = $('select#ward').val();
+            var fee = $('input#fee').val();
+            
+            if (province_id == '') {
+                alert('Tỉnh/thành phố không được để trống!')
+            } else if (district_id == '') {
+                alert('Quận/huyện không được để trống!')
+            } else if (ward_id == '') {
+                alert('Xã/phường không được để trống!')
+            } else if (fee == '') {
+                alert('Phí vận chuyển không được để trống!')
+            } else {
+                $.ajax({
+                    url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/add_feeship",
+                    method: "post",
+                    dataType: "html",
+                    data: {
+                        _token: _token,
+                        province_id: province_id,
+                        district_id: district_id,
+                        ward_id: ward_id,
+                        fee: fee,
+                    },
+                    success: function(data) {
+                        alert('Thêm phí vận chuyển thành công');
+                        load_feeship();
+                        //console.log(data)
+                    },
+                    error: function(xhr, ajaxOptions,thrownError){
+                        alert('Lỗi: '+xhr.status+' - '+thrownError)
+                    }
+                })
+            }
+        })
+
         //ràng buộc giá trị khuyến mãi promotion/edit 
-        $('#condition').on('change',function(){
+        $('#condition').on('change', function() {
             var condition = $(this).val()
             var value = $('#number').val()
 
-            if(condition==1 && value>100){
+            if (condition == 1 && value > 100) {
                 alert('Giá trị giảm không được lớn hơn 100%');
                 $(this).val(2);
             }
         })
 
-        $('#number').on('change',function(){
+        $('#number').on('change', function() {
             var condition = $('#condition').val()
             var value = $(this).val()
-            if(condition==1 && value>100){
+            if (condition == 1 && value > 100) {
                 alert('Giá trị giảm không được lớn hơn 100%');
                 $(this).val('');
             }
@@ -148,7 +264,7 @@
                 //     alert('Lỗi: '+xhr.status+' - '+thrownError);
                 // }
             })
-        })        
+        })
     });
 </script>
 <!-- Khai báo trình soạn thảo bài viết  -->

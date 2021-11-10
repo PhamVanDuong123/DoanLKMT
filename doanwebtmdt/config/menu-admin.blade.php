@@ -35,6 +35,12 @@ return [
             ]
         ]
     ],
+    'delivery' => [
+        'name' => 'Quản lý vận chuyển',
+        'module'=>'delivery',
+        'route'=>'admin.delivery',
+        'icon' => 'fas fa-truck',
+    ],
     'promotion' => [
         'name'=>'Quản lý khuyến mãi',
         'module'=>'promotion',

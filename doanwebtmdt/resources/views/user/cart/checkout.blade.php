@@ -1,3 +1,9 @@
+@php
+$total = filter_var(Cart::total(),FILTER_SANITIZE_NUMBER_INT);
+$promotion = Session::get('promotion');
+$feeship = Session::get('feeship');
+@endphp
+
 @extends('layout.home')
 
 @section('content')
@@ -48,10 +54,10 @@
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
-                        <div class="form-col fl-right">
+                        <!-- <div class="form-col fl-right">
                             <label for="promotion_code">Mã khuyến mãi</label>
                             <input type="text" name="promotion_code" id="promotion_code">
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-row">
                         <div class="form-col">
@@ -82,15 +88,53 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
+                        <tfoot>                                
                             <tr class="order-total">
-                                <td>Phí vận chuyển:</td>
-                                <td><strong class="total-price">{{number_format($shipping_fee,0,',','.')}}đ</strong></td>
-                            </tr>
-                            <tr class="order-total">
-                                <td>Tổng đơn hàng:</td>
+                                <td>Tổng giá tiền:</td>
                                 <td><strong class="total-price">{{number_format($total,0,',','.')}}đ</strong></td>
-                            </tr>
+                            </tr>                        
+                            @if($promotion)
+                                @if($promotion[0]['condition']==1)
+                                    <tr class="order-total">
+                                        <td>Giảm giá:</td>
+                                        <td><strong class="total-price">{{$promotion[0]['number']}}%</strong></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <td>Số tiền giảm:</td>
+                                        <td><strong class="total-price">{{number_format($total*$promotion[0]['number']/100,0,',','.')}}đ</strong></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <td>Phí vận chuyển:</td>
+                                        <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <td>Tổng đơn hàng:</td>
+                                        <td><strong class="total-price">{{number_format($total-($total*$promotion[0]['number']/100)+$feeship,0,',','.')}}đ</strong></td>
+                                    </tr>
+                                @elseif($promotion[0]['condition']==2)
+                                    <tr class="order-total">
+                                        <td>Giảm giá:</td>
+                                        <td><strong class="total-price">{{number_format($promotion[0]['number'],0,',','.')}}đ</strong></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <td>Phí vận chuyển:</td>
+                                        <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <td>Tổng đơn hàng:</td>
+                                        <td><strong class="total-price">{{number_format($total-$promotion[0]['number']+$feeship,0,',','.')}}đ</strong></td>
+                                    </tr>
+                                @endif
+                            @else
+                                <tr class="order-total">
+                                    <td>Phí vận chuyển:</td>
+                                    <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
+                                </tr>  
+                                <tr class="order-total">
+                                        <td>Tổng đơn hàng:</td>
+                                        <td><strong class="total-price">{{number_format($total+$feeship,0,',','.')}}đ</strong></td>
+                                    </tr>  
+                            @endif                            
                         </tfoot>
                     </table>
                     <div id="payment-checkout-wp">

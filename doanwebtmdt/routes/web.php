@@ -45,6 +45,8 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/cart/update','User\CartController@update')->name('cart.update');
     Route::get('/cart/checkout/{id?}', 'User\CartController@checkout')->name('cart.checkout');
     Route::post('/cart/pay', 'User\CartController@pay')->name('cart.pay');
+    Route::post('/cart/load_district_ward_user', 'User\CartController@load_district_ward_user')->name('cart.load_district_ward_user');
+    Route::post('/cart/calculator_feeship', 'User\CartController@calculator_feeship')->name('cart.calculator_feeship');
 
     //promotion
     Route::post('/promotion/process','User\PromotionController@process')->name('promotion.process');
@@ -96,6 +98,13 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/fillter_by_select', 'Admin\StatisticsController@fillter_by_select')->name('admin.statistics.fillter_by_select');
         Route::post('/statistical_30day', 'Admin\StatisticsController@statistical_30day')->name('admin.statistics.statistical_30day');
         Route::get('/statistics/product_post', 'Admin\StatisticsController@product_post')->name('admin.statistics.product_post');
+        
+        //delivery
+        Route::get('/delivery', 'Admin\DeliveryController@index')->name('admin.delivery');
+        Route::post('/delivery/load_district_ward', 'Admin\DeliveryController@load_district_ward')->name('admin.delivery.load_district_ward');
+        Route::post('/delivery/add_feeship', 'Admin\DeliveryController@add_feeship')->name('admin.delivery.add_feeship');
+        Route::post('/delivery/edit_feeship', 'Admin\DeliveryController@edit_feeship')->name('admin.delivery.edit_feeship');
+        Route::post('/delivery/load_feeship', 'Admin\DeliveryController@load_feeship')->name('admin.delivery.load_feeship');
     });
 
     Route::middleware('roleAdmin')->group(function () {

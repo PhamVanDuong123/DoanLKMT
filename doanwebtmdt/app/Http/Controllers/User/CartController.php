@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
+use App\Models\Feeship;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderDetail;
+use App\Models\Promotion;
+use App\Models\Province;
+use App\Models\Ward;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +22,47 @@ class CartController extends Controller
     function show()
     {
         $list_pro = Cart::content();
+        $list_province = Province::all();
         foreach($list_pro as &$item){
             $item->options->url_detail=route('product.detail',$item->id);   
         }
-        return view('user.cart.show', compact('list_pro'));
+        return view('user.cart.show', compact('list_pro','list_province'));
+    }
+
+    function load_district_ward_user(Request $request){
+        $data = $request->all();
+        $select_val = $data['select_val'];
+        $result = $data['result'];
+
+        $html = '<option value="">-- Chọn --</option>';
+        if ($result == 'district') {
+            $list_district = District::where('province_id', $select_val)->get();
+            foreach ($list_district as $item) {
+                $html .= '<option value="' . $item->id . '">' . $item->name . '</option>';
+            }
+        } else if ($result == 'ward') {
+            $list_ward = Ward::where('district_id', $select_val)->get();
+            foreach ($list_ward as $item) {
+                $html .= '<option value="' . $item->id . '">' . $item->name . '</option>';
+            }
+        }
+
+        echo $html;
+    }
+
+    function calculator_feeship(Request $request){
+        $data = $request->all();
+        $province_id = $data['province_id'];
+        $district_id = $data['district_id'];
+        $ward_id = $data['ward_id'];
+
+        $fee=0;
+        $feeship=Feeship::where('province_id',$province_id)->where('district_id',$district_id)->where('ward_id',$ward_id)->first();
+        if($feeship)
+            $fee=$feeship->fee;
+                
+        Session::put('feeship',$fee);
+        Session::save();
     }
 
     function add($id)
@@ -58,7 +100,17 @@ class CartController extends Controller
     function destroy()
     {
         Cart::destroy();
+
+        //trả lại sl mã khuyến mãi
+        $promotion_session=Session::get('promotion');
+        if($promotion_session){
+            $promotion = Promotion::where('code',$promotion_session[0]['code'])->first();
+            $promotion->qty++;
+            $promotion->save();
+        }
+
         Session::forget('promotion');
+        Session::forget('feeship');
 
         $data['html_cart'] = $this->update_html_cart();
 
@@ -87,12 +139,7 @@ class CartController extends Controller
 
     function checkout()
     {
-        $shipping_fee = 20000;
-        $total = Cart::total();
-        $total = (float)str_replace(array(',', '.'), '', $total);
-        $total += $shipping_fee;        
-
-        return view('user.cart.checkout', compact('shipping_fee', 'total'));
+        return view('user.cart.checkout');
     }
 
     function pay(Request $request)
@@ -138,8 +185,9 @@ class CartController extends Controller
         //Xóa giỏ hàng sau khi đặt hàng
         Cart::destroy();
         
-        //Xóa mã khuyến mãi
+        //Xóa mã khuyến mãi và phí ship
         Session::forget('promotion');
+        Session::forget('feeship');
 
         return redirect(route('home'))->with('success', 'Đặt hàng thành công');
     }
