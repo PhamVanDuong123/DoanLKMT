@@ -22,14 +22,14 @@ class CartController extends Controller
     function show()
     {
         $list_pro = Cart::content();
-        $list_province = Province::all();
-        foreach($list_pro as &$item){
-            $item->options->url_detail=route('product.detail',$item->id);   
+        foreach ($list_pro as &$item) {
+            $item->options->url_detail = route('product.detail', $item->id);
         }
-        return view('user.cart.show', compact('list_pro','list_province'));
+        return view('user.cart.show', compact('list_pro'));
     }
 
-    function load_district_ward_user(Request $request){
+    function load_district_ward_user(Request $request)
+    {
         $data = $request->all();
         $select_val = $data['select_val'];
         $result = $data['result'];
@@ -50,19 +50,33 @@ class CartController extends Controller
         echo $html;
     }
 
-    function calculator_feeship(Request $request){
+    function calculator_feeship(Request $request)
+    {
         $data = $request->all();
         $province_id = $data['province_id'];
         $district_id = $data['district_id'];
         $ward_id = $data['ward_id'];
 
-        $fee=0;
-        $feeship=Feeship::where('province_id',$province_id)->where('district_id',$district_id)->where('ward_id',$ward_id)->first();
-        if($feeship)
-            $fee=$feeship->fee;
-                
-        Session::put('feeship',$fee);
+        $fee = 20000;
+        $feeship = Feeship::where('province_id', $province_id)->where('district_id', $district_id)->where('ward_id', $ward_id)->first();
+        if ($feeship)
+            $fee = $feeship->fee;
+        
+        Session::put('feeship', $fee);
         Session::save();
+    }
+
+    function del_promotion_code(){
+        //trả lại sl mã khuyến mãi
+        $promotion_session = Session::get('promotion');
+        if ($promotion_session) {
+            $promotion = Promotion::where('code', $promotion_session[0]['code'])->first();
+            $promotion->qty++;
+            $promotion->save();
+        }
+
+        Session::forget('promotion');
+        return redirect()->back()->with('success','Hủy mã giảm giá thành công');
     }
 
     function add($id)
@@ -102,9 +116,9 @@ class CartController extends Controller
         Cart::destroy();
 
         //trả lại sl mã khuyến mãi
-        $promotion_session=Session::get('promotion');
-        if($promotion_session){
-            $promotion = Promotion::where('code',$promotion_session[0]['code'])->first();
+        $promotion_session = Session::get('promotion');
+        if ($promotion_session) {
+            $promotion = Promotion::where('code', $promotion_session[0]['code'])->first();
             $promotion->qty++;
             $promotion->save();
         }
@@ -125,71 +139,69 @@ class CartController extends Controller
         Cart::update($id, $qty);
 
         //lấy đối tượng trong giỏ hàng
-        $product_cart=Cart::get($id);
-        
+        $product_cart = Cart::get($id);
+
 
         $data['html_cart'] = $this->update_html_cart();
-        $data['num_cart'] = "<p>Có <strong>".Cart::count()."</strong> sản phẩm trong giỏ hàng</p>";
-        $data['product_cart']=$product_cart;
-        $data['cart']=Cart::content();
-        $data['promotion']=Session::get('promotion');
+        $data['num_cart'] = "<p>Có <strong>" . Cart::count() . "</strong> sản phẩm trong giỏ hàng</p>";
+        $data['product_cart'] = $product_cart;
+        $data['cart'] = Cart::content();
+        $data['promotion'] = Session::get('promotion');
 
         echo json_encode($data);
     }
 
     function checkout()
     {
-        return view('user.cart.checkout');
+        $list_province = Province::all();
+        return view('user.cart.checkout', compact('list_province'));
     }
 
     function pay(Request $request)
     {
-        $shipping_fee = 20000;
-        // dd($request->all());
-        $this->validate($request, [
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'payment' => 'required'
-        ], [
-            'required' => ':attribute không được để trống!',
-            'payment.required' => 'Bạn chưa chọn phương thức thanh toán'
-        ], [
-            'name' => 'Họ tên',
-            'phone' => 'Số điện thoại',
-            'address' => 'Địa chỉ',
-        ]);
-
-        $order = Order::create([
-            'code' => 'DH-0' . Order::get()->max()->id + 1,
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'note' => $request->note,
-            'shipping_fee' => $shipping_fee,
-            'payment' => $request->payment,
-            'promotion_code' => $request->promotion_code,
-            'user_id' => Auth::id()
-        ]);
-        // dd(Cart::content());
-        foreach (Cart::content() as $item) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $item->id,
-                'number' => $item->qty,
-                'price' => $item->price,
-                'price_cost' => Product::where('id', $item->id)->first()->price_cost
+        if (Cart::count() > 0) {
+            
+            $order = Order::create([
+                'code' => 'DH-0' . Order::get()->max()->id + 1,
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'note' => $request->note,
+                'shipping_fee' => empty(Session::get('feeship'))?20000:$request->shipping_fee,
+                'payment' => $request->payment,
+                'promotion_code' => !empty(Session::get('promotion'))?Session::get('promotion')[0]['code']:null,
+                'user_id' => Auth::id()
             ]);
+            // dd(Cart::content());
+            foreach (Cart::content() as $item) {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->id,
+                    'number' => $item->qty,
+                    'price' => $item->price,
+                    'price_cost' => Product::where('id', $item->id)->first()->price_cost
+                ]);
+            }
+
+            //Xóa giỏ hàng sau khi đặt hàng
+            Cart::destroy();
+
+            //Xóa mã khuyến mãi và phí ship
+            Session::forget('promotion');
+            Session::forget('feeship');
+
+            $data['title']="Đặt hàng thành công";
+            $data['status']="success";
+            $data['message']="Đơn hàng đang chờ được xử lý và sẽ được giao đến bạn trong thời gian sớm nhất";
+
+            echo json_encode($data);
+        }else{
+            $data['title']="Đặt hàng thất bại";
+            $data['status']="error";
+            $data['message']="Bạn chưa chọn sản phẩm. Vui lòng chọn sản phẩm để thanh toán!";
+
+            echo json_encode($data);
         }
-
-        //Xóa giỏ hàng sau khi đặt hàng
-        Cart::destroy();
-        
-        //Xóa mã khuyến mãi và phí ship
-        Session::forget('promotion');
-        Session::forget('feeship');
-
-        return redirect(route('home'))->with('success', 'Đặt hàng thành công');
     }
 
     function update_html_cart()

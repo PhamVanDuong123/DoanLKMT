@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Session;
 */
 
 Route::get('/', 'User\HomeController@index')->name('home');
-Route::post('/autocomplete-ajax','User\HomeController@autocomplete_ajax')->name('autocomplete-ajax');
+Route::post('/autocomplete-ajax', 'User\HomeController@autocomplete_ajax')->name('autocomplete-ajax');
 Route::post('/search', 'User\HomeController@search')->name('search');
 route::get('user/account/login/login_facebook/{provider}', 'SocialController@login_facebook');
 Route::get('user/account/login/callback/{provider}', 'SocialController@callback');
@@ -36,22 +36,23 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/product', 'User\ProductController@index')->name('product.index');
     Route::get('/product/showByCategory/{cate_id}', 'User\ProductController@showByCategory')->name('product.showByCate');
     Route::get('/product/{id}', 'User\ProductController@detail')->name('product.detail');
-    Route::post('/insert-rating','User\ProductController@insert_rating');
+    Route::post('/insert-rating', 'User\ProductController@insert_rating');
 
 
     //cart
-    Route::get('/cart/show','User\CartController@show')->name('cart.show');
+    Route::get('/cart/show', 'User\CartController@show')->name('cart.show');
     Route::get('/cart/add/{id}', 'User\CartController@add')->name('cart.add')->middleware('checkLogin');
     Route::get('/cart/remove/{rowId}', 'User\CartController@remove')->name('cart.remove');
-    Route::get('/cart/destroy','User\CartController@destroy')->name('cart.destroy');
-    Route::post('/cart/update','User\CartController@update')->name('cart.update');
+    Route::get('/cart/destroy', 'User\CartController@destroy')->name('cart.destroy');
+    Route::post('/cart/update', 'User\CartController@update')->name('cart.update');
     Route::get('/cart/checkout/{id?}', 'User\CartController@checkout')->name('cart.checkout');
     Route::post('/cart/pay', 'User\CartController@pay')->name('cart.pay');
     Route::post('/cart/load_district_ward_user', 'User\CartController@load_district_ward_user')->name('cart.load_district_ward_user');
     Route::post('/cart/calculator_feeship', 'User\CartController@calculator_feeship')->name('cart.calculator_feeship');
+    Route::get('cart/del_promotion_code', 'User\CartController@del_promotion_code')->name('cart.del_promotion_code');
 
     //promotion
-    Route::post('/promotion/process','User\PromotionController@process')->name('promotion.process');
+    Route::post('/promotion/process', 'User\PromotionController@process')->name('promotion.process');
 
     //post
     Route::get('/post', 'User\PostController@index')->name('post.index');
@@ -59,16 +60,15 @@ Route::group(['prefix' => '/user'], function () {
 
     //page
     Route::get('/page/{name}', 'User\PageController@detail')->name('page.detail');
-    
+
     // account  
-    Route::get('/account/login','User\HomeController@get_Login')->name('account.login');
-    Route::post('/account/login','User\HomeController@post_Login')->name('account.login');
-    Route::get('/account/logout','User\HomeController@logout')->name('account.logout');
-    Route::get('/account/signup','User\HomeController@get_signup')->name('account.signup');
-    Route::post('/account/signup','User\HomeController@post_signup')->name('account.signup');
-    Route::get('/account/detail','User\HomeController@detail')->name('account.detail');
-    Route::post('/account/detail','User\HomeController@account_detail')->name('account.detail');
-    
+    Route::get('/account/login', 'User\HomeController@get_Login')->name('account.login');
+    Route::post('/account/login', 'User\HomeController@post_Login')->name('account.login');
+    Route::get('/account/logout', 'User\HomeController@logout')->name('account.logout');
+    Route::get('/account/signup', 'User\HomeController@get_signup')->name('account.signup');
+    Route::post('/account/signup', 'User\HomeController@post_signup')->name('account.signup');
+    Route::get('/account/detail', 'User\HomeController@detail')->name('account.detail');
+    Route::post('/account/detail', 'User\HomeController@account_detail')->name('account.detail');
 });
 
 //Admin
@@ -93,6 +93,8 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/promotion/edit/{id}', 'Admin\PromotionController@edit')->name('admin.promotion.edit');
         Route::post('/promotion/update/{id}', 'Admin\PromotionController@update')->name('admin.promotion.update');
         Route::get('/promotion/detail/{id}', 'Admin\PromotionController@detail')->name('admin.promotion.detail');
+        Route::get('/promotion/approve', 'Admin\PromotionController@approve')->name('admin.promotion.approve')->middleware('roleBoss');
+        Route::post('/promotion/approve_promo/{id}', 'Admin\PromotionController@approve_promo')->name('admin.promotion.approve_promo')->middleware('roleBoss');
 
         //statistics
         Route::get('/statistics/sale', 'Admin\StatisticsController@sale')->name('admin.statistics.sale');
@@ -100,13 +102,6 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/fillter_by_select', 'Admin\StatisticsController@fillter_by_select')->name('admin.statistics.fillter_by_select');
         Route::post('/statistical_30day', 'Admin\StatisticsController@statistical_30day')->name('admin.statistics.statistical_30day');
         Route::get('/statistics/product_post', 'Admin\StatisticsController@product_post')->name('admin.statistics.product_post');
-        
-        //delivery
-        Route::get('/delivery', 'Admin\DeliveryController@index')->name('admin.delivery');
-        Route::post('/delivery/load_district_ward', 'Admin\DeliveryController@load_district_ward')->name('admin.delivery.load_district_ward');
-        Route::post('/delivery/add_feeship', 'Admin\DeliveryController@add_feeship')->name('admin.delivery.add_feeship');
-        Route::post('/delivery/edit_feeship', 'Admin\DeliveryController@edit_feeship')->name('admin.delivery.edit_feeship');
-        Route::post('/delivery/load_feeship', 'Admin\DeliveryController@load_feeship')->name('admin.delivery.load_feeship');
     });
 
     Route::middleware('roleAdmin')->group(function () {
@@ -129,6 +124,8 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/product/update/{id}', 'Admin\ProductController@update')->name('admin.product.update');
         Route::get('/product/delete/{id}', 'Admin\ProductController@delete')->name('admin.product.delete');
         Route::post('/product/action', 'Admin\ProductController@action')->name('admin.product.action');
+        Route::get('/product/approve', 'Admin\ProductController@approve')->name('admin.product.approve')->middleware('roleBoss');
+        Route::post('/product/approve_pro/{id}', 'Admin\ProductController@approve_pro')->name('admin.product.approve_pro')->middleware('roleBoss');
 
         //product category
         Route::get('/product_category', 'Admin\ProductCategoryController@index')->name('admin.product_category.index');
@@ -151,6 +148,8 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/post/update/{id}', 'Admin\PostController@update')->name('admin.post.update');
         Route::get('/post/delete/{id}', 'Admin\PostController@delete')->name('admin.post.delete');
         Route::post('/post/action', 'Admin\PostController@action')->name('admin.post.action');
+        Route::get('/post/approve', 'Admin\PostController@approve')->name('admin.post.approve')->middleware('roleBoss');
+        Route::post('/post/approve_post/{id}', 'Admin\PostController@approve_post')->name('admin.post.approve_post')->middleware('roleBoss');
 
         //post category
         Route::get('/postCategory', 'Admin\PostCategoryController@index')->name('admin.post_category.index');
@@ -171,6 +170,13 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/brand/update/{id}', 'Admin\BrandController@update')->name('admin.brand.update');
         Route::get('/brand/delete/{id}', 'Admin\BrandController@delete')->name('admin.brand.delete');
         Route::post('/brand/action', 'Admin\BrandController@action')->name('admin.brand.action');
+
+        //delivery
+        Route::get('/delivery', 'Admin\DeliveryController@index')->name('admin.delivery');
+        Route::post('/delivery/load_district_ward', 'Admin\DeliveryController@load_district_ward')->name('admin.delivery.load_district_ward');
+        Route::post('/delivery/add_feeship', 'Admin\DeliveryController@add_feeship')->name('admin.delivery.add_feeship');
+        Route::post('/delivery/edit_feeship', 'Admin\DeliveryController@edit_feeship')->name('admin.delivery.edit_feeship');
+        Route::post('/delivery/load_feeship', 'Admin\DeliveryController@load_feeship')->name('admin.delivery.load_feeship');
     });
 });
 
@@ -186,18 +192,13 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], func
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 //locate
-Route::group(['middleware' => ['web']], function ()
-{
-    Route::get('/lang/{locale}',function($locale)
-    {
-        if(! in_array($locale,['vi','en','cn']))
-        {
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/lang/{locale}', function ($locale) {
+        if (!in_array($locale, ['vi', 'en', 'cn'])) {
             abort(404);
         }
-      
-        session()->put('locate',$locale);
+
+        session()->put('locate', $locale);
         return redirect()->back();
-    
     });
 });
-

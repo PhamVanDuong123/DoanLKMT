@@ -26,18 +26,18 @@ class PromotionController extends Controller
             'trash' => 'Xóa tạm thời'
         );
 
-        $list_promotion = Promotion::where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+        $list_promotion = Promotion::where('code', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
 
         if ($status == 'trash') {
             $list_action = array(
                 'active' => 'Khôi phục',
                 'forceDelete' => 'Xóa vĩnh viễn'
             );
-            $list_promotion = Promotion::onlyTrashed()->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            $list_promotion = Promotion::onlyTrashed()->where('code', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'approved') {
-            $list_promotion = Promotion::where('status', 'approved')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            $list_promotion = Promotion::where('status', 'approved')->where('code', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         if ($status == 'not approved yet') {
@@ -45,7 +45,7 @@ class PromotionController extends Controller
                 'approved' => 'Duyệt',
                 'trash' => 'Xóa tạm thời'
             );
-            $list_promotion = Promotion::where('status', 'not approved yet')->where('name', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
+            $list_promotion = Promotion::where('status', 'not approved yet')->where('code', 'like', "%{$key}%")->orderByDesc('id')->paginate(5);
         }
 
         $count = array(
@@ -223,5 +223,29 @@ class PromotionController extends Controller
 
         $route_detail = route('admin.promotion.detail', $id);
         return redirect(route('admin.promotion.index',['status'=>$status]))->with('success', "Cập nhật khuyến mãi thành công. Click <a class=\"text-primary\" href=\"{$route_detail}\">vào đây</a> để xem chi tiết!");
+    }
+
+    function approve(Request $request){
+        $list_promo_not_approve=Promotion::where('status','not approved yet')->paginate(5);
+        
+        $key=$request->key;
+        if(!empty($key)){
+            $list_promo_not_approve=Promotion::where('status','not approved yet')->where('code','like',"%{$key}%")->paginate(5);
+        }
+
+        return view('admin.promotions.approve',compact('list_promo_not_approve'));
+    }
+
+    function approve_promo(Request $request,$id){
+        $status = $request->status;
+        if($status=='approved'){
+            $promotion=Promotion::find($id);
+            $promotion->status=$status;
+            $promotion->save();
+
+            return redirect(route('admin.promotion.approve'))->with('success','Xét duyệt khuyến mãi thành công');
+        }else{
+            return redirect()->back()->with('error','Bạn chưa thay đổi trạng thái xét duyệt');
+        }        
     }
 }

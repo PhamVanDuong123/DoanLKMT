@@ -79,12 +79,12 @@ class OrderController extends Controller
             $order_date = $order->order_date;
 
             $statistic = Statistical::where('order_date', $order_date)->get();
-            //dd($statistic[0]['total_order']);
+            //dd($statistic);
             $sales = $this->get_sales($order->id);
             $quantity = $this->get_quantity($order->id);
             $profit = $this->get_profit($order->id);
             //dd($profit);
-            if ($statistic) {
+            if (empty($statistic)) {
                 Statistical::where('order_date', $order_date)->update([
                     'sales' => $statistic[0]['sales'] + $sales,
                     'profit' => $statistic[0]['profit'] + $profit,

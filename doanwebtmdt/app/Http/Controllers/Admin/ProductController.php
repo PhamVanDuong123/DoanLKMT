@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Province;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -344,5 +345,29 @@ class ProductController extends Controller
 
             $thumb = 'http://localhost:8081/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
+    }
+
+    function approve(Request $request){
+        $list_pro_not_approve=Product::where('status','not approved yet')->paginate(5);
+        
+        $key=$request->key;
+        if(!empty($key)){
+            $list_pro_not_approve=Product::where('status','not approved yet')->where('name','like',"%{$key}%")->paginate(5);
+        }
+
+        return view('admin.product.approve',compact('list_pro_not_approve'));
+    }
+
+    function approve_pro(Request $request,$id){
+        $status = $request->status;
+        if($status=='approved'){
+            $product=Product::find($id);
+            $product->status=$status;
+            $product->save();
+
+            return redirect(route('admin.product.approve'))->with('success','Xét duyệt sản phẩm thành công');
+        }else{
+            return redirect()->back()->with('error','Bạn chưa thay đổi trạng thái xét duyệt');
+        }        
     }
 }

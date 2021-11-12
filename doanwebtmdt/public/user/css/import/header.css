@@ -158,6 +158,7 @@
 #cart-wp {
     position: relative;
     cursor: pointer;
+    margin-right: 50px;
 }
 
 #cart-wp #dropdown {

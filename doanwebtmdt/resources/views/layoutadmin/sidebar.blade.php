@@ -23,6 +23,7 @@ $menus=$list_menu['blade'];
         @if(!empty($list_menu))
         @if(!empty($list_mod))
         @foreach($menus as $k=>$item)
+        @if($item['role']==Auth::user()->permission||Auth::user()->permission==1)
         <li class="nav-link {{$mod_active==$item['module']?'active':''}}">
             <a href="{{route($item['route'])}}">
                 <div class="nav-link-icon d-inline-flex">
@@ -34,15 +35,18 @@ $menus=$list_menu['blade'];
             <i class="arrow fas fa-angle-right"></i>        
             <ul class="sub-menu">
                 @foreach($item['items'] as $subitem)
+                @if($subitem['role']==Auth::user()->permission||Auth::user()->permission==1)
                 <li>
                     <a href="{{route($subitem['route'])}}">                    
                     {{$subitem['name']}}
                     </a>
                 </li>
+                @endif
                 @endforeach
             </ul>
             @endif
         </li>
+        @endif
         @endforeach
         @endif
         @endif

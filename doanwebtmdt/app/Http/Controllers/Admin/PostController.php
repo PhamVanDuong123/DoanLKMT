@@ -312,4 +312,28 @@ class PostController extends Controller
             $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
     }
+
+    function approve(Request $request){
+        $list_post_not_approve=Post::where('status','not approved yet')->paginate(5);
+        
+        $key=$request->key;
+        if(!empty($key)){
+            $list_post_not_approve=Post::where('status','not approved yet')->where('name','like',"%{$key}%")->paginate(5);
+        }
+
+        return view('admin.posts.approve',compact('list_post_not_approve'));
+    }
+
+    function approve_post(Request $request,$id){
+        $status = $request->status;
+        if($status=='approved'){
+            $post=Post::find($id);
+            $post->status=$status;
+            $post->save();
+
+            return redirect(route('admin.post.approve'))->with('success','Xét duyệt bài viết thành công');
+        }else{
+            return redirect()->back()->with('error','Bạn chưa thay đổi trạng thái xét duyệt');
+        }        
+    }
 }

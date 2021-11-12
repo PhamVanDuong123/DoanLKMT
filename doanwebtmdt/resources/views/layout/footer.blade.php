@@ -197,7 +197,7 @@
                     district_id: district_id,
                     ward_id: ward_id
                 },
-                success: function() {     
+                success: function() {
                     location.reload();
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
@@ -217,7 +217,21 @@
             method: "get",
             dataType: "json",
             success: function(data) {
-                alert(data.success);
+                //ht sweet alert
+                swal({
+                        title: "Thêm thành công",
+                        text: data.success,
+                        type: "success",
+                        showCancelButton: true,
+                        cancelButtonText: "Mua tiếp",
+                        confirmButtonColor: "green",
+                        confirmButtonText: "Đi đến giỏ hàng",
+                        closeOnConfirm: false
+                    },
+                    function() {
+                        window.location.href = "{{route('cart.show')}}";
+                    });
+
                 //location.reload();
                 $('#cart-wp').empty();
                 $('#cart-wp').html(data.html_cart);
@@ -261,17 +275,8 @@
                     total += value.price * value.qty;
                 });
 
-                //gám gt giỏ hàng
+                //gán gt giỏ hàng
                 $('span#total').html(number_format(total, 0, ',', '.') + 'đ')
-                $.each(data.promotion, function(key, value) {
-                    if (value.condition == 1) {
-                        $('span#total_after_promotion').html(number_format(total - (total * value.number / 100), 0, ',', '.') + 'đ')
-                        $('span#money_promotion').html(number_format(total * value.number / 100, 0, ',', '.') + 'đ')
-                    } else if (value.condition == 2) {
-                        $('span#total_after_promotion').html(number_format(total - value.number, 0, ',', '.') + 'đ')
-                    }
-                })
-
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert("Lỗi: " + xhr + " - " + thrownError);
@@ -316,11 +321,92 @@
                 $('#info-cart-wp').empty();
                 $('#cart-qty').html("<p>Có <strong>0</strong> sản phẩm trong giỏ hàng</p>");
                 //location.reload();
+
+                //ht sweet alert
+                swal({
+                        title: "Xóa thành công",
+                        text: "Tất cả sản phẩm trong giỏ hàng đã được xóa",
+                        type: "success",
+                        showCancelButton: true,
+                        cancelButtonText: "Thoát",
+                        confirmButtonColor: "green",
+                        confirmButtonText: "Về trang chủ",
+                        closeOnConfirm: false
+                    },
+                    function() {
+                        window.location.href = "{{route('home')}}";
+                    });
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert("Lỗi: " + xhr + " - " + thrownError);
             }
         })
+    })
+
+    //đặt hàng
+    $('#order-now').on('click', function() {
+        var _token = $('input[name="_token"]').val();
+        var name = $('#name').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var note = $('#note').val();
+        var payment = $("select[name='payment']").val();
+
+        if (!name) {
+            alert('Bạn chưa nhập họ tên người nhận hàng')
+        } else if (!phone) {
+            alert('Bạn chưa nhập số điện thoại người nhận hàng')
+        } else if (!address) {
+            alert('Bạn chưa nhập địa chỉ người nhận hàng')
+        } else if (!payment) {
+            alert('Bạn chưa chọn phương thức thanh toán')
+        } else {
+            swal({
+                    title: "Bạn có thực sự muốn đặt hàng?",
+                    text: "Đơn hàng sẽ không được hoàn trả lại nếu như bạn đặt hàng!",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Thoát",
+                    confirmButtonColor: "#ff6c00",
+                    confirmButtonText: "Đặt hàng",
+                    closeOnConfirm: false
+                },
+                function() {
+                    $.ajax({
+                        url: "{{route('cart.pay')}}",
+                        method: "post",
+                        dataType: "json",
+                        data: {
+                            _token: _token,
+                            name: name,
+                            phone: phone,
+                            address: address,
+                            note: note,
+                            payment: payment
+                        },
+                        success: function(data) {
+                            //ht sweet alert
+                            swal({
+                                title: data.title,
+                                text: data.message,
+                                type: data.status,
+                                confirmButtonText: "Về lại trang chủ",
+                                confirmButtonColor: "#7787b1",
+                                closeOnConfirm: false
+                            }, function() {
+                                window.location.href = "{{route('home')}}";
+                            });
+                            console.log(data.status)
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
+                        }
+                    })
+                });
+
+
+        }
+
     })
 </script>
 </body>

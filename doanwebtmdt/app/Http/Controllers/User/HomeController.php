@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductCategory;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Crypt;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,42 +21,53 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $url_canonical= \URL::current();
+        $url_canonical = \URL::current();
         $list_cate = ProductCategory::all();
         foreach ($list_cate as &$cate) {
             $cate['url_list_pro_by_cate'] = route('product.showByCate', $cate->id);
         }
 
-        $list_pro_selling = Product::select('*')->limit(4)->get();
+        $list_pro_selling = Product::where('status', 'approved')->select('*')->limit(4)->get();
         foreach ($list_pro_selling as &$product) {
             $product['url'] = route('product.detail', $product->id);
             $product['url_checkout'] = route('cart.checkout');
         }
 
-        $list_highlight_pro = Product::select('*')->limit(6)->get();
+        $list_highlight_pro = Product::where('status', 'approved')->select('*')->limit(6)->get();
         foreach ($list_highlight_pro as &$product) {
             $product['url'] = route('product.detail', $product->id);
             $product['url_add_cart'] = route('cart.add', $product->id);
             $product['url_checkout'] = route('cart.checkout');
         }
 
-        return view('user.index', compact('list_cate', 'list_pro_selling', 'list_highlight_pro','url_canonical'));
-    }
-    public function search(Request $request)
-    {
-       
-        
-        $keyword = $request->keyword_submit;
-        $search_product = Product::where('name', 'like', "%{$keyword}%")->get();
-        $list_cate=ProductCategory::all();
-        foreach($list_cate as &$catetegory){
-            $catetegory['url_list_pro_by_cate']=route('product.showByCate',$catetegory->id);
+        $list_pro_in_cate = array();
+        //lấy ds sp của 2 loại sp đầu tiên
+        for ($i = 0; $i < 2; $i++) {
+            $list_pro_in_cate[] = Product::where('status','approved')->where('product_category_id',$list_cate[$i]['id'])->get();
+            foreach ($list_pro_in_cate[$i] as &$product) {
+                //dd($list_pro_in_cate);
+                $product['url'] = route('product.detail', $product['id']);
+                $product['url_add_cart'] = route('cart.add', $product['id']);
+                $product['url_checkout'] = route('cart.checkout');
+            }
         }
 
-        return view('user.product.search')->with('search_product', $search_product)->with('keyword', $keyword)->with('list_cate',$list_cate);
+        return view('user.index', compact('list_cate', 'list_pro_selling', 'list_highlight_pro', 'list_pro_in_cate', 'url_canonical'));
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword_submit;
+        $search_product = Product::where('status','approved')->where('name', 'like', "%{$keyword}%")->get();
+        $list_cate = ProductCategory::all();
+        foreach ($list_cate as &$catetegory) {
+            $catetegory['url_list_pro_by_cate'] = route('product.showByCate', $catetegory->id);
+        }
+
+        return view('user.product.search')->with('search_product', $search_product)->with('keyword', $keyword)->with('list_cate', $list_cate);
     }
     // search with auto complete
-    
+
     function get_Login()
     {
         return view('user.account.login');
@@ -107,12 +119,12 @@ class HomeController extends Controller
         //     $cart[]=$value;
         // }
         // dd($cart);
-        
+
         //Cookie::queue(Auth::id(), $cart,10);
         // $response = new Response('hello');
         // $response->withCookie(cookie(Auth::id(),$cart,3600));
 
-        
+
         Auth::logout();
 
         //clear giỏ hàng khi đăng xuất        
@@ -124,7 +136,7 @@ class HomeController extends Controller
     {
         return view('user.account.signup');
     }
-  
+
     function post_signup(Request $request)
     {
         $this->validate(
@@ -229,28 +241,25 @@ class HomeController extends Controller
             $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
     }
-    public function autocomplete_ajax(Request $request){
+    public function autocomplete_ajax(Request $request)
+    {
         $data = $request->all();
 
-        if($data['query']){
+        if ($data['query']) {
 
-            $product = Product::where('name','LIKE','%'.$data['query'].'%')->get();
+            $product = Product::where('name', 'LIKE', '%' . $data['query'] . '%')->get();
 
             $output = '
-            <ul class="dropdown-menu" style="display:block; position:relative">'
-            ;
+            <ul class="dropdown-menu" style="display:block; position:relative">';
 
-            foreach($product as $key => $val){
-               $output .= '
-               <li class="li_search_ajax"><a href="#">'.$val->name.'</a></li>
+            foreach ($product as $key => $val) {
+                $output .= '
+               <li class="li_search_ajax"><a href="#">' . $val->name . '</a></li>
                ';
             }
 
             $output .= '</ul>';
             echo $output;
         }
-
-
     }
-
 }

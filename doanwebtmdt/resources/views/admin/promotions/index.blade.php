@@ -18,7 +18,7 @@ return $list_status[$status];
             <div class="form-search form-inline">
                 <form action="">
                     @csrf
-                    <input type="text" name="key" value="{{request()->key}}" class="form-control form-search" placeholder="Nhập tên khuyến mãi">
+                    <input type="text" name="key" value="{{request()->key}}" class="form-control form-search" placeholder="Nhập mã khuyến mãi">
                     <button type="submit" id="btn-search-post" name="btn-search-post" class="btn btn-primary">Tìm kiếm <i class="fas fa-search"></i></button>
                 </form>
             </div>

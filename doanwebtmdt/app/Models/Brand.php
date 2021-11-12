@@ -19,7 +19,6 @@ class Brand extends Model
         'country',
         'logo',
         'website',
-        'stautus',
         'created_at',
         'updated_at',
         

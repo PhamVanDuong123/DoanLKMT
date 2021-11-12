@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{asset('user/css/bootstrap/bootstrap-theme.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/css/bootstrap/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('user/css/sweetalert.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('user/reset.css')}}" rel="stylesheet')}}" type="text/css" />
     <link href="{{asset('user/main.css')}}" rel="stylesheet')}}" type="text/css" />
     <link href="{{asset('user/css/carousel/owl.carousel.css')}}" rel="stylesheet" type="text/css" />
@@ -23,6 +24,7 @@
     <script src="{{asset('user/js/carousel/owl.carousel.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('user/js/app.js')}}" type="text/javascript"></script>
+    <script src="{{asset('/user/js/sweetalert.min.js')}}"></script>    
     <div class="zalo-chat-widget" data-oaid="2945463678774668991" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="" data-height=""></div>
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
     <link  rel="canonical" href="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
@@ -106,7 +108,7 @@
                                
                                 <a href="{{route('account.detail')}}" title="" >{{Auth::user()->fullname}}
                                      <!-- <span class="glyphicon glyphicon-user"><span> -->
-                                         <img src="@php echo empty(Auth::user()->avatar) ? 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/no-avatar.png' : Auth::user()->avatar @endphp" alt="" class="avatar">
+                                         <img src="@php echo empty(Auth::user()->avatar) ? 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/no-avatar.png' : url('public/'.Auth::user()->avatar) @endphp" alt="" class="avatar">
                                </a>         
                                 </li> 
                                 <li>

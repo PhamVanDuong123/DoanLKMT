@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     function index(){
-        $list_post=Post::paginate(2);
+        $list_post=Post::where('status','approved')->paginate(2);
         foreach($list_post as &$post){
             $post['url']=route('post.detail',$post->id);
         }
         
-        $list_pro_selling=Product::select('*')->limit(6)->get();
+        $list_pro_selling=Product::where('status','approved')->select('*')->limit(6)->get();
         foreach($list_pro_selling as &$product){
             $product['url']=route('product.detail',$product->id);
             $product['url_checkout']=route('cart.checkout');
@@ -24,9 +24,9 @@ class PostController extends Controller
     }
 
     function detail($id){
-        $post=Post::find($id);
+        $post=Post::where('status','approved')->find($id);
 
-        $list_pro_selling=Product::select('*')->limit(6)->get();
+        $list_pro_selling=Product::where('status','approved')->select('*')->limit(6)->get();
         foreach($list_pro_selling as &$product){
             $product['url']=route('product.detail',$product->id);
             $product['url_checkout']=route('cart.checkout');

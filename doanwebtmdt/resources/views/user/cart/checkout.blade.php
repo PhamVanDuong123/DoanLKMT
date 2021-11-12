@@ -23,141 +23,193 @@ $feeship = Session::get('feeship');
         </div>
     </div>
     <div id="wrapper" class="wp-inner clearfix">
-        <form method="POST" action="{{route('cart.pay')}}" name="form-checkout">
-            @csrf
-            <div class="section" id="customer-info-wp">
-                <div class="section-head">
-                    <h1 class="section-title">Thông tin khách hàng</h1>
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{session('success')}}
+        </div>
+        @elseif(session('error'))
+        <div class="alert alert-danger">
+            {{session('error')}}
+        </div>
+        @endif
+        <div class="section" id="customer-info-wp">
+            <div class="section-head">
+                <h1 class="section-title">Thông tin khách hàng</h1>
+            </div>
+            <div class="section-detail">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{route('promotion.process')}}" method="post" class="form-promotion_code">
+                            @csrf
+                            <label for="promotion_code">Nhập mã khuyến mãi:</label>
+                            <input type="text" name="promotion_code" id="promotion_code" class="" value="{{$promotion?$promotion[0]['code']:''}}">
+                            <input type="submit" name="btn-promotion-code" value="Sử dụng" class="btn btn-warning">
+                        </form>
+                    </div>
                 </div>
-                <div class="section-detail">
-                    <div class="form-row clearfix">
-                        <div class="form-col fl-left">
-                            <label for="name">Họ tên</label>
-                            <input type="text" name="name" id="name">
-                            @error('name')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
-                        <div class="form-col fl-right">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="tel" name="phone" id="phone">
-                            @error('phone')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form>
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="province">Chọn tỉnh/thành phố: </label>
+                                        <select name="province" id="province" class="form-control choose">
+                                            <option value="">-- Chọn --</option>
+                                            @foreach($list_province as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="district">Chọn quận/huyện: </label>
+                                        <select name="district" id="district" class="form-control choose">
+                                            <option value="">-- Chọn --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ward">Chọn xã/phường/thị trấn: </label>
+                                        <select name="ward" id="ward" class="form-control">
+                                            <option value="">-- Chọn --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" id="calculator-feeship" class="btn btn-primary" style="margin-top: 25px;">Tính phí vận chuyển</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-row clearfix">
-                        <div class="form-col fl-left">
-                            <label for="address">Địa chỉ</label>
-                            <input type="text" name="address" id="address">
-                            @error('address')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
-                        <!-- <div class="form-col fl-right">
-                            <label for="promotion_code">Mã khuyến mãi</label>
-                            <input type="text" name="promotion_code" id="promotion_code">
-                        </div> -->
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form>
+                            @csrf
+                            <div class="row clearfix">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Họ tên</label>
+                                        <input type="text" name="name" id="name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="tel" name="phone" id="phone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address">Địa chỉ</label>
+                                        <textarea rows="3" type="text" name="address" id="address" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="note">Ghi chú</label>
+                                        <textarea rows="3" name="note" id="note" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="payment">Phương thức thanh toán</label>
+                                        <select name="payment" id="payment_methods" class="form-control">
+                                            <option value="">--Chọn--</option>
+                                            <option value="onl">Thẻ ngân hàng</option>
+                                            <option value="cod">Khi nhận hàng (COD)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="place-order-wp clearfix">
+                                        <input type="button" class="btn btn-primary px-5 py-3" id="order-now" value="Đặt hàng">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-row">
-                        <div class="form-col">
-                            <label for="note">Ghi chú</label>
-                            <textarea name="note" id="note"></textarea>
-                        </div>
-                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="order-review-wp">
+            <div class="section-head">
+                <h1 class="section-title">Thông tin đơn hàng</h1>
+            </div>
+            <div class="section-detail">
+                <table class="shop-table">
+                    <thead>
+                        <tr>
+                            <td>Sản phẩm</td>
+                            <td>Tổng</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(Cart::content() as $product)
+                        <tr class="cart-item">
+                            <td class="product-name">{{$product->name}}<strong class="product-quantity">x {{$product->qty}}</strong></td>
+                            <td class="product-total">{{number_format($product->subtotal,0,',','.')}}đ</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        @if($promotion||$feeship)
+                        <tr class="order-total">
+                            <td>Tổng giá tiền:</td>
+                            <td>{{number_format($total,0,',','.')}}đ</td>
+                        </tr>
+                        @endif
+                        
+                        @php
+                        $total_after = $total; 
+                        @endphp
 
-                </div>
+                        @if($promotion)
+                        @if($promotion[0]['condition']==1)
+                        <tr class="order-total">
+                            <td>Giảm giá:</td>
+                            <td>{{$promotion[0]['number']}}%<a href="{{route('cart.del_promotion_code')}}" class="ml-2" title="Hủy mã giảm giá"><i class="fa fa-trash-o"></i></a></td>
+                        </tr>
+                        <tr class="order-total">
+                            <td>Số tiền giảm:</td>
+                            <td>{{number_format($total*$promotion[0]['number']/100,0,',','.')}}đ</td>
+                            
+                        </tr>
+                        @php
+                        $total_after = $total-($total*$promotion[0]['number']/100)
+                        @endphp
+                        @elseif($promotion[0]['condition']==2)
+                        <tr class="order-total">
+                            <td>Giảm giá:</td>                            
+                            <td>{{number_format($promotion[0]['number'],0,',','.')}}đ<a href="{{route('cart.del_promotion_code')}}" class="ml-2" title="Hủy mã giảm giá"><i class="fa fa-trash-o"></i></a></td>                            
+                        </tr>
+                        @php
+                        $total_after = $total-$promotion[0]['number']
+                        @endphp
+                        @endif
+                        @endif
+
+                        @if($feeship)
+                        <tr class="order-total">
+                            <td>Phí vận chuyển:</td>
+                            <td>{{number_format($feeship,0,',','.')}}đ</td>
+                        </tr>
+                        @endif
+
+                        <tr class="order-total text-danger">
+                            <td>Tổng đơn hàng:</td>
+                            <td><strong class="total-price">{{number_format($total_after+$feeship,0,',','.')}}đ</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-            <div class="section" id="order-review-wp">
-                <div class="section-head">
-                    <h1 class="section-title">Thông tin đơn hàng</h1>
-                </div>
-                <div class="section-detail">
-                    <table class="shop-table">
-                        <thead>
-                            <tr>
-                                <td>Sản phẩm</td>
-                                <td>Tổng</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(Cart::content() as $product)
-                            <tr class="cart-item">
-                                <td class="product-name">{{$product->name}}<strong class="product-quantity">x {{$product->qty}}</strong></td>
-                                <td class="product-total">{{number_format($product->subtotal,0,',','.')}}đ</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>                                
-                            <tr class="order-total">
-                                <td>Tổng giá tiền:</td>
-                                <td><strong class="total-price">{{number_format($total,0,',','.')}}đ</strong></td>
-                            </tr>                        
-                            @if($promotion)
-                                @if($promotion[0]['condition']==1)
-                                    <tr class="order-total">
-                                        <td>Giảm giá:</td>
-                                        <td><strong class="total-price">{{$promotion[0]['number']}}%</strong></td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>Số tiền giảm:</td>
-                                        <td><strong class="total-price">{{number_format($total*$promotion[0]['number']/100,0,',','.')}}đ</strong></td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>Phí vận chuyển:</td>
-                                        <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>Tổng đơn hàng:</td>
-                                        <td><strong class="total-price">{{number_format($total-($total*$promotion[0]['number']/100)+$feeship,0,',','.')}}đ</strong></td>
-                                    </tr>
-                                @elseif($promotion[0]['condition']==2)
-                                    <tr class="order-total">
-                                        <td>Giảm giá:</td>
-                                        <td><strong class="total-price">{{number_format($promotion[0]['number'],0,',','.')}}đ</strong></td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>Phí vận chuyển:</td>
-                                        <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>Tổng đơn hàng:</td>
-                                        <td><strong class="total-price">{{number_format($total-$promotion[0]['number']+$feeship,0,',','.')}}đ</strong></td>
-                                    </tr>
-                                @endif
-                            @else
-                                <tr class="order-total">
-                                    <td>Phí vận chuyển:</td>
-                                    <td><strong class="total-price">{{number_format($feeship,0,',','.')}}đ</strong></td>
-                                </tr>  
-                                <tr class="order-total">
-                                        <td>Tổng đơn hàng:</td>
-                                        <td><strong class="total-price">{{number_format($total+$feeship,0,',','.')}}đ</strong></td>
-                                    </tr>  
-                            @endif                            
-                        </tfoot>
-                    </table>
-                    <div id="payment-checkout-wp">
-                        <ul id="payment_methods">
-                            <li>
-                                <input type="radio" id="onl" name="payment" value="onl">
-                                <label for="onl">Thanh toán bằng thẻ ngân hàng</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="cod" name="payment" value="cod">
-                                <label for="cod">Thanh toán khi nhận hàng (COD)</label>
-                            </li>
-                        </ul>
-                        @error('payment')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-                    <div class="place-order-wp clearfix">
-                        <input type="submit" id="order-now" value="Đặt hàng">
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 @endsection

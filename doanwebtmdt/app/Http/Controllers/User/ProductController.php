@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
  
     function index(){
-        $list_pro=Product::paginate(10);
+        $list_pro=Product::where('status','approved')->paginate(10);
         if(!empty($list_pro)){
             foreach($list_pro as &$product){
                 $product['url']=route('product.detail',$product->id);
@@ -28,18 +28,18 @@ class ProductController extends Controller
        
           if($sort_by=='giam_dan')
           {
-              $list_pro=Product::orderBy('price','DESC')->paginate(10);
+              $list_pro=Product::where('status','approved')->orderBy('price','DESC')->paginate(10);
           }
           elseif($sort_by=='tang_dan')
           {
-              $list_pro=Product::orderBy('price','ASC')->paginate(10);
+              $list_pro=Product::where('status','approved')->orderBy('price','ASC')->paginate(10);
           }
          elseif($sort_by=='kytu_za')
          {
-          $list_pro=Product::orderBy('name','DESC')->paginate(10);
+          $list_pro=Product::where('status','approved')->orderBy('name','DESC')->paginate(10);
          }
          elseif($sort_by=='kytu_az'){
-          $list_pro=Product::oderBy('name','ASC')->paginate(10);
+          $list_pro=Product::where('status','approved')->oderBy('name','ASC')->paginate(10);
           }
         }
         if(!empty($list_pro)){
@@ -63,7 +63,7 @@ class ProductController extends Controller
     function showByCategory($cate_id){
         $cate=ProductCategory::find($cate_id);
         
-        $list_pro=Product::where('product_category_id',$cate_id)->paginate(4);
+        $list_pro=Product::where('status','approved')->where('product_category_id',$cate_id)->paginate(4);
      
         $list_cate=ProductCategory::all();
         foreach($list_cate as &$catetegory){
@@ -76,28 +76,19 @@ class ProductController extends Controller
          
             if($sort_by=='giam_dan')
             {
-                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','DESC')->paginate(4);
+                $list_pro=Product::where('status','approved')->where('product_category_id',$cate_id)->orderBy('price','DESC')->paginate(4);
             }
             elseif($sort_by=='tang_dan')
             {
-                $list_pro=Product::where('product_category_id',$cate_id)->orderBy('price','ASC')->paginate(4);
+                $list_pro=Product::where('status','approved')->where('product_category_id',$cate_id)->orderBy('price','ASC')->paginate(4);
             }
            elseif($sort_by=='kytu_za')
            {
-            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(4);
+            $list_pro=Product::where('status','approved')->where('product_category_id',$cate_id)->orderBy('name','DESC')->paginate(4);
            }
            elseif($sort_by=='kytu_az'){
-
-
-              
-
-         
-            $list_pro=Product::where('product_category_id',$cate_id)->orderBy('name','ASC')->paginate(4);
-
-          
-            }           
-
-
+            $list_pro=Product::where('status','approved')->where('product_category_id',$cate_id)->orderBy('name','ASC')->paginate(4);
+            }  
         }
       
         if(!empty($list_pro)){
@@ -148,7 +139,7 @@ class ProductController extends Controller
 
         $list_pro_image=ProductImage::where('product_id',$id)->get();
 
-        $list_pro_same_cate=Product::where('product_category_id',$product->product_category_id)->get();
+        $list_pro_same_cate=Product::where('status','approved')->where('product_category_id',$product->product_category_id)->get();
         if(!empty($list_pro_same_cate)){
             foreach($list_pro_same_cate as &$pro){
                 $pro['url']=route('product.detail',$pro->id);
