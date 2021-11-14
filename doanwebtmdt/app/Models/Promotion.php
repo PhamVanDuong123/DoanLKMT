@@ -19,6 +19,7 @@ class Promotion extends Model
         'condition',
         'qty',
         'number',
+        'min_total_order',
         'status',
         'created_at',
         'updated_at',

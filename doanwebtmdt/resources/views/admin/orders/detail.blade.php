@@ -4,17 +4,26 @@ return number_format($currency,0,',','.').$innit;
 }
 
 function get_sub_total($order){
-    $total=0;
-    foreach($order->products as $item){
-        $total+=$item->pivot->number*$item->pivot->price;
-    }
-    return $total;
+$total=0;
+foreach($order->products as $item){
+$total+=$item->pivot->number*$item->pivot->price;
+}
+return $total;
 }
 
 function get_total($order){
-    return get_sub_total($order)+$order->shipping_fee;
+return get_sub_total($order)+$order->shipping_fee;
+}
+
+function show_status($status){
+$list_status=array(
+2=>'<span class="badge badge-success">Đã xử lý</span>',
+1=>'<span class="badge badge-warning">Chờ xử lý</span>',
+);
+return $list_status[$status];
 }
 @endphp
+
 @extends('layoutadmin.master')
 
 @section('content')
@@ -24,49 +33,54 @@ function get_total($order){
         <div class="col-12">
             <div class="card">
                 <div class="card-header font-weight-bold">
+                @if($action=='process') 
                     Xử lý đơn hàng
+                @else
+                    Chi tiết đơn hàng
+                @endif
                 </div>
                 <div class="card-body">
                     <form action="{{route('admin.order.process',$order->id)}}">
                         @csrf
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="code">Mã đơn hàng</label>
-                                    <input type="text" id="code" class="form-control" value="{{$order->code}}" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="created_at">Thời gian đặt</label>
-                                    <input type="text" id="created_at" class="form-control" value="{{$order->created_at}}" disabled>
+                                    <label class="font-weight-bold">Mã đơn hàng</label>
+                                    <p>{{$order->code}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="shipping_fee">Phí vận chuyển</label>
-                                    <input type="text" id="shipping_fee" class="form-control" value="{{currency_format($order->shipping_fee)}}" disabled>
+                                    <label class="font-weight-bold">Thời gian đặt</label>
+                                    <p>{{$order->created_at}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="sub_total">Giá trị</label>
-                                    <input type="text" id="sub_total" class="form-control" value="{{currency_format(get_sub_total($order))}}" disabled>
+                                    <label class="font-weight-bold">Giá trị</label>
+                                    <p>{{currency_format(get_sub_total($order))}}</p>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="total">Tổng số tiền</label>
-                                    <input type="text" id="total" class="form-control" value="{{currency_format(get_total($order))}}" disabled>
+                                    <label class="font-weight-bold">Mã khuyến mãi</label>
+                                    <p>{{$order->promotion_code}}</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="promotion_code">Mã khuyến mãi</label>
-                                    <input type="text" id="promotion_code" class="form-control" value="{{$order->promotion_code}}" disabled>
+                                    <label class="font-weight-bold">Phí vận chuyển</label>
+                                    <p>{{currency_format($order->shipping_fee)}}</p>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
+                            </div>                            
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Tổng số tiền</label>
+                                    <p>{{currency_format(get_total($order))}}</p>
+                                </div>
+                            </div>                            
+                            <div class="col-md-2">
+                                @if($action=='process')
                                 <div class="form-group">
                                     <label for="">Trạng thái đơn hàng</label>
                                     <select class="form-control" id="" name="status">
@@ -75,33 +89,42 @@ function get_total($order){
                                         <option value="2" {{$order->status=='2'?'selected':''}}>Đã xử lý</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
+                                @else
                                 <div class="form-group">
-                                    <label for="name">Tên khách hàng</label>
-                                    <input type="text" id="name" class="form-control" value="{{$order->name}}" disabled>
+                                    <label for="" class="font-weight-bold">Trạng thái: </label>
+                                    <p>{!!show_status($order->status)!!}</p>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Tên khách hàng</label>
+                                    <p>{{$order->name}}</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="phone">Số điện thoại</label>
-                                    <input type="number" id="phone" class="form-control" value="{{$order->phone}}" disabled>
+                                    <label class="font-weight-bold">Số điện thoại</label>
+                                    <p>{{$order->phone}}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="note">Ghi chú</label>
-                                    <textarea name="note" id="note" class="form-control" cols="30" rows="3" disabled>{{$order->note}}</textarea>
+                                    <label class="font-weight-bold">Địa chỉ</label>
+                                    <p>{{$order->address}}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="address">Địa chỉ</label>
-                                    <textarea name="phone" id="address" class="form-control" cols="30" rows="3" disabled>{{$order->address}}</textarea>
+                                    <label class="font-weight-bold">Ghi chú</label>
+                                    <p>{{$order->note}}</p>
                                 </div>
                             </div>
                         </div>
+                        @if($action=='process')
                         <button type="submit" class="btn btn-primary">Cập nhật <i class="fa fa-edit"></i></button>
+                        @endif
+                        <a target="_blank" class="btn btn-warning" href="{{route('admin.order.print_order',$order->code)}}">In đơn hàng <i class="fas fa-print"></i></a>
                         <a class="btn btn-secondary" href="{{route('admin.order.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
                     </form>
                 </div>

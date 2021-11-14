@@ -34,7 +34,10 @@ class DashboardController extends Controller
 
     function get_revenue($date=''){
         $revenue=0;
-        $list_order_success=Order::where('status',2)->where('order_date',$date)->get();
+        $list_order_success=Order::where('status',2)->get();
+        if(!empty($date))
+            $list_order_success=Order::where('status',2)->where('order_date',$date)->get();
+        
         foreach($list_order_success as $item){
             foreach($item->products as $sub_item){
                 $revenue+=$sub_item->pivot->number*$sub_item->pivot->price;
@@ -73,5 +76,5 @@ class DashboardController extends Controller
     function get_order_today(){
         $today = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         return Order::where('status',2)->where('order_date',$today)->count();
-    }
+    }    
 }

@@ -19,10 +19,11 @@ class CreatePromotionsTable extends Migration
             $table->string('code',30)->unique();
             $table->enum('condition',[1,2])->comment("1: giảm giá theo %, 2: giảm giá tiền");
             $table->integer('number');
+            $table->double('min_total_order')->nullable();
             $table->integer('qty');
             $table->date('start_day')->default(now());
             $table->date('end_day');           
-            $table->enum('status',['approved','not approved yet'])->comment("approved: được duyệt, not approved yet: chưa được duyệt")->default('approved');
+            $table->enum('status',['approved','not approved yet'])->comment("approved: được duyệt, not approved yet: chưa được duyệt")->default('not approved yet');
             $table->timestamps();
             $table->softDeletes();
         });

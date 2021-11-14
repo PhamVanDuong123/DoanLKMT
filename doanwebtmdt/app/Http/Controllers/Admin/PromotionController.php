@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PromotionController extends Controller
 {
@@ -79,13 +80,15 @@ class PromotionController extends Controller
                 'number' => 'required|min:1',
                 'qty' => 'required|min:1',
                 'condition' => 'required',
+                'min_total_order'=>'gte:number'
             ],
             [
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
                 'unique' => 'Mã khuyến mãi đã được sử dụng',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',
+                'min_total_order.gte'=>'Giá trị đơn hàng tối thiểu không được nhỏ hơn giá trị giảm'
             ],
             [
                 'name' => 'Tên khuyến mãi',
@@ -95,6 +98,7 @@ class PromotionController extends Controller
                 'qty' => 'Số lượng',
                 'number' => 'Giá trị giảm',
                 'condition' => 'Hình thức giảm',
+                'min_total_order'=>'Giá trị đơn hàng tối thiểu'
             ]
         );
 
@@ -106,6 +110,7 @@ class PromotionController extends Controller
             'end_day' => $request->input('end_day'),
             'qty' => $request->input('qty'),
             'number' => $request->input('number'),
+            'min_total_order' => $request->input('min_total_order')
         ]);
 
         $route_detail = route('admin.promotion.detail', $promotion->id);
@@ -185,13 +190,15 @@ class PromotionController extends Controller
                 'number' => 'required|min:1',
                 'qty' => 'required|min:1',
                 'condition' => 'required',
+                'min_total_order'=>'gte:number'
             ],
             [
                 'required' => ':attribute không được để trống',
                 'min' => ':attribute có độ dài tối thiểu là :min ký tự',
                 'max' => ':attribute có độ dài tối đa là :max ký tự',
                 'unique' => 'Mã khuyến mãi đã được sử dụng',
-                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu'
+                'end_day.after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu',                
+                'min_total_order.gte'=>'Giá trị đơn hàng tối thiểu không được nhỏ hơn giá trị giảm'                
             ],
             [
                 'name' => 'Tên khuyến mãi',
@@ -201,6 +208,7 @@ class PromotionController extends Controller
                 'qty' => 'Số lượng',
                 'number' => 'Giá trị giảm',
                 'condition' => 'Hình thức giảm',
+                'min_total_order'=>'Giá trị đơn hàng tối thiểu'
             ]
         );
 

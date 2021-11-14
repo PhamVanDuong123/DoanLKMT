@@ -143,6 +143,11 @@
         return x1 + x2;
     }
 
+    //ht tỉnh huyện xã sau khi đã tính phí vc(nếu có)
+    load_province_dictrict_ward();
+    //ht thông tin giao hàng(nếu có)
+    load_infoship();
+
     //load huyện theo tỉnh, xã theo huyện (tính phí vc)
     $('.choose').on('change', function() {
         var _token = $('input[name="_token"]').val()
@@ -157,7 +162,7 @@
         }
 
         $.ajax({
-            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/load_district_ward_user",
+            url: "{{route('cart.load_district_ward_user')}}",
             method: "post",
             dataType: "html",
             data: {
@@ -168,18 +173,27 @@
             success: function(data) {
                 $('#' + result).html(data);
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
-            }
+            // error: function(xhr, ajaxOptions, thrownError) {
+            //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+            // }
         })
     })
 
     //tính phí vận chuyển
-    $('#calculator-feeship').on('click', function() {
+    $('#ward').on('change',function(){
         var _token = $('input[name="_token"]').val();
         var province_id = $('select#province').val();
         var district_id = $('select#district').val();
         var ward_id = $('select#ward').val();
+
+        var html_province = $('select#province').html();
+        var html_district = $('select#district').html();
+        var html_ward = $('select#ward').html();
+        var name = $('#name').val();
+        var phone = $('#phone').val();
+        var note = $('#note').val();
+        var address = $('#address').val();
+        var payment = $('#payment').val();
 
         if (province_id == '') {
             alert('Tỉnh/thành phố không được để trống!')
@@ -189,23 +203,67 @@
             alert('Xã/phường không được để trống!')
         } else {
             $.ajax({
-                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/calculator_feeship",
+                url: "{{route('cart.calculator_feeship')}}",
                 method: "post",
                 data: {
                     _token: _token,
                     province_id: province_id,
                     district_id: district_id,
-                    ward_id: ward_id
+                    ward_id: ward_id,
+                    html_province:html_province,
+                    html_district:html_district,
+                    html_ward:html_ward,
+                    name:name,
+                    phone:phone,
+                    note:note,
+                    address:address,
+                    payment:payment
                 },
                 success: function() {
-                    location.reload();
+                    location.reload();             
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
-                }
+                // error: function(xhr, ajaxOptions, thrownError) {
+                //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                // }
             })
         }
     })
+
+    function load_province_dictrict_ward(){
+        $.ajax({
+            url: "{{route('cart.check_feeship')}}",
+            dataType: "json",
+            method: "get",
+            success: function(data){
+                if(data.status=='exist'){
+                    $('select#province').html(data.html_province);
+                    $('select#district').html(data.html_district);
+                    $('select#ward').html(data.html_ward);
+
+                    $('select#province').val(data.province_id);
+                    $('select#district').val(data.district_id);
+                    $('select#ward').val(data.ward_id);
+                }        
+            }
+        })
+    }
+
+    function load_infoship(){
+        $.ajax({
+            url: "{{route('cart.check_infoship')}}",
+            dataType: "json",
+            method: "get",
+            success: function(data){
+                if(data.status=='exist'){
+                    $('#name').val(data.name);
+                    $('#phone').val(data.phone);
+                    $('#address').val(data.address);
+                    $('#note').val(data.note);
+                    $('#payment').val(data.payment);
+                }        
+            }
+        })
+    }
 
     //them gio hang
     $('.add-cart').on('click', function() {
@@ -217,30 +275,45 @@
             method: "get",
             dataType: "json",
             success: function(data) {
-                //ht sweet alert
-                swal({
-                        title: "Thêm thành công",
-                        text: data.success,
-                        type: "success",
-                        showCancelButton: true,
-                        cancelButtonText: "Mua tiếp",
-                        confirmButtonColor: "green",
-                        confirmButtonText: "Đi đến giỏ hàng",
-                        closeOnConfirm: false
-                    },
-                    function() {
-                        window.location.href = "{{route('cart.show')}}";
-                    });
+                if (data.status == 'success') {
+                    //ht sweet alert
+                    swal({
+                            title: data.title,
+                            text: data.message,
+                            type: data.status,
+                            showCancelButton: true,
+                            cancelButtonText: "Mua tiếp",
+                            confirmButtonColor: "green",
+                            confirmButtonText: "Đi đến giỏ hàng",
+                            closeOnConfirm: false
+                        },
+                        function() {
+                            window.location.href = "{{route('cart.show')}}";
+                        });
 
-                //location.reload();
-                $('#cart-wp').empty();
-                $('#cart-wp').html(data.html_cart);
-                //console.log(data)
+                    $('#cart-wp').empty();
+                    $('#cart-wp').html(data.html_cart);
+                    //console.log(data)
+                } else {
+                    //ht sweet alert
+                    swal({
+                            title: data.title,
+                            text: data.message,
+                            type: data.status,
+                            showCancelButton: true,
+                            cancelButtonText: "Thoát",
+                            confirmButtonColor: "red",
+                            confirmButtonText: "Đăng nhập",
+                            closeOnConfirm: false
+                        },
+                        function() {
+                            window.location.href = "{{route('account.login')}}";
+                        });
+                }
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
-                //console.log(data)
-            }
+            // error: function(xhr, ajaxOptions, thrownError) {
+            //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
+            // }
         })
     });
 
@@ -301,9 +374,9 @@
                 // $('#info-cart-wp').html(data.cart);
                 location.reload();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("Lỗi: " + xhr + " - " + thrownError);
-            }
+            // error: function(xhr, ajaxOptions, thrownError) {
+            //     alert("Lỗi: " + xhr + " - " + thrownError);
+            // }
         })
     });
 
@@ -337,11 +410,11 @@
                         window.location.href = "{{route('home')}}";
                     });
             },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("Lỗi: " + xhr + " - " + thrownError);
-            }
+            // error: function(xhr, ajaxOptions, thrownError) {
+            //     alert("Lỗi: " + xhr + " - " + thrownError);
+            // }
         })
-    })
+    })    
 
     //đặt hàng
     $('#order-now').on('click', function() {
@@ -351,13 +424,22 @@
         var address = $('#address').val();
         var note = $('#note').val();
         var payment = $("select[name='payment']").val();
+        var province_id = $('#province').val();
+        var district_id = $('#district').val();
+        var ward_id = $('#ward').val();
 
         if (!name) {
             alert('Bạn chưa nhập họ tên người nhận hàng')
         } else if (!phone) {
             alert('Bạn chưa nhập số điện thoại người nhận hàng')
+        } else if (!province_id) {
+            alert('Bạn chưa chọn tỉnh/thành phố')
+        } else if (!district_id) {
+            alert('Bạn chưa chọn quận/huyện')
+        } else if (!ward_id) {
+            alert('Bạn chưa chọn xã/phường/thị trấn')
         } else if (!address) {
-            alert('Bạn chưa nhập địa chỉ người nhận hàng')
+            alert('Bạn chưa nhập số nhà tên đường người nhận hàng')
         } else if (!payment) {
             alert('Bạn chưa chọn phương thức thanh toán')
         } else {
@@ -380,6 +462,9 @@
                             _token: _token,
                             name: name,
                             phone: phone,
+                            province_id: province_id,
+                            district_id: district_id,
+                            ward_id: ward_id,
                             address: address,
                             note: note,
                             payment: payment
@@ -396,17 +481,13 @@
                             }, function() {
                                 window.location.href = "{{route('home')}}";
                             });
-                            console.log(data.status)
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
-                        }
+                        // error: function(xhr, ajaxOptions, thrownError) {
+                        //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError);
+                        // }
                     })
                 });
-
-
         }
-
     })
 </script>
 </body>

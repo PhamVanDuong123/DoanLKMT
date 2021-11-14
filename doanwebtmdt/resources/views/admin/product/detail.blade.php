@@ -79,7 +79,7 @@ return number_format($currency,0,',','.').$innit;
                                     <p>{{date('d-m-Y h:m:s',strtotime($product->updated_at))}}</p>
                                 </div>
                                 <!-- chỉ có chủ hệ thống mới được duyệt -->
-                                @if(Auth::user()->permission==1)
+                                @if(Auth::user()->permission==1&&$product->status=='not approved yet')
                                 <div class="col-md-4">
                                     <label for="" class="font-weight-bold">Trạng thái: </label>
                                     <select name="status" id="" class="form-control">

@@ -29,6 +29,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'covid-19',
                 'condition'=>2,
                 'number'=>20000,
+                'min_total_order'=>1000000,
                 'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                
@@ -56,6 +57,7 @@ class PromotionSeeder extends Seeder
                 'code'=>'giamgia200k',
                 'condition'=>2,
                 'number'=>200000,
+                'min_total_order'=>2000000,
                 'qty'=>50,
                 'start_day'=>'2021-11-1',
                 'end_day'=>'2021-12-1'                

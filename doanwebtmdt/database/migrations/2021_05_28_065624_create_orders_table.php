@@ -19,6 +19,9 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name',60);
             $table->string('phone',12);
+            $table->unsignedBigInteger('province_id');
+            $table->unsignedBigInteger('district_id');
+            $table->unsignedBigInteger('ward_id');
             $table->string('address',200);
             $table->text('note')->nullable();
             $table->double('shipping_fee')->default(0);

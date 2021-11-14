@@ -17,7 +17,7 @@ class RoleAdmin
     public function handle(Request $request, Closure $next)
     {
         if($request->user()->permission!=2 && $request->user()->permission!=1){
-            return redirect('/admin/user');
+            return redirect('/admin');
         }
         return $next($request);
     }

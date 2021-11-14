@@ -41,7 +41,7 @@ Route::group(['prefix' => '/user'], function () {
 
     //cart
     Route::get('/cart/show', 'User\CartController@show')->name('cart.show');
-    Route::get('/cart/add/{id}', 'User\CartController@add')->name('cart.add')->middleware('checkLogin');
+    Route::get('/cart/add/{id}', 'User\CartController@add')->name('cart.add');
     Route::get('/cart/remove/{rowId}', 'User\CartController@remove')->name('cart.remove');
     Route::get('/cart/destroy', 'User\CartController@destroy')->name('cart.destroy');
     Route::post('/cart/update', 'User\CartController@update')->name('cart.update');
@@ -50,6 +50,8 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/cart/load_district_ward_user', 'User\CartController@load_district_ward_user')->name('cart.load_district_ward_user');
     Route::post('/cart/calculator_feeship', 'User\CartController@calculator_feeship')->name('cart.calculator_feeship');
     Route::get('cart/del_promotion_code', 'User\CartController@del_promotion_code')->name('cart.del_promotion_code');
+    Route::get('/cart/check_feeship', 'User\CartController@check_feeship')->name('cart.check_feeship');
+    Route::get('/cart/check_infoship', 'User\CartController@check_infoship')->name('cart.check_infoship');
 
     //promotion
     Route::post('/promotion/process', 'User\PromotionController@process')->name('promotion.process');
@@ -82,7 +84,8 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/order', 'Admin\OrderController@index')->name('admin.order.index');
         Route::get('/order/search', 'Admin\OrderController@search')->name('admin.order.search');
         Route::get('/order/process/{id}', 'Admin\OrderController@process')->name('admin.order.process');
-        Route::get('/order/exit/{id}', 'Admin\OrderController@exit')->name('admin.order.exit');
+        Route::get('/order/detail/{id}', 'Admin\OrderController@detail')->name('admin.order.detail');
+        Route::get('/order/print_order/{order_code}', 'Admin\OrderController@print_order')->name('admin.order.print_order');
 
         //promotion
         Route::get('/promotion', 'Admin\PromotionController@index')->name('admin.promotion.index');
@@ -136,7 +139,7 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/product_category/deletecategory/{id}', 'Admin\ProductCategoryController@deletecategory')->name('admin.product_category.deletecategory');
         Route::post('/product_category/edit/{id}', 'Admin\ProductCategoryController@postedit')->name('admin.product_category.edit');
         Route::get('/product_category/edit/{id}', 'Admin\ProductCategoryController@getedit')->name('admin.product_category.edit');
-        Route::get('/product_category/action', 'Admin\ProductCategoryController@action')->name('admin.product_category.action');
+        Route::post('/product_category/action', 'Admin\ProductCategoryController@action')->name('admin.product_category.action');
 
 
         //post

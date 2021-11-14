@@ -91,7 +91,7 @@ return $list_status[$status];
                             <input type="checkbox">
                         </td>
                         <td>{{$t}}</td>
-                        <td>{{$item->code}}</td>
+                        <td><a href="{{route('admin.order.detail',$item->id)}}">{{$item->code}}</a></td>
                         <td>{{$item->name}}</td>
                         <td>{{count_num_pro_in_order($item)}}</td>
                         <td>{{get_total_order($item)}}đ</td>

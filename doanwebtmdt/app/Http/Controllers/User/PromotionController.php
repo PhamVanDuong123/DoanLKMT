@@ -7,6 +7,7 @@ use App\Models\Promotion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PromotionController extends Controller
 {
@@ -20,6 +21,10 @@ class PromotionController extends Controller
             return redirect()->back()->with('error', 'Mã khuyến mãi này đã được dùng hết!');
         } elseif (!$this->check_expiry_code($data['promotion_code'])) {
             return redirect()->back()->with('error', 'Mã khuyến mãi này đã hết thời gian áp dụng!');
+        } elseif (!$this->check_total_order($data['promotion_code'])) {
+            $promotion =  Promotion::where('code', $data['promotion_code'])->where('status', 'approved')->first();
+            $min_total_order = number_format($promotion->min_total_order,0,',','.');
+            return redirect()->back()->with('error', 'Mã khuyến mãi này chỉ được áp dụng cho đơn hàng có tổng giá trị tối thiểu từ '.$min_total_order.'đ');
         } else {
             $promotion = Promotion::where('code', $data['promotion_code'])->where('status', 'approved')->first();
             $promotion->qty -= 1;
@@ -79,5 +84,18 @@ class PromotionController extends Controller
             return true;
         }
         return false;
+    }
+
+    function check_total_order($code){
+        $total = filter_var(Cart::total(),FILTER_SANITIZE_NUMBER_INT);
+        $data = Promotion::where('code', $code)->where('status', 'approved')->first();
+
+        if($data->condition==2){
+            if($total<$data->min_total_order){
+                return false;
+            }                
+        }
+
+        return true;
     }
 }

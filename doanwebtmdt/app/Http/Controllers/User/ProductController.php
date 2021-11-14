@@ -10,8 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
-{
- 
+{ 
     function index(){
         $list_pro=Product::where('status','approved')->paginate(10);
         if(!empty($list_pro)){
@@ -133,7 +132,7 @@ class ProductController extends Controller
 
 
     function detail($id){
-        $product=Product::find($id);
+        $product=Product::where('status','approved')->find($id);
         $product['url_add_cart']=route('cart.add',$id);
         $product['url_checkout']=route('cart.checkout');
 

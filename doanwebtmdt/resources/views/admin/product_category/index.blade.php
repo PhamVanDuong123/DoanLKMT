@@ -75,9 +75,8 @@ return $list_status[$status];
                         <td>{{$item->user->fullname}}</td>
                         <td>{{date('d-m-Y h:m:s',strtotime($item->created_at))}}</td>
                         <td>
-                            <a href="{{route('admin.product_category.edit',['id'=>$item->id,'status'=>request()->status])}}"class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                        
-                            <a href="{{route('admin.product_category.deletecategory',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa danh mục sản phẩm này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
+                            <a href="{{route('admin.product_category.edit',['id'=>$item->id,'status'=>request()->status])}}"class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>                        
+                            <a href="{{route('admin.product_category.deletecategory',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa loại sản phẩm này không?')" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
                         </td>
                       
                     </tr>

@@ -11,6 +11,7 @@ return $list_status[$status];
 function currency_format($currency,$innit='đ'){
 return number_format($currency,0,',','.').$innit;
 }
+
 @endphp
 @extends('layoutadmin.master')
 
@@ -78,7 +79,7 @@ return number_format($currency,0,',','.').$innit;
                         </tr>
                     </thead>
                     <tbody>
-                        @php $t=0; @endphp
+                        @php $t=0; @endphp  
                         @foreach($list_Product as $item)
                         @php $t++; @endphp
                         <tr>
@@ -87,19 +88,17 @@ return number_format($currency,0,',','.').$innit;
                             </td>
                             <td scope="row">{{$t}}</td>
                             <td><img class="thumb-post" src="{{$item->thumb}}" alt=""></td>
-                            <td><a href="{{route('admin.product.detail',$item->id)}}">{{$item->name}}</a></td>
-     
-                                    
+                            <td><a href="{{route('admin.product.detail',$item->id)}}">{{$item->name}}</a></td> 
                                     <td>{{$item->brand->name}}</td>
-                                    <td>{{$item->product_category->name}}</td>
-                                    <td>{{currency_format($item->price)}}<br><del>{{currency_format($item->old_price)}}</del></td>
+                                    <td>{{$item->product_category_name}}</td>
+                                    <td>{{currency_format($item->price)}}</td>
                                     <td>{{currency_format($item->price_cost)}}</td>
                                     <td>{{$item->inventory_num}}</td>
                                     <td>{{$item->user->fullname}}</td>                                  
                                     <td>{!!show_status($item->status)!!}</td>
                             <td>
                             <a href="{{route('admin.product.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật"><i class="fa fa-edit"></i></a>
-                                <a href="{{route('admin.product.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa khuyến mãi này?')" class="btn btn-danger btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('admin.product.delete',['id'=>$item->id,'status'=>request()->status])}}" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')" class="btn btn-danger btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="{{request()->status=='trash'?'Xóa vĩnh viễn':'Xóa'}}"><i class="fa fa-trash"></i></a>
                             </td>
 
                         </tr>

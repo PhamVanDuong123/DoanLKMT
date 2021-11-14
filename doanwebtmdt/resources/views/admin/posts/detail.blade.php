@@ -36,7 +36,7 @@ return $list_status[$status];
                     </div>
                     <hr class="my-4">
                     <!-- chỉ có chủ hệ thống mới được duyệt bài viết  -->
-                    @if(Auth::user()->permission==1)
+                    @if(Auth::user()->permission==1&&$post->status=='not approved yet')
                     <div class="col-md-3">
                         <label for="" class="font-weight-bold">Trạng thái: </label>
                         <select name="status" id="" class="form-control">

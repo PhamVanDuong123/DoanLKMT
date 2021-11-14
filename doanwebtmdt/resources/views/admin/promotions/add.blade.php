@@ -38,7 +38,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="condition">Chọn hình thức giảm</label>
                                 <select name="condition" id="condition" class="form-control">
@@ -51,16 +51,25 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="number">Giá trị giảm</label>
-                                <input class="form-control" type="number" min="1" name="number" id="number" value="">
+                                <input class="form-control" type="text" min="1" name="number" id="number" value="">
                                 @error('number')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
-                        </div>                     
-                        <div class="col-md-3">
+                        </div>  
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="min_total_order">Giá trị hóa đơn tối thiểu</label>
+                                <input class="form-control" type="text" min="1" name="min_total_order" id="min_total_order" value="" disabled>
+                                @error('min_total_order')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                        </div>                    
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="start_day">Từ ngày (Ngày bắt đầu)</label>
                                 <input class="form-control" type="date" name="start_day" id="start_day">
@@ -69,7 +78,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="end_day">Đến ngày (Ngày kết thúc)</label>
                                 <input class="form-control" type="date" name="end_day" id="end_day">
@@ -80,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm mới <i class="fas fa-plus-circle"></i></button>
+                <button type="submit" id="add-promotion" class="btn btn-primary">Thêm mới <i class="fas fa-plus-circle"></i></button>
                 <a class="btn btn-secondary" href="{{route('admin.promotion.index')}}">Quay lại <i class="fas fa-backspace"></i></a>
             </form>
         </div>

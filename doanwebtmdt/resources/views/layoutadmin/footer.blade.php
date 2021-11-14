@@ -23,7 +23,7 @@
             var _token = $('input[name="_token"]').val();
 
             $.ajax({
-                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/load_feeship",
+                url: "{{route('admin.delivery.load_feeship')}}",
                 method: "post",
                 dataType: "html",
                 data: {
@@ -32,9 +32,9 @@
                 success: function(data) {
                     $('#list_feeship').html(data);
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
-                }
+                // error: function(xhr, ajaxOptions, thrownError) {
+                //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                // }
             })
         }
 
@@ -52,7 +52,7 @@
             }
 
             $.ajax({
-                url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/load_district_ward",
+                url: "{{route('admin.delivery.load_district_ward')}}",
                 method: "post",
                 dataType: "html",
                 data: {
@@ -63,10 +63,57 @@
                 success: function(data) {
                     $('#' + result).html(data);
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
-                }
+                // error: function(xhr, ajaxOptions, thrownError) {
+                //     alert('Lỗi: ' + xhr.status + ' - ' + thrownError)
+                // }
             })
+        })
+
+        //kích hoạt phần nhập giá trị hóa đơn tối thiểu
+        load_min_total_order();
+
+        function load_min_total_order(){
+            var condition = $('#condition').val();
+            if(condition==1){
+                $('#min_total_order').val('');
+                $('#min_total_order').attr('disabled','disabled');
+            }else if(condition==2){
+                $('#min_total_order').removeAttr('disabled');
+                //$('#number').addClass('money');
+                //$('#min_total_order').addClass('money');
+            }
+        }
+
+        //ràng buộc giá trị khuyến mãi promotion/edit 
+        $('#condition').on('change',function(){
+            var condition = $(this).val()
+            var value = $('#number').val()
+            var min_total_order = $('#min_total_order').val();
+            
+            if(condition==2){
+                $('#min_total_order').removeAttr('disabled');
+                //$('#number').addClass('money');
+            }else if(condition==1){
+                $('#min_total_order').val('');
+                $('#min_total_order').attr('disabled','disabled');
+
+                if (value > 100) {
+                    //trở lại giảm theo tiền
+                    alert('Giá trị giảm không được lớn hơn 100%');
+                    $(this).val(2);
+                    $('#min_total_order').removeAttr('disabled');
+                    $('#min_total_order').val(min_total_order);
+                }
+            }
+        })
+              
+        $('#number').on('change', function() {
+            var condition = $('#condition').val();
+            var value = $(this).val();
+            if (condition == 1 && value > 100) {
+                alert('Giá trị giảm không được lớn hơn 100%');
+                $(this).val('');
+            }
         })
 
         //cập nhật phí vận chuyển
@@ -76,7 +123,7 @@
             var fee=$(this).text();
             
             $.ajax({
-                    url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/edit_feeship",
+                    url: "{{route('admin.delivery.edit_feeship')}}",
                     method: "post",
                     dataType: "html",
                     data: {
@@ -87,9 +134,9 @@
                     success: function(data) {
                         alert('Cập nhật phí vận chuyển thành công');
                     },
-                    error: function(xhr, ajaxOptions,thrownError){
-                        alert('Lỗi: '+xhr.status+' - '+thrownError)
-                    }
+                    // error: function(xhr, ajaxOptions,thrownError){
+                    //     alert('Lỗi: '+xhr.status+' - '+thrownError)
+                    // }
                 })
         })
 
@@ -111,9 +158,9 @@
                 alert('Phí vận chuyển không được để trống!')
             } else {
                 $.ajax({
-                    url: "http://localhost:8080/DoanLKMT/doanwebtmdt/admin/delivery/add_feeship",
+                    url: "{{route('admin.delivery.add_feeship')}}",
                     method: "post",
-                    dataType: "html",
+                    dataType: "json",
                     data: {
                         _token: _token,
                         province_id: province_id,
@@ -122,34 +169,18 @@
                         fee: fee,
                     },
                     success: function(data) {
-                        alert('Thêm phí vận chuyển thành công');
-                        load_feeship();
+                        if(data.status=='success'){
+                            alert(data.message);
+                            load_feeship();
+                        }else{
+                            alert(data.message);
+                        }                        
                         //console.log(data)
                     },
-                    error: function(xhr, ajaxOptions,thrownError){
-                        alert('Lỗi: '+xhr.status+' - '+thrownError)
-                    }
+                    // error: function(xhr, ajaxOptions,thrownError){
+                    //     alert('Lỗi: '+xhr.status+' - '+thrownError)
+                    // }
                 })
-            }
-        })
-
-        //ràng buộc giá trị khuyến mãi promotion/edit 
-        $('#condition').on('change', function() {
-            var condition = $(this).val()
-            var value = $('#number').val()
-
-            if (condition == 1 && value > 100) {
-                alert('Giá trị giảm không được lớn hơn 100%');
-                $(this).val(2);
-            }
-        })
-
-        $('#number').on('change', function() {
-            var condition = $('#condition').val()
-            var value = $(this).val()
-            if (condition == 1 && value > 100) {
-                alert('Giá trị giảm không được lớn hơn 100%');
-                $(this).val('');
             }
         })
 

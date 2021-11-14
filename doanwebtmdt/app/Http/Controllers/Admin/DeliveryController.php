@@ -87,16 +87,31 @@ class DeliveryController extends Controller
         $ward_id = $data['ward_id'];
         $fee = $data['fee'];
 
-        $feeship = Feeship::create([
-            'province_id' => $province_id,
-            'district_id' => $district_id,
-            'ward_id' => $ward_id,
-            'fee' => filter_var($fee, FILTER_SANITIZE_NUMBER_INT),
-        ]);
+        $result = array();
 
-        $feeship->save();
+        if(!$this->check_feeship_exist($province_id,$district_id,$ward_id)){
+            $feeship = Feeship::create([
+                'province_id' => $province_id,
+                'district_id' => $district_id,
+                'ward_id' => $ward_id,
+                'fee' => filter_var($fee, FILTER_SANITIZE_NUMBER_INT),
+            ]);
+    
+            $result['status']='success';
+            $result['message']='Thêm phí vận chuyển thành công';
+        }else{
+            $result['status']='error';
+            $result['message']='Phí vận chuyển của địa phương này đã tồn tại. Bạn có thể chỉnh sửa nó!';
+        }       
 
-        echo $feeship;
+        echo json_encode($result);
+    }
+
+    function check_feeship_exist($province_id,$district_id,$ward_id){
+        $feeship=Feeship::where('province_id',$province_id)->where('district_id',$district_id)->where('ward_id',$ward_id)->first();
+        if($feeship)
+            return true;
+        return false;
     }
 
     function edit_feeship(Request $request)

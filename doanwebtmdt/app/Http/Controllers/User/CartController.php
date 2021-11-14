@@ -28,13 +28,51 @@ class CartController extends Controller
         return view('user.cart.show', compact('list_pro'));
     }
 
+    function check_feeship(){
+        $feeship=Session::get('feeship');
+        if($feeship){
+            $data['status'] = 'exist';
+
+            $data['html_province']=$feeship['html_province'];            
+            $data['html_district']=$feeship['html_district'];
+            $data['html_ward']=$feeship['html_ward']; 
+            
+            $data['province_id']=$feeship['province_id'];
+            $data['district_id']=$feeship['district_id'];
+            $data['ward_id']=$feeship['ward_id'];
+        }else{
+            $data['status'] = 'not_exist';
+        }
+
+        echo json_encode($data);
+    }
+
+    function check_infoship(){
+        $infoship=Session::get('infoship');
+        if($infoship){
+            $data['status'] = 'exist';
+
+            $data['name']=$infoship['name'];            
+            $data['phone']=$infoship['phone'];
+            $data['address']=$infoship['address'];             
+            $data['note']=$infoship['note'];
+            $data['payment']=$infoship['payment'];
+        }else{
+            $data['status'] = 'not_exist';
+        }
+
+        echo json_encode($data);
+    }
+
     function load_district_ward_user(Request $request)
     {
         $data = $request->all();
         $select_val = $data['select_val'];
         $result = $data['result'];
 
-        $html = '<option value="">-- Chọn --</option>';
+        $text = $result=='district'?'quận/huyện':'xã/phường/thị trấn';
+
+        $html = '<option value="">-- Chọn '.$text.' --</option>';
         if ($result == 'district') {
             $list_district = District::where('province_id', $select_val)->get();
             foreach ($list_district as $item) {
@@ -62,11 +100,27 @@ class CartController extends Controller
         if ($feeship)
             $fee = $feeship->fee;
         
-        Session::put('feeship', $fee);
+        $result['province_id']=$province_id;
+        $result['district_id']=$district_id;
+        $result['ward_id']=$ward_id;
+        $result['fee']=$fee;
+        $result['html_province']=$data['html_province'];
+        $result['html_district']=$data['html_district'];
+        $result['html_ward']=$data['html_ward'];
+
+        $result2['name']=$data['name'];
+        $result2['phone']=$data['phone'];
+        $result2['address']=$data['address'];
+        $result2['note']=$data['note'];
+        $result2['payment']=$data['payment'];
+
+        Session::put('feeship', $result);
+        Session::put('infoship', $result2);
         Session::save();
     }
 
-    function del_promotion_code(){
+    function del_promotion_code()
+    {
         //trả lại sl mã khuyến mãi
         $promotion_session = Session::get('promotion');
         if ($promotion_session) {
@@ -76,7 +130,7 @@ class CartController extends Controller
         }
 
         Session::forget('promotion');
-        return redirect()->back()->with('success','Hủy mã giảm giá thành công');
+        return redirect()->back()->with('success', 'Hủy mã giảm giá thành công');
     }
 
     function add($id)
@@ -84,19 +138,27 @@ class CartController extends Controller
         $data = array();
         $product = Product::find($id);
         //Cart::destroy();
+        if (Auth::check()) {
+            Cart::add([
+                'id' => $id,
+                'name' => $product->name,
+                'qty' => 1,
+                'price' => $product->price,
+                'options' => [
+                    'thumb' => $product->thumb
+                ]
+            ]);
 
-        Cart::add([
-            'id' => $id,
-            'name' => $product->name,
-            'qty' => 1,
-            'price' => $product->price,
-            'options' => [
-                'thumb' => $product->thumb
-            ]
-        ]);
-        // return redirect('user/cart/show');
-        $data['html_cart'] = $this->update_html_cart();
-        $data['success'] = "Sản phẩm đã được thêm thành công vào giỏ hàng";
+            $data['html_cart'] = $this->update_html_cart();
+            $data['title'] = "Thêm thành công";
+            $data['message'] = "Sản phẩm đã được thêm thành công vào giỏ hàng";
+            $data['status'] = 'success';
+        } else {
+            $data['title'] = "Thêm thất bại";
+            $data['message'] = "Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng";
+            $data['status'] = 'error';
+        }
+
 
         echo json_encode($data);
     }
@@ -160,16 +222,18 @@ class CartController extends Controller
     function pay(Request $request)
     {
         if (Cart::count() > 0) {
-            
             $order = Order::create([
                 'code' => 'DH-0' . Order::get()->max()->id + 1,
                 'name' => $request->name,
                 'phone' => $request->phone,
+                'province_id' => $request->province_id,
+                'district_id' => $request->district_id,
+                'ward_id' => $request->ward_id,
                 'address' => $request->address,
                 'note' => $request->note,
-                'shipping_fee' => empty(Session::get('feeship'))?20000:$request->shipping_fee,
+                'shipping_fee' => empty(Session::get('feeship')) ? 20000 : Session::get('feeship')['fee'],
                 'payment' => $request->payment,
-                'promotion_code' => !empty(Session::get('promotion'))?Session::get('promotion')[0]['code']:null,
+                'promotion_code' => !empty(Session::get('promotion')) ? Session::get('promotion')[0]['code'] : null,
                 'user_id' => Auth::id()
             ]);
             // dd(Cart::content());
@@ -190,18 +254,17 @@ class CartController extends Controller
             Session::forget('promotion');
             Session::forget('feeship');
 
-            $data['title']="Đặt hàng thành công";
-            $data['status']="success";
-            $data['message']="Đơn hàng đang chờ được xử lý và sẽ được giao đến bạn trong thời gian sớm nhất";
+            $data['title'] = "Đặt hàng thành công";
+            $data['status'] = "success";
+            $data['message'] = "Đơn hàng đang chờ được xử lý và sẽ được giao đến bạn trong thời gian sớm nhất";
 
-            echo json_encode($data);
-        }else{
-            $data['title']="Đặt hàng thất bại";
-            $data['status']="error";
-            $data['message']="Bạn chưa chọn sản phẩm. Vui lòng chọn sản phẩm để thanh toán!";
-
-            echo json_encode($data);
+        } else {
+            $data['title'] = "Đặt hàng thất bại";
+            $data['status'] = "error";
+            $data['message'] = "Bạn chưa chọn mua sản phẩm nào. Vui lòng chọn sản phẩm để thanh toán!";            
         }
+
+        echo json_encode($data);
     }
 
     function update_html_cart()
