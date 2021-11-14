@@ -63,6 +63,13 @@ class HomeController extends Controller
         foreach ($list_cate as &$catetegory) {
             $catetegory['url_list_pro_by_cate'] = route('product.showByCate', $catetegory->id);
         }
+        if(!empty($search_product)){
+            foreach($search_product as &$product){
+                $product['url']=route('product.detail',$product->id);
+                $product['url_add_cart']=route('cart.add',$product->id);
+                $product['url_checkout']=route('cart.checkout');
+            }
+        }
 
         return view('user.product.search')->with('search_product', $search_product)->with('keyword', $keyword)->with('list_cate', $list_cate);
     }
