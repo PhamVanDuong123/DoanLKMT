@@ -62,7 +62,7 @@
                                     @enderror
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary">Đăng Ký<i class="fas fa-plus-circle"></i></button>
+                    <button type="submit" class="btn btn-primary">Đăng Ký<i class="fa fa-plus-circle"></i></button>
 
                 </form>
               </div>
