@@ -83,7 +83,7 @@ $feeship = Session::get('feeship')?Session::get('feeship')['fee']:null;
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="address">Số nhà / Tên đường</label>
+                                        <label for="address">Số nhà / Tên đường / Tên ấp</label>
                                         <input type="text" name="address" id="address" class="form-control">
                                     </div>
                                 </div>

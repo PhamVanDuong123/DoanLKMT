@@ -16,7 +16,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Response;
 
-
 class HomeController extends Controller
 {
     public function index(Request $request)
@@ -248,6 +247,7 @@ class HomeController extends Controller
             $thumb = 'http://localhost:8080/DoanLKMT/doanwebtmdt/public/uploads/' . $fileName;
         }
     }
+
     public function autocomplete_ajax(Request $request)
     {
         $data = $request->all();

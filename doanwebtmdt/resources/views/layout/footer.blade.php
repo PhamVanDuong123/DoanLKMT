@@ -383,7 +383,7 @@
     //xóa toàn bộ giỏ hàng
     $('#destroy-cart').on('click', function() {
         $.ajax({
-            url: "http://localhost:8080/DoanLKMT/doanwebtmdt/user/cart/destroy",
+            url: "{{route('cart.destroy')}}",
             dataType: "json",
             method: "get",
             success: function(data) {

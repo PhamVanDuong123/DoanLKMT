@@ -27,7 +27,7 @@ class OrderSeeder extends Seeder
                 'note'=>'abc',
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
-                'promotion_code'=>'kmdb-01',
+                'promotion_code'=>'giamgiasaudich',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -43,7 +43,7 @@ class OrderSeeder extends Seeder
                 'note'=>'abc',
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
-                'promotion_code'=>'kmdb-02',
+                'promotion_code'=>'giamgiasaudich',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -59,7 +59,7 @@ class OrderSeeder extends Seeder
                 'note'=>'abc',
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
-                'promotion_code'=>'kmdb-01',
+                'promotion_code'=>'giamgiasaudich',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -75,7 +75,7 @@ class OrderSeeder extends Seeder
                 'note'=>'abc',
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
-                'promotion_code'=>'kmdb-01',
+                'promotion_code'=>'giamgiasaudich',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())
             ],
@@ -91,7 +91,7 @@ class OrderSeeder extends Seeder
                 'note'=>'abc',
                 'shipping_fee'=>20000,
                 'payment'=>'cod',
-                'promotion_code'=>'kmdb-01',
+                'promotion_code'=>'giamgiasaudich',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:m:s',time())                
             ]

@@ -15,6 +15,15 @@ return [
 
     'default' => env('MAIL_MAILER', 'smtp'),
 
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
@@ -36,9 +45,9 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
+            'port' => env('MAIL_PORT', 465),
+            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
@@ -84,7 +93,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', '0306181234@caothang.edu.vn'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 

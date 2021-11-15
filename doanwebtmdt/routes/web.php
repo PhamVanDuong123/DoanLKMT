@@ -205,3 +205,6 @@ Route::group(['middleware' => ['web']], function () {
         return redirect()->back();
     });
 });
+
+//send mail
+Route::get('/send_mail', 'MailController@send_mail');

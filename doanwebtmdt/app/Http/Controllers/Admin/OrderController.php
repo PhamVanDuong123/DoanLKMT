@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Promotion;
+use App\Models\Province;
 use App\Models\Statistical;
 use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hamcrest\Arrays\IsArray;
+use Illuminate\Support\Facades\Auth;
 use PDF;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -88,6 +93,9 @@ class OrderController extends Controller
     {
         $order = Order::where('code', $order_code)->first();
         $total = $this->get_sales($order->id);
+        $province_name = $this->get_province_name($order->province_id);
+        $district_name = $this->get_district_name($order->district_id);
+        $ward_name = $this->get_ward_name($order->ward_id);
         $promotion_money = 0;
         $payment = $order->payment = 'onl' ? 'Thanh toán online' : 'Thanh toán khi nhận hàng';
         $list_order_detail = OrderDetail::where('order_id', $order->id)->get();
@@ -125,9 +133,9 @@ class OrderController extends Controller
         <p class="font-weight-bold">Mã hóa đơn: ' . $order_code . '</p>
         <p>Người đặt hàng: ' . $order->user->fullname . '</p>
         <p>Người nhận hàng: ' . $order->name . '</p>
-        <p>Địa chỉ người nhận: ' . $order->address . '</p>
+        <p>Địa chỉ nhận hàng: <span> ' .$order->address. ', </span><span> ' .$ward_name. ', </span><span> ' .$district_name. ', </span><span> ' .$province_name. ' </span></p>
         <p>Số điện thoại người nhận: ' . $order->phone . '</p>
-        <p>Thời gian đặt: ' . $order->created_at . '</p>        
+        <p>Thời gian đặt: ' . $order->created_at->format('d-m-Y H:m:s') . '</p>        
         <p>Giá trị đơn hàng: ' . number_format($total, 0, ',', '.') . 'đ</p>';
         if ($order->promotion_code) {
             $output .= '<p>Mã khuyến mãi: ' . $order->promotion_code . '</p>';
@@ -202,18 +210,18 @@ class OrderController extends Controller
             //cập nhật thống kê doanh thu
             $order_date = $order->order_date;
 
-            $statistic = Statistical::where('order_date', $order_date)->get();
-            //dd($statistic);
+            $statistic = Statistical::where('order_date', $order_date)->first();
+            // dd($statistic);
             $sales = $this->get_sales($order->id);
             $quantity = $this->get_quantity($order->id);
             $profit = $this->get_profit($order->id);
             //dd($profit);
-            if (empty($statistic)) {
+            if (!empty($statistic)) {
                 Statistical::where('order_date', $order_date)->update([
-                    'sales' => $statistic[0]['sales'] + $sales,
-                    'profit' => $statistic[0]['profit'] + $profit,
-                    'quantity' => $statistic[0]['quantity'] + $quantity,
-                    'total_order' => $statistic[0]['total_order'] + 1
+                    'sales' => $statistic['sales'] + $sales,
+                    'profit' => $statistic['profit'] + $profit,
+                    'quantity' => $statistic['quantity'] + $quantity,
+                    'total_order' => $statistic['total_order'] + 1
                 ]);
             } else {
                 Statistical::insert([
@@ -225,12 +233,42 @@ class OrderController extends Controller
                 ]);
             }
 
-            return redirect(route('admin.order.index'));
+            //gửi mail thông báo đến email đặt khách hàng
+            $to_email=$this->get_email_customer($order->user_id);
+            $name = "Đơn hàng đã được xử lý";
+
+            $body['order'] = $order;
+            $body['order']['total'] = $this->get_sales($order->id);
+            $body['order']['province_name'] = $this->get_province_name($order->province_id);
+            $body['order']['district_name'] = $this->get_district_name($order->district_id);
+            $body['order']['ward_name'] = $this->get_ward_name($order->ward_id);
+            $body['promotion'] = $this->get_promotion($order->promotion_code);
+            $body['list_order_detail'] = OrderDetail::where('order_id',$order->id)->get();
+
+            $layout = 'mail.send_mail';
+
+            $this->send_mail($to_email,$name,$body,$layout);
+
+            return redirect(route('admin.order.index'))->with('success','Xử lý đơn hàng thành công.');
         }
 
         $action = $order->status == 1 ? "process" : "view_detail";
 
         return view('admin.orders.detail', compact('order', 'action'));
+    }
+
+    function send_mail($to_email,$name,$body,$layout){
+        //send mail
+        $from_name = "Công ty TNHH HD Computer";
+            
+        $data = array("name"=>$name,"body"=>$body);
+        
+        Mail::send($layout,$data,function($message) use ($from_name,$to_email){
+
+            $message->to($to_email)->subject('Test thử gửi mail google');//send this mail with subject
+            $message->from($to_email,$from_name);//send from this mail
+
+        });
     }
 
     function get_sales($id)
@@ -266,6 +304,29 @@ class OrderController extends Controller
 
     function get_promotion($code)
     {
-        return Promotion::where('status', 'approved')->where('code', $code)->first();
+        $promotion = Promotion::where('status', 'approved')->where('code', $code)->first();
+        if($promotion)
+            return $promotion;
+        return null;
+    }
+
+    function get_email_customer($id){
+        $customer = User::find($id);
+        return $customer->email;
+    }
+
+    function get_province_name($id){
+        $province = Province::find($id);
+        return $province->name;
+    }
+
+    function get_district_name($id){
+        $district = District::find($id);
+        return $district->name;
+    }
+
+    function get_ward_name($id){
+        $ward = Ward::find($id);
+        return $ward->name;
     }
 }
