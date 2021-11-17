@@ -36,9 +36,9 @@ return $total-$money_promotion+$feeship;
 
 function show_status($status){
 $list_status=array(
-3=>'<span class="badge badge-success">Đã xử lý</span>',
+2=>'<span class="badge badge-success">Đã xử lý</span>',
 1=>'<span class="badge badge-warning">Chờ xử lý</span>',
-0=>'<span class="badge badge-secondary">Bị hủy</span>',
+3=>'<span class="badge badge-secondary">Bị hủy</span>',
 );
 return $list_status[$status];
 }
