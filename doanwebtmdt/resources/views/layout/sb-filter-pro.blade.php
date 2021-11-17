@@ -1,4 +1,4 @@
-<div class="section" id="filter-product-wp">
+<!-- <div class="section" id="filter-product-wp">
     <div class="section-head">
         <h3 class="section-title">Bộ lọc</h3>
     </div>
@@ -85,4 +85,4 @@
             </table>
         </form>
     </div>
-</div>
+</div> -->

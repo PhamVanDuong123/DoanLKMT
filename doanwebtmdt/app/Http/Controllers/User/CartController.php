@@ -28,37 +28,33 @@ class CartController extends Controller
         return view('user.cart.show', compact('list_pro'));
     }
 
-    function check_feeship(){
-        $feeship=Session::get('feeship');
-        if($feeship){
-            $data['status'] = 'exist';
-
-            $data['html_province']=$feeship['html_province'];            
-            $data['html_district']=$feeship['html_district'];
-            $data['html_ward']=$feeship['html_ward']; 
-            
-            $data['province_id']=$feeship['province_id'];
-            $data['district_id']=$feeship['district_id'];
-            $data['ward_id']=$feeship['ward_id'];
-        }else{
-            $data['status'] = 'not_exist';
-        }
-
-        echo json_encode($data);
-    }
-
-    function check_infoship(){
+    function check_feeship_infoship(){
         $infoship=Session::get('infoship');
         if($infoship){
-            $data['status'] = 'exist';
+            $data['infoship']['status'] = 'exist';
 
-            $data['name']=$infoship['name'];            
-            $data['phone']=$infoship['phone'];
-            $data['address']=$infoship['address'];             
-            $data['note']=$infoship['note'];
-            $data['payment']=$infoship['payment'];
+            $data['infoship']['name']=$infoship['name'];            
+            $data['infoship']['phone']=$infoship['phone'];
+            $data['infoship']['address']=$infoship['address'];             
+            $data['infoship']['note']=$infoship['note'];
+            $data['infoship']['payment']=$infoship['payment'];
         }else{
-            $data['status'] = 'not_exist';
+            $data['infoship']['status'] = 'not_exist';
+        }
+
+        $feeship=Session::get('feeship');
+        if($feeship){
+            $data['feeship']['status'] = 'exist';
+
+            $data['feeship']['html_province']=$feeship['html_province'];            
+            $data['feeship']['html_district']=$feeship['html_district'];
+            $data['feeship']['html_ward']=$feeship['html_ward']; 
+            
+            $data['feeship']['province_id']=$feeship['province_id'];
+            $data['feeship']['district_id']=$feeship['district_id'];
+            $data['feeship']['ward_id']=$feeship['ward_id'];
+        }else{
+            $data['feeship']['status'] = 'not_exist';
         }
 
         echo json_encode($data);
@@ -250,10 +246,6 @@ class CartController extends Controller
             //Xóa giỏ hàng sau khi đặt hàng
             Cart::destroy();
 
-            //Xóa mã khuyến mãi và phí ship
-            Session::forget('promotion');
-            Session::forget('feeship');
-
             $data['title'] = "Đặt hàng thành công";
             $data['status'] = "success";
             $data['message'] = "Đơn hàng đang chờ được xử lý và sẽ được giao đến bạn trong thời gian sớm nhất";
@@ -263,6 +255,11 @@ class CartController extends Controller
             $data['status'] = "error";
             $data['message'] = "Bạn chưa chọn mua sản phẩm nào. Vui lòng chọn sản phẩm để thanh toán!";            
         }
+
+        //Xóa mã khuyến mãi và phí ship
+        Session::forget('promotion');
+        Session::forget('feeship');
+        Session::forget('infoship');
 
         echo json_encode($data);
     }

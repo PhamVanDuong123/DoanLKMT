@@ -40,11 +40,11 @@ $feeship = Session::get('feeship')?Session::get('feeship')['fee']:null;
                 <div class="row">
                     <div class="col-md-12">
                         <p class="title-checkout text-danger">Khuyến mãi</p>
-                        <form action="{{route('promotion.process')}}" method="post" class="">
+                        <form action="" method="post" class="">
                             @csrf
                             <label for="promotion_code">Nhập mã khuyến mãi:</label>
                             <input type="text" name="promotion_code" id="promotion_code" class="" value="{{$promotion?$promotion[0]['code']:''}}">
-                            <input type="submit" name="btn-promotion-code" value="Sử dụng" class="btn btn-warning">
+                            <input type="button" id="btn-promotion-code" value="Sử dụng" class="btn btn-warning">
                         </form>
                     </div>
                 </div>
@@ -114,16 +114,6 @@ $feeship = Session::get('feeship')?Session::get('feeship')['fee']:null;
                                     <div class="form-group">
                                         <label for="note">Ghi chú</label>
                                         <textarea rows="3" name="note" id="note" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="payment">Phương thức thanh toán</label>
-                                        <select name="payment" id="payment" class="form-control">
-                                            <option value="">--Chọn--</option>
-                                            <option value="onl">Thẻ ngân hàng</option>
-                                            <option value="cod">Khi nhận hàng (COD)</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -204,6 +194,26 @@ $feeship = Session::get('feeship')?Session::get('feeship')['fee']:null;
                         <tr class="order-total text-danger">
                             <td>Tổng đơn hàng:</td>
                             <td><strong class="total-price">{{number_format($total_after+$feeship,0,',','.')}}đ</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label for="payment">Phương thức thanh toán</label>
+                                    <select name="payment" id="payment" class="form-control">
+                                        <option value="">--Chọn--</option>
+                                        <option value="onl">Thẻ ngân hàng</option>
+                                        <option value="cod">Khi nhận hàng (COD)</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @php $total_to_usd = round(($total_after+$feeship)/22520,2) @endphp
+                                <!-- Set up a container element for the button -->
+                                <div id="paypal-button"></div>
+                                <input type="hidden" id="total_to_usd" value="{{$total_to_usd}}">
+                            </td>
                         </tr>
                     </tfoot>
                 </table>

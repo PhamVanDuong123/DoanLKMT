@@ -38,7 +38,7 @@ class ProductController extends Controller
           $list_pro=Product::where('status','approved')->orderBy('name','DESC')->paginate(10);
          }
          elseif($sort_by=='kytu_az'){
-          $list_pro=Product::where('status','approved')->oderBy('name','ASC')->paginate(10);
+          $list_pro=Product::where('status','approved')->orderBy('name','ASC')->paginate(10);
           }
         }
         if(!empty($list_pro)){

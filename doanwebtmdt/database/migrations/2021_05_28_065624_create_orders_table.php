@@ -27,7 +27,7 @@ class CreateOrdersTable extends Migration
             $table->double('shipping_fee')->default(0);
             $table->enum('payment',['cod','onl']);
             $table->string('promotion_code',30)->nullable();
-            $table->enum('status',[1,2,0])->comment("0: cancelled, 1: processing, 2: processed")->default('1');
+            $table->enum('status',[1,2,3])->comment("3: cancelled, 1: processing, 2: processed")->default('1');
             //$table->enum('status',['cancelled','received','processing','being transported','delivered'])->default('received');
             $table->string('order_date',100)->nullable();
             $table->timestamps();

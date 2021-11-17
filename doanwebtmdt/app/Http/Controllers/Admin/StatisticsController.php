@@ -28,6 +28,7 @@ class StatisticsController extends Controller
         $total_order = Order::selectRaw("count('user_id') total_order")->groupBy('user_id')->get();
         $list_customer = Order::join('order_details','orders.id','=','order_details.order_id')->selectRaw("user_id, sum(number) total_product")->groupBy('user_id')->orderBy('total_product','desc')->limit(5)->paginate(5);
         $products_best_view = Product::orderBy('views','desc')->take(20)->get();
+        
         return view('admin.statistics.sale', compact('top5_product_selling','top5_slow_product_selling','list_customer','total_order','products_best_view'));
     }
 

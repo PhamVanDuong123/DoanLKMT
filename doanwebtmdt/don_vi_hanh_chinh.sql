@@ -1,34 +1,69 @@
-/*
-Navicat MySQL Data Transfer
+INSERT INTO `provinces` VALUES ('01', 'Thành phố Hà Nội', 'Thành phố Trung ương');
+INSERT INTO `provinces` VALUES ('02', 'Tỉnh Hà Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('04', 'Tỉnh Cao Bằng', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('06', 'Tỉnh Bắc Kạn', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('08', 'Tỉnh Tuyên Quang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('10', 'Tỉnh Lào Cai', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('11', 'Tỉnh Điện Biên', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('12', 'Tỉnh Lai Châu', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('14', 'Tỉnh Sơn La', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('15', 'Tỉnh Yên Bái', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('17', 'Tỉnh Hoà Bình', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('19', 'Tỉnh Thái Nguyên', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('20', 'Tỉnh Lạng Sơn', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('22', 'Tỉnh Quảng Ninh', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('24', 'Tỉnh Bắc Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('25', 'Tỉnh Phú Thọ', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('26', 'Tỉnh Vĩnh Phúc', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('27', 'Tỉnh Bắc Ninh', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('30', 'Tỉnh Hải Dương', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('31', 'Thành phố Hải Phòng', 'Thành phố Trung ương');
+INSERT INTO `provinces` VALUES ('33', 'Tỉnh Hưng Yên', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('34', 'Tỉnh Thái Bình', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('35', 'Tỉnh Hà Nam', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('36', 'Tỉnh Nam Định', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('37', 'Tỉnh Ninh Bình', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('38', 'Tỉnh Thanh Hóa', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('40', 'Tỉnh Nghệ An', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('42', 'Tỉnh Hà Tĩnh', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('44', 'Tỉnh Quảng Bình', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('45', 'Tỉnh Quảng Trị', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('46', 'Tỉnh Thừa Thiên Huế', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('48', 'Thành phố Đà Nẵng', 'Thành phố Trung ương');
+INSERT INTO `provinces` VALUES ('49', 'Tỉnh Quảng Nam', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('51', 'Tỉnh Quảng Ngãi', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('52', 'Tỉnh Bình Định', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('54', 'Tỉnh Phú Yên', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('56', 'Tỉnh Khánh Hòa', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('58', 'Tỉnh Ninh Thuận', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('60', 'Tỉnh Bình Thuận', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('62', 'Tỉnh Kon Tum', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('64', 'Tỉnh Gia Lai', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('66', 'Tỉnh Đắk Lắk', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('67', 'Tỉnh Đắk Nông', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('68', 'Tỉnh Lâm Đồng', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('70', 'Tỉnh Bình Phước', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('72', 'Tỉnh Tây Ninh', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('74', 'Tỉnh Bình Dương', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('75', 'Tỉnh Đồng Nai', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('77', 'Tỉnh Bà Rịa - Vũng Tàu', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('79', 'Thành phố Hồ Chí Minh', 'Thành phố Trung ương');
+INSERT INTO `provinces` VALUES ('80', 'Tỉnh Long An', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('82', 'Tỉnh Tiền Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('83', 'Tỉnh Bến Tre', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('84', 'Tỉnh Trà Vinh', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('86', 'Tỉnh Vĩnh Long', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('87', 'Tỉnh Đồng Tháp', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('89', 'Tỉnh An Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('91', 'Tỉnh Kiên Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('92', 'Thành phố Cần Thơ', 'Thành phố Trung ương');
+INSERT INTO `provinces` VALUES ('93', 'Tỉnh Hậu Giang', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('94', 'Tỉnh Sóc Trăng', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('95', 'Tỉnh Bạc Liêu', 'Tỉnh');
+INSERT INTO `provinces` VALUES ('96', 'Tỉnh Cà Mau', 'Tỉnh');
 
-Source Server         : localhost
-Source Server Version : 50625
-Source Host           : localhost:3306
-Source Database       : dia_gioi_hanh_chinh
 
-Target Server Type    : MYSQL
-Target Server Version : 50625
-File Encoding         : 65001
 
-Date: 2016-12-23 01:52:24
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
--- ----------------------------
--- Table structure for `districts`
--- ----------------------------
-DROP TABLE IF EXISTS `districts`;
-CREATE TABLE `districts` (
-  `id` varchar(5) CHARACTER SET utf8 NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `type` varchar(30) CHARACTER SET utf8 NOT NULL,
-  `province_id` varchar(5) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of districts
--- ----------------------------
 INSERT INTO `districts` VALUES ('001', 'Quận Ba Đình', 'Quận', '01');
 INSERT INTO `districts` VALUES ('002', 'Quận Hoàn Kiếm', 'Quận', '01');
 INSERT INTO `districts` VALUES ('003', 'Quận Tây Hồ', 'Quận', '01');
@@ -743,99 +778,8 @@ INSERT INTO `districts` VALUES ('971', 'Huyện Năm Căn', 'Huyện', '96');
 INSERT INTO `districts` VALUES ('972', 'Huyện Phú Tân', 'Huyện', '96');
 INSERT INTO `districts` VALUES ('973', 'Huyện Ngọc Hiển', 'Huyện', '96');
 
--- ----------------------------
--- Table structure for `provinces`
--- ----------------------------
-DROP TABLE IF EXISTS `provinces`;
-CREATE TABLE `provinces` (
-  `id` varchar(5) CHARACTER SET utf8 NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `type` varchar(30) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- ----------------------------
--- Records of provinces
--- ----------------------------
-INSERT INTO `provinces` VALUES ('01', 'Thành phố Hà Nội', 'Thành phố Trung ương');
-INSERT INTO `provinces` VALUES ('02', 'Tỉnh Hà Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('04', 'Tỉnh Cao Bằng', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('06', 'Tỉnh Bắc Kạn', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('08', 'Tỉnh Tuyên Quang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('10', 'Tỉnh Lào Cai', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('11', 'Tỉnh Điện Biên', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('12', 'Tỉnh Lai Châu', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('14', 'Tỉnh Sơn La', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('15', 'Tỉnh Yên Bái', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('17', 'Tỉnh Hoà Bình', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('19', 'Tỉnh Thái Nguyên', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('20', 'Tỉnh Lạng Sơn', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('22', 'Tỉnh Quảng Ninh', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('24', 'Tỉnh Bắc Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('25', 'Tỉnh Phú Thọ', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('26', 'Tỉnh Vĩnh Phúc', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('27', 'Tỉnh Bắc Ninh', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('30', 'Tỉnh Hải Dương', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('31', 'Thành phố Hải Phòng', 'Thành phố Trung ương');
-INSERT INTO `provinces` VALUES ('33', 'Tỉnh Hưng Yên', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('34', 'Tỉnh Thái Bình', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('35', 'Tỉnh Hà Nam', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('36', 'Tỉnh Nam Định', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('37', 'Tỉnh Ninh Bình', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('38', 'Tỉnh Thanh Hóa', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('40', 'Tỉnh Nghệ An', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('42', 'Tỉnh Hà Tĩnh', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('44', 'Tỉnh Quảng Bình', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('45', 'Tỉnh Quảng Trị', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('46', 'Tỉnh Thừa Thiên Huế', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('48', 'Thành phố Đà Nẵng', 'Thành phố Trung ương');
-INSERT INTO `provinces` VALUES ('49', 'Tỉnh Quảng Nam', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('51', 'Tỉnh Quảng Ngãi', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('52', 'Tỉnh Bình Định', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('54', 'Tỉnh Phú Yên', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('56', 'Tỉnh Khánh Hòa', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('58', 'Tỉnh Ninh Thuận', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('60', 'Tỉnh Bình Thuận', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('62', 'Tỉnh Kon Tum', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('64', 'Tỉnh Gia Lai', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('66', 'Tỉnh Đắk Lắk', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('67', 'Tỉnh Đắk Nông', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('68', 'Tỉnh Lâm Đồng', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('70', 'Tỉnh Bình Phước', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('72', 'Tỉnh Tây Ninh', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('74', 'Tỉnh Bình Dương', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('75', 'Tỉnh Đồng Nai', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('77', 'Tỉnh Bà Rịa - Vũng Tàu', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('79', 'Thành phố Hồ Chí Minh', 'Thành phố Trung ương');
-INSERT INTO `provinces` VALUES ('80', 'Tỉnh Long An', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('82', 'Tỉnh Tiền Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('83', 'Tỉnh Bến Tre', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('84', 'Tỉnh Trà Vinh', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('86', 'Tỉnh Vĩnh Long', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('87', 'Tỉnh Đồng Tháp', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('89', 'Tỉnh An Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('91', 'Tỉnh Kiên Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('92', 'Thành phố Cần Thơ', 'Thành phố Trung ương');
-INSERT INTO `provinces` VALUES ('93', 'Tỉnh Hậu Giang', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('94', 'Tỉnh Sóc Trăng', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('95', 'Tỉnh Bạc Liêu', 'Tỉnh');
-INSERT INTO `provinces` VALUES ('96', 'Tỉnh Cà Mau', 'Tỉnh');
 
--- ----------------------------
--- Table structure for `wards`
--- ----------------------------
-DROP TABLE IF EXISTS `wards`;
-CREATE TABLE `wards` (
-  `id` varchar(5) CHARACTER SET utf8 NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `type` varchar(30) CHARACTER SET utf8 NOT NULL,
-  `district_id` varchar(5) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of wards
--- ----------------------------
 INSERT INTO `wards` VALUES ('00001', 'Phường Phúc Xá', 'Phường', '001');
 INSERT INTO `wards` VALUES ('00004', 'Phường Trúc Bạch', 'Phường', '001');
 INSERT INTO `wards` VALUES ('00006', 'Phường Vĩnh Phúc', 'Phường', '001');

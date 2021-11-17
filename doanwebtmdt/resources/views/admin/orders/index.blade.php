@@ -1,4 +1,6 @@
 @php
+use App\Models\Promotion;
+
 function count_num_pro_in_order($order){
 $count=0;
 foreach($order->products as $item){
@@ -8,17 +10,31 @@ return $count;
 }
 
 function get_total_order($order){
+
 $total=0;
+$money_promotion=0;
+$feeship=$order->shipping_fee?$order->shipping_fee:0;
+
 foreach($order->products as $item){
 $total+=$item->pivot->number*$item->pivot->price;
 }
-return number_format($total,0,',','.');
+
+$promotion = Promotion::where('code',$order->promotion_code)->first();
+if($promotion){
+if($promotion['condition']==1){
+$money_promotion=$total*$promotion['number']/100;
+}else{
+$money_promotion=$promotion['number'];
+}
+}
+
+return number_format($total-$money_promotion+$feeship,0,',','.');
 }
 
 function show_status($status){
 if(!empty($status)){
 $list_status=array(
-0=>'<span class="badge badge-secondary">Bị hủy</span>',
+3=>'<span class="badge badge-secondary">Bị hủy</span>',
 1=>'<span class="badge badge-warning">Chờ xử lý</span>',
 2=>'<span class="badge badge-primary">Đã xử lý</span>',
 );
@@ -66,6 +82,11 @@ return $list_status[$status];
                 </form>
             </div>
             @if($list_order->total()>0)
+            @if(session('success'))
+                <div class="alert alert-success">{!!session('success')!!}</div>
+                @elseif(session('error'))
+                <div class="alert alert-danger">{{session('error')}}</div>
+                @endif
             <table class="table table-striped table-checkall">
                 <thead>
                     <tr>

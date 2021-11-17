@@ -251,6 +251,9 @@
 
         //Lọc thống kê theo lựa chọn
         $("#statistical_fillter").change(function() {
+            $('#datepicker').val('');
+            $('#datepicker2').val('');
+            
             var _token = $("input[name='_token']").val()
             var select = $(this).val();
 
@@ -302,7 +305,7 @@
 <script>
     var editor_config = {
         //đường dẫn đến file xử lý
-        path_absolute: "http://localhost:8080/DoanLKMT/doanwebtmdt/",
+        path_absolute: "{{url('')}}",
         selector: 'textarea.form-editor',
         relative_urls: false,
         plugins: [

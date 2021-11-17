@@ -23,12 +23,13 @@ class DashboardController extends Controller
         $num_order_success=Order::where('status',2)->count();
         $num_order_processing=Order::where('status',1)->count();
         $revenue=$this->get_revenue();
-        $num_order_cancelled=Order::where('status',0)->count();
+        $num_order_cancelled=Order::where('status',3)->count();
         $list_new_order=Order::where('status',1)->orderByDesc('id')->paginate(8);
         $revenue_today=$this->get_revenue($today);
         $profit_today=$this->get_profit_today();
         $qty_today=$this->get_qty_today();
         $order_today=$this->get_order_today();
+
         return view('admin.dashboard.show',compact('num_order_success','num_order_processing','revenue','num_order_cancelled','list_new_order','revenue_today','profit_today','qty_today','order_today'));
     }
 

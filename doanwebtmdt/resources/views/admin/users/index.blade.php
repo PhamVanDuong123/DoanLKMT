@@ -4,9 +4,9 @@
 function show_permission($permission){
 if(!empty($permission)){
 $list_per=array(
-'1'=>'Chủ hệ thống',
-'2'=>'Quản trị',
-'3'=>'Nhân viên bán hàng'
+'1'=>'<span class="badge badge-danger">Chủ hệ thống</span>',
+'2'=>'<span class="badge badge-info">Quản trị</span>',
+'3'=>'<span class="badge badge-success">Nhân viên bán hàng</span>',
 );
 return $list_per[$permission];
 }
@@ -97,12 +97,12 @@ return $list_gender[$gender];
                             <td>{{$item->email}}</td>
                             <td>{{show_gender($item->gender)}}</td>
                             <td>{{$item->address}}</td>
-                            <td>{{show_permission($item->permission)}}</td>
+                            <td>{!!show_permission($item->permission)!!}</td>
                             <td>{{date('d-m-Y h:m:s',strtotime($item->created_at))}}</td>
                             <td>
                                 <!-- Nếu quyền user đang đn không phải boss hoặc admin, user trùng với user đang đn, quyền của user là boss thì không đc cập nhật quyền -->
                                 @if((Auth::user()->permission==1 || Auth::user()->permission==2) && $item->id!=Auth::id() && $item->permission!=1)
-                                <a href="{{route('admin.user.editAdmin',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật quyền"><i class="fa fa-edit"></i></a>
+                                <a href="{{route('admin.user.edit',['id'=>$item->id,'status'=>request()->status])}}" class="btn btn-success btn-sm rounded-0 text-white action-icon" type="button" data-toggle="tooltip" data-placement="top" title="Cập nhật quyền"><i class="fa fa-edit"></i></a>
                                 @endif
                                 <!-- Nếu quyền user đang đn không phải boss hoặc admin, user trùng với user đang đn, quyền của user là boss thì không đc xóa -->
                                 @if((Auth::user()->permission==1 || Auth::user()->permission==2) && $item->id!=Auth::id() && $item->permission!=1)

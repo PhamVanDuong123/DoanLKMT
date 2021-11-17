@@ -50,8 +50,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/cart/load_district_ward_user', 'User\CartController@load_district_ward_user')->name('cart.load_district_ward_user');
     Route::post('/cart/calculator_feeship', 'User\CartController@calculator_feeship')->name('cart.calculator_feeship');
     Route::get('cart/del_promotion_code', 'User\CartController@del_promotion_code')->name('cart.del_promotion_code');
-    Route::get('/cart/check_feeship', 'User\CartController@check_feeship')->name('cart.check_feeship');
-    Route::get('/cart/check_infoship', 'User\CartController@check_infoship')->name('cart.check_infoship');
+    Route::get('/cart/check_feeship_infoship', 'User\CartController@check_feeship_infoship')->name('cart.check_feeship_infoship');
 
     //promotion
     Route::post('/promotion/process', 'User\PromotionController@process')->name('promotion.process');
@@ -63,7 +62,7 @@ Route::group(['prefix' => '/user'], function () {
     //page
     Route::get('/page/{name}', 'User\PageController@detail')->name('page.detail');
 
-    // account  
+    //account  
     Route::get('/account/login', 'User\HomeController@get_Login')->name('account.login');
     Route::post('/account/login', 'User\HomeController@post_Login')->name('account.login');
     Route::get('/account/logout', 'User\HomeController@logout')->name('account.logout');
@@ -71,6 +70,11 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/account/signup', 'User\HomeController@post_signup')->name('account.signup');
     Route::get('/account/detail', 'User\HomeController@detail')->name('account.detail');
     Route::post('/account/detail', 'User\HomeController@account_detail')->name('account.detail');
+
+    //history transaction
+    Route::get('/history', 'User\HistoryController@index')->name('history.index');
+    Route::get('/history/detail/{id}', 'User\HistoryController@detail')->name('history.detail');
+    Route::get('/history/print_order/{order_code}', 'User\HistoryController@print_order')->name('history.print_order');
 });
 
 //Admin
@@ -84,8 +88,7 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/order', 'Admin\OrderController@index')->name('admin.order.index');
         Route::get('/order/search', 'Admin\OrderController@search')->name('admin.order.search');
         Route::get('/order/process/{id}', 'Admin\OrderController@process')->name('admin.order.process');
-        Route::get('/order/detail/{id}', 'Admin\OrderController@detail')->name('admin.order.detail');
-        Route::get('/order/print_order/{order_code}', 'Admin\OrderController@print_order')->name('admin.order.print_order');
+        Route::get('/order/detail/{id}', 'Admin\OrderController@detail')->name('admin.order.detail');        
 
         //promotion
         Route::get('/promotion', 'Admin\PromotionController@index')->name('admin.promotion.index');
@@ -112,8 +115,6 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::get('/user', 'Admin\UserController@index')->name('admin.user.index');
         Route::get('/user/delete/{id}', 'Admin\UserController@delete')->name('admin.user.delete');
         Route::get('/user/action', 'Admin\UserController@action')->name('admin.user.action');
-        Route::get('/user/editAdmin/{id}', 'Admin\UserController@editAdmin')->name('admin.user.editAdmin');
-        Route::post('/user/updateAdmin/{id}', 'Admin\UserController@updateAdmin')->name('admin.user.updateAdmin');
         Route::get('/user/edit/{id}', 'Admin\UserController@edit')->name('admin.user.edit');
         Route::post('/user/update/{id}', 'Admin\UserController@update')->name('admin.user.update');
         Route::get('/user/detail/{id}', 'Admin\UserController@detail')->name('admin.user.detail');
@@ -140,7 +141,6 @@ Route::middleware('auth', 'checkRoleAdmin')->prefix('/admin')->group(function ()
         Route::post('/product_category/edit/{id}', 'Admin\ProductCategoryController@postedit')->name('admin.product_category.edit');
         Route::get('/product_category/edit/{id}', 'Admin\ProductCategoryController@getedit')->name('admin.product_category.edit');
         Route::post('/product_category/action', 'Admin\ProductCategoryController@action')->name('admin.product_category.action');
-
 
         //post
         Route::get('/post', 'Admin\PostController@index')->name('admin.post.index');

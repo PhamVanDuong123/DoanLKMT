@@ -14,17 +14,21 @@ class PromotionController extends Controller
     function process(Request $request)
     {
         $data = $request->all();
+        $result = array();
+        $result['title']='Áp dụng mã giảm giá thất bại';
+        $result['status']='error';
 
-        if (!$this->check_code_exist($data['promotion_code'])) {
-            return redirect()->back()->with('error', 'Mã khuyến mãi này không tồn tại!');
+        if (!$this->check_code_exist($data['promotion_code'])) {            
+            $result['message']='Mã khuyến mãi này không tồn tại!';
         } elseif ($this->check_num_code($data['promotion_code']) < 1) {
-            return redirect()->back()->with('error', 'Mã khuyến mãi này đã được dùng hết!');
+            $result['message']='Mã khuyến mãi này đã được dùng hết!';
         } elseif (!$this->check_expiry_code($data['promotion_code'])) {
-            return redirect()->back()->with('error', 'Mã khuyến mãi này đã hết thời gian áp dụng!');
+            $result['message']='Mã khuyến mãi này đã hết thời gian áp dụng!';
         } elseif (!$this->check_total_order($data['promotion_code'])) {
             $promotion =  Promotion::where('code', $data['promotion_code'])->where('status', 'approved')->first();
             $min_total_order = number_format($promotion->min_total_order,0,',','.');
-            return redirect()->back()->with('error', 'Mã khuyến mãi này chỉ được áp dụng cho đơn hàng có tổng giá trị tối thiểu từ '.$min_total_order.'đ');
+
+            $result['message']='Mã khuyến mãi này chỉ được áp dụng cho đơn hàng có tổng giá trị tối thiểu từ '.$min_total_order.'đ';
         } else {
             $promotion = Promotion::where('code', $data['promotion_code'])->where('status', 'approved')->first();
             $promotion->qty -= 1;
@@ -55,10 +59,22 @@ class PromotionController extends Controller
                 //dd($pro);
                 Session::put('promotion', $pro);
             }
-            Session::save();
-
-            return redirect()->back()->with(['success' => 'Mã giảm giá đã được áp dụng']);
+            
+            $result['title']='Áp dụng mã giảm giá thành công';
+            $result['status']='success';
+            $result['message']='Mã giảm giá đã được áp dụng';
+            
         }
+
+        $result2['name']=$data['name'];
+        $result2['phone']=$data['phone'];
+        $result2['address']=$data['address'];
+        $result2['note']=$data['note'];
+        $result2['payment']=$data['payment'];
+        Session::put('infoship', $result2);
+        Session::save();
+
+        echo json_encode($result);
     }
 
     function check_code_exist($code)
