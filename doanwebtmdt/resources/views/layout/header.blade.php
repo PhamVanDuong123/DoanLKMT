@@ -31,7 +31,8 @@
     <meta property="og:site_name" content="http://localhost:8081/DoanLKMT/doanwebtmdt/" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -47,6 +48,7 @@
 
         });
     </script>
+    <!-- tìm kiếm ajax -->
     <script type="text/javascript">
         $('#s').keyup(function() {
             var query = $(this).val();
@@ -87,27 +89,27 @@
             <div id="header-wp">
                 <div id="head-top" class="clearfix">
                     <div class="wp-inner">
-                        <a href="" title="" id="payment-link" class="fl-left">Hình thức thanh toán</a>
+                        <a href="" title="" id="payment-link" class="fl-left">@lang('lang.hinhthucthanhtoan')</a>
                         <div id="main-menu-wp" class="fl-right">
                             <ul id="main-menu" class="clearfix">
                                 <li>
-                                    <a href="{{route('home')}}" title="">@lang('lang.trangchu')</a>
+                                    <a href="{{route('home')}}" class="active" title="">@lang('lang.trangchu')</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('product.index')}}" title="">Sản phẩm</a>
+                                    <a href="{{route('product.index')}}" title="">@lang('lang.sanpham')</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('post.index')}}" title="">Bài viết</a>
+                                    <a href="{{route('post.index')}}" title="">@lang('lang.baiviet')</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('page.detail','gioi-thieu')}}" title="">Giới thiệu</a>
+                                    <a href="{{route('page.detail','gioi-thieu')}}" title="">@lang('lang.gioithieu')</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('page.detail','lien-he')}}" title="">Liên hệ</a>
+                                    <a href="{{route('page.detail','lien-he')}}" title="">@lang('lang.lienhe')</a>
                                 </li>
                                 @if(Auth::check())
                                 <li>
-                                    <a href="{{route('history.index')}}">Lịch sử mua hàng</a>
+                                    <a href="{{route('history.index')}}">@lang('lang.lichsumuahang')</a>
                                 </li>
                                 <li>
                                     <a href="{{route('account.detail')}}" title="">{{Auth::user()->fullname}}
@@ -116,16 +118,16 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{route('account.logout')}}">Đăng xuất
+                                    <a href="{{route('account.logout')}}">@lang('lang.dangxuat')
                                         <span class="fa fa-sign-in"></span>
                                     </a>
                                 </li>
                                 @else
                                 <li>
-                                    <a href="{{route('account.login')}}">Đăng nhập <span class="glyphicon glyphicon-user"></span></a>
+                                    <a href="{{route('account.login')}}">@lang('lang.dangnhap') <span class="glyphicon glyphicon-user"></span></a>
                                 </li>
                                 <li>
-                                    <a href="{{route('account.signup')}}">Đăng Ký
+                                    <a href="{{route('account.signup')}}">@lang('lang.dangky')
                                         <span class="fa fa-user-plus"></span>
                                     </a>
                                 </li>
@@ -136,15 +138,15 @@
                 </div>
                 <div id="head-body" class="clearfix">
                     <div class="wp-inner">
-
+      <!-- tìm kiếm ajax -->
                         <a href="{{route('home')}}" title="" id="logo" class="fl-left"><img src="{{asset('user/images/logo.png')}}" /></a>
-
+    
                         <div id="search-wp" class="fl-left">
-                            <form method="POST" action="{{URL::to('/search')}}">
+                            <form method="POST" action="{{URL::to('/search')}}" autocomplete="off">
                                 {{csrf_field()}}
 
-                                <input type="text" style="with: 100%" name="keyword_submit" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!" />
-                                <button name="search_item" type="submit" id="sm-s">Tìm kiếm</button>
+                                <input type="text" style="with: 100%" name="keyword_submit" id="s" placeholder="@lang('lang.tukhoa')" />
+                                <button name="search_item" type="submit" id="sm-s">@lang('lang.timkiem')</button>
                                 <div id="search_ajax"></div>
 
                         </div>
@@ -152,14 +154,14 @@
 
                     </div>
                     <div class="btn-group language" style="margin-top: 20px;">
-                        <button type="button" class="btn btn-danger">Ngôn Ngữ</button>
+                        <button type="button" class="btn btn-danger">@lang('lang.ngonngu')</button>
                         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{url('lang/vi')}}">Vietnamese</a>
-                            <a class="dropdown-item" href="{{url('lang/en')}}">English</a>
-                            <a class="dropdown-item" href="{{url('lang/cn')}}">Chinese</a>
+                         <li><a class="dropdown-item" href="{{url('lang/vi')}}">Vietnamese</a></li> 
+                         <li><a class="dropdown-item" href="{{url('lang/en')}}">English</a></li> 
+                         <li> <a class="dropdown-item" href="{{url('lang/cn')}}">Chinese</a></li> 
 
 
                         </div>

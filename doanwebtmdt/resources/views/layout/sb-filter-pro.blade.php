@@ -1,88 +1,45 @@
-<!-- <div class="section" id="filter-product-wp">
+ <div class="section" id="filter-product-wp">
     <div class="section-head">
         <h3 class="section-title">Bộ lọc</h3>
     </div>
     <div class="section-detail">
-        <form method="POST" action="">
-            <table>
-                <thead>
-                    <tr>
-                        <td colspan="2">Giá</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>Dưới 500.000đ</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>500.000đ - 1.000.000đ</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>1.000.000đ - 5.000.000đ</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>5.000.000đ - 10.000.000đ</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>Trên 10.000.000đ</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td colspan="2">Hãng</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Acer</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Apple</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Hp</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Lenovo</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Samsung</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-brand"></td>
-                        <td>Toshiba</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <td colspan="2">Loại</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>Điện thoại</td>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" name="r-price"></td>
-                        <td>Laptop</td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+    <h4 class="section-title">Giá</h4>
+    <div class="list-group">
+               <a style="color:black"  href="{{Request::url()}}?sort_by=duoi500k">Giá dưới 500.000 ngàn</a>
+       
+               <a  style="color:black" href="{{Request::url()}}?sort_by=500_1000k">Giá từ 500.000 - 1 triệu</a>
+            
+               <a style="color:black" href="{{Request::url()}}?sort_by=1000k_2000k">Giá từ 1 triệu - 2 triệu</a>
+           
+               <a style="color:black" href="{{Request::url()}}?sort_by=tren_2000k">Giá từ 2 triệu - 5 triệu</a>
+          
+               <a style="color:black " href="{{Request::url()}}?sort_by=tren_5000k">Giá từ 5 triệu - 10 triệu</a>
+           
+               <a   style="color:black " href="{{Request::url()}}?sort_by=tren_10tr"> Giá trên 10 triệu </a>
+          
+        </div>    
+         <h4 class="section-title">  Thương hiệu</h4>
+    <div class="list-group">
+               <a style="color:black"  href="{{Request::url()}}?sort_by=Asus">Asus</a>
+       
+               <a  style="color:black" href="{{Request::url()}}?sort_by=Intel">Intel</a>
+            
+               <a style="color:black" href="{{Request::url()}}?sort_by=ASROck">ASROck</a>
+           
+               <a style="color:black" href="{{Request::url()}}?sort_by=Nvidia">Nvidia</a>
+          
+               <a style="color:black " href="{{Request::url()}}?sort_by=AMD">AMD</a>
+           
+               <a   style="color:black " href="{{Request::url()}}?sort_by=MSI"> MSI </a>
+
+               <a   style="color:black " href="{{Request::url()}}?sort_by=Logitech">Logitech </a>
+               
+               <a   style="color:black " href="{{Request::url()}}?sort_by=Kingmax">Kingmax</a>
+               
+               <a   style="color:black " href="{{Request::url()}}?sort_by=Corsair">Corsair</a>
+          
+        </div>     
+
+
     </div>
-</div> -->
+</div>  

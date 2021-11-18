@@ -62,7 +62,7 @@
         </div>
         <div class="sidebar fl-left">
             @include('layout.sb-cate-pro')
-            @include('layout.sb-filter-pro')
+         
             @include('layout.sb-banner')            
         </div>
     </div>

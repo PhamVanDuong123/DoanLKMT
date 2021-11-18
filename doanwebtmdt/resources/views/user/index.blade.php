@@ -39,43 +39,43 @@
                             <div class="thumb thumb-icon-intro">
                                 <img src="{{url('public/user')}}/images/icon-1.png">
                             </div>
-                            <h3 class="title">Miễn phí vận chuyển</h3>
-                            <p class="desc">Tới tận tay khách hàng</p>
+                            <h3 class="title">@lang('lang.mienphivanchuyen')</h3>
+                            <p class="desc">@lang('lang.toitaykhachhang')</p>
                         </li>
                         <li>
                             <div class="thumb thumb-icon-intro">
                                 <img src="{{url('public/user')}}/images/icon-2.png">
                             </div>
-                            <h3 class="title">Tư vấn 24/7</h3>
+                            <h3 class="title">@lang('lang.tuvan24/7')</h3>
                             <p class="desc">1900.9999</p>
                         </li>
                         <li>
                             <div class="thumb thumb-icon-intro">
                                 <img src="{{url('public/user')}}/images/icon-3.png">
                             </div>
-                            <h3 class="title">Tiết kiệm hơn</h3>
-                            <p class="desc">Với nhiều ưu đãi cực lớn</p>
+                            <h3 class="title">@lang('lang.tietkiemhon')</h3>
+                            <p class="desc">@lang('lang.uudai')</p>
                         </li>
                         <li>
                             <div class="thumb thumb-icon-intro">
                                 <img src="{{url('public/user')}}/images/icon-4.png">
                             </div>
-                            <h3 class="title">Thanh toán nhanh</h3>
-                            <p class="desc">Hỗ trợ nhiều hình thức</p>
+                            <h3 class="title">@lang('lang.thanhtoannhanh')</h3>
+                            <p class="desc">@lang('lang.hotro')</p>
                         </li>
                         <li>
                             <div class="thumb thumb-icon-intro">
                                 <img src="{{url('public/user')}}/images/icon-5.png">
                             </div>
-                            <h3 class="title">Đặt hàng online</h3>
-                            <p class="desc">Thao tác đơn giản</p>
+                            <h3 class="title">@lang('lang.dathangonline')</h3>
+                            <p class="desc">@lang('lang.thaotac')</p>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="section" id="feature-product-wp">
                 <div class="section-head">
-                    <h3 class="section-title">Sản phẩm nổi bật</h3>
+                    <h3 class="section-title">@lang('lang.sanphamnoibat')</h3>
                 </div>
                 <div class="section-detail">
                     @if(!empty($list_highlight_pro))
