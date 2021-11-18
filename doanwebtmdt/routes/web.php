@@ -10,7 +10,6 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\User\HomeController;
-
 use Illuminate\Support\Facades\Session;
 
 
@@ -26,6 +25,7 @@ use Illuminate\Support\Facades\Session;
 */
 
 Route::get('/', 'User\HomeController@index')->name('home');
+Route::get('/lang/{locale}', 'User\HomeController@index')->name('home');
 Route::post('/autocomplete-ajax', 'User\HomeController@autocomplete_ajax')->name('autocomplete-ajax');
 Route::post('/search', 'User\HomeController@search')->name('search');
 route::get('user/account/login/login_facebook/{provider}', 'SocialController@login_facebook');
@@ -195,16 +195,17 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['auth']], func
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 //locate
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/lang/{locale}', function ($locale) {
-        if (!in_array($locale, ['vi', 'en', 'cn'])) {
+ Route::get('lang/{locale}', function ($locale) {
+        if (! in_array($locale, ['en', 'vi', 'cn'])) {
             abort(404);
         }
-
-        session()->put('locate', $locale);
-        return redirect()->back();
-    });
+             
+        session()->put('locale', $locale);
+      
+        
+                return redirect()->back();
 });
+
 
 //send mail
 Route::get('/send_mail', 'MailController@send_mail');

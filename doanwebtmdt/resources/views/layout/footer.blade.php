@@ -3,7 +3,7 @@
         <div class="wp-inner clearfix">
             <div class="block" id="info-company">
                 <img id="logo-footer" src="{{asset('user/images/Logo.png')}}" alt="">
-                <p class="desc">HD Computer là một đơn vị luôn cung cấp các sản phẩm bộ phận linh kiện máy tính chính hãng với giá cả hợp lý đến tận tay khách hàng. HD Computer là một đơn vị luôn cung cấp các sản phẩm bộ phận linh kiện máy tính chính hãng với giá cả hợp lý đến tận tay khách hàng.</p>
+                <p class="desc">@lang('lang.hdcomputer')</p>
                 <div id="payment">
                     <div class="thumb">
                         <img src="{{asset('images/img-foot.png')}}" alt="">
@@ -11,10 +11,10 @@
                 </div>
             </div>
             <div class="block menu-ft" id="info-shop">
-                <h3 class="title">Thông tin cửa hàng</h3>
+                <h3 class="title">@lang('lang.thongtincuahang')</h3>
                 <ul class="list-item">
                     <li>
-                        <p>65 Huỳnh Thúc Kháng, phường Bến Nghé, quận 1, TP Hồ Chí Minh</p>
+                        <p>@lang('lang.diachi')</p>
                     </li>
                     <li>
                         <p>0987.654.321 - 0989.989.989</p>
@@ -31,38 +31,38 @@
                 </ul>
             </div>
             <div class="block menu-ft policy" id="info-shop">
-                <h3 class="title">Thông tin chính sách</h3>
+                <h3 class="title">@lang('lang.thongtinchinhsach')</h3>
                 <ul class="list-item">
                     <li>
-                        <a href="#" title="">Quy định - chính sách</a>
+                        <a href="#" title="">@lang('lang.quydinh_chinhsach')</a>
                     </li>
                     <li>
-                        <a href="#" title="">Chính sách bảo hành - đổi trả</a>
+                        <a href="#" title="">@lang('lang.chinhsachdoitra')</a>
                     </li>
                     <li>
-                        <a href="#" title="">Chính sách thành viên</a>
+                        <a href="#" title="">@lang('lang.chinhsachthanhvien')</a>
                     </li>
                     <li>
-                        <a href="#" title="">Chính sách sửa chữa</a>
+                        <a href="#" title="">@lang('lang.chinhsachsuachua')</a>
                     </li>
                     <li>
-                        <a href="#" title="">Giao hàng - lắp đặt</a>
+                        <a href="#" title="">@lang('lang.giaohanglapdat')</a>
                     </li>
                     <li>
-                        <a href="#" title="">Thanh toán - Trả góp</a>
+                        <a href="#" title="">@lang('lang.thanhtoan_tragop')</a>
                     </li>
                 </ul>
             </div>
             <div class="block" id="newfeed">
-                <h3 class="title">Chăm sóc khách hàng</h3>
-                <p>Tổng đài CSKH: </p>
+                <h3 class="title">@lang('lang.chamsockhachhang')</h3>
+                <p>@lang('lang.tongdai')</p>
                 <h2 class="hotline">19001009</h2>
             </div>
         </div>
     </div>
     <div id="foot-bot">
         <div class="wp-inner">
-            <p id="copyright">© Bản quyền thuộc Công ty TNHH HD Computer</p>
+            <p id="copyright">@lang('lang.banquyen')</p>
         </div>
     </div>
 </div>

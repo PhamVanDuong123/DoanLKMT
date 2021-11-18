@@ -25,12 +25,14 @@
                             @csrf
                             <select name="sort_by" id="sort_by" wire:model="sorting" >
                                     <option value="{{Request::url()}}?sort_by=none">Sắp xếp</option>
+                                    <option value="{{Request::url()}}?sort_by=sp_hot">Sản phẩm hot</option>
+                                    <option value="{{Request::url()}}?sort_by=sp_moi">Sản phẩm mới</option>
                                     <option value="{{Request::url()}}?sort_by=kytu_az">Từ A-Z</option>
                                     <option value="{{Request::url()}}?sort_by=kytu_za">Từ Z-A</option>
                                     <option value="{{Request::url()}}?sort_by=giam_dan">Giá cao xuống thấp</option>
                                     <option value="{{Request::url()}}?sort_by=tang_dan">Giá thấp lên cao</option>
                                 </select>
-                           <button type="submit">Lọc</button>
+                          
                         </div>
                     </div>
                 </div>

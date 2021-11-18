@@ -1,6 +1,6 @@
 <div class="section" id="category-product-wp">
     <div class="section-head">
-        <h3 class="section-title">Danh mục sản phẩm</h3>
+        <h3 class="section-title">@lang('lang.danhmucsanpham')</h3>
     </div>
     <div class="secion-detail">
         @if(!empty($list_cate))
