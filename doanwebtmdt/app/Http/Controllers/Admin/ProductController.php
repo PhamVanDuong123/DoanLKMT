@@ -160,8 +160,7 @@ class ProductController extends Controller
 
     function store(Request $request)
     {
-        //dd($request->all());
-        $request->validate(
+        $test = $request->validate(
             [
                 'name' => 'required|min:5|max:200',
                 'brand_id' => 'required',
@@ -171,6 +170,9 @@ class ProductController extends Controller
                 'price' => 'required|gte:price_cost',
                 'old_price' => 'required',
                 'price_cost' => 'required|lte:price',
+                'inventory_num' => 'required',
+                'warranty' => 'required',
+                'detail_desc' => 'required'
             ],
             [
                 'required' => ':attribute không được để trống',
@@ -192,9 +194,12 @@ class ProductController extends Controller
                 'short_desc' => 'Tóm tắt ngắn',
                 'product_category_id' => 'Danh mục sản phẩm',
                 'thumb' => 'Ảnh đại diện',
+                'inventory_num' => 'Số lượng tồn kho',
+                'warranty' => 'Thời gian bảo hành',
+                'detail_desc' => 'Mô tả chi tiết'
             ]
         );
-
+        
         if ($request->hasFile('thumb')) {
             $file = $request->thumb;
 
@@ -204,6 +209,7 @@ class ProductController extends Controller
 
             $thumb = asset('uploads/' . $fileName);
         }
+
         $product = Product::create([
             'name' => $request->input('name'),
             'code' => Str::slug($request->input('name')),

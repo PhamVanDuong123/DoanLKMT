@@ -195,3 +195,7 @@ table thead th {
 .avatar_detial {
     width: 250px;
 }
+
+label.error {
+    color: red;
+}

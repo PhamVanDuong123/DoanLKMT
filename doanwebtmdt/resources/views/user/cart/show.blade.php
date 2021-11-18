@@ -59,7 +59,7 @@ $feeship = Session::get('feeship');
                             </td>
                             <td scope="col" class="subtotal-{{$product->rowId}}">{{number_format($product->subtotal,0,',','.')}}đ</td>
                             <td scope="col">
-                                <a href="javacript:" title="" data-rowId="{{$product->rowId}}" class="del-product"><i class="fa fa-trash-o"></i></a>
+                                <a href="javacript:" title="" data-rowId="{{$product->rowId}}" class="del-product">Xóa <i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                         @endforeach

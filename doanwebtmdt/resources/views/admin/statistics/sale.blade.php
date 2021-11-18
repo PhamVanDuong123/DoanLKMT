@@ -62,7 +62,7 @@ return $list_gender[$gender];
             </div>
             <div class="row mt-5">
                 <div class="col-md-6 col-xs-12">
-                    <p class="text-center font-weight-bold statistical_title">Top 5 sản phẩm bán chạy nhất</p>
+                    <p class="text-center font-weight-bold statistical_title">Top sản phẩm bán chạy nhất</p>
                     <table class="table">
                         <thead>
                             <tr>
@@ -91,7 +91,7 @@ return $list_gender[$gender];
                     {{$top5_product_selling->appends(request()->all())->links()}}
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    <p class="text-center font-weight-bold statistical_title">Top 5 sản phẩm bán chậm nhất</p>
+                    <p class="text-center font-weight-bold statistical_title">Top sản phẩm bán chậm nhất</p>
                     <table class="table">
                         <thead>
                             <tr>

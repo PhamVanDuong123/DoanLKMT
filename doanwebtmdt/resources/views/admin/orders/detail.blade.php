@@ -77,7 +77,7 @@ return $list_status[$status];
                             <div class="col-md-3">
                                 @if($action=='process')
                                 <div class="form-group">
-                                    <label for="">Trạng thái đơn hàng</label>
+                                    <label for="" class="font-weight-bold">Trạng thái đơn hàng</label>
                                     <select class="form-control" id="" name="status">
                                         <option value="">-- Chọn --</option>
                                         <option value="1" {{$order->status==1?'selected':''}} {{$order->status==2?'disabled':''}}>Đang xử lý</option>

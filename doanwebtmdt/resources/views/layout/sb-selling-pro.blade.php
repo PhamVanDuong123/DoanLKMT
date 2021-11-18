@@ -12,7 +12,7 @@
                     <img src="{{$product->thumb}}" alt="">
                 </a>
                 <div class="info fl-right">
-                    <a href="?page=detail_product" title="" class="product-name">{{$product->name}}</a>
+                    <a href="{{$product->url}}" title="" class="product-name">{{$product->name}}</a>
                     <div class="price">
                         <span class="new">{{number_format($product->price)}}đ</span>
                         <span class="old">{{number_format($product->old_price)}}đ</span>

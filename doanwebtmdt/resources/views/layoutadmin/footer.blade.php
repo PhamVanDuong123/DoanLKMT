@@ -14,12 +14,84 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="{{url('/public/admin/js/simple.money.format.js')}}"></script>
+<script src="{{url('/public/admin/js/jquery.validate.js')}}"></script>
+
+<!-- validate -->
+<script>
+    $(function(){
+        // form add product 
+        $('#add-product').validate({
+            rules: {
+                inventory_num: "required",
+                warranty: "required",
+                detail_desc: "required",
+                brand_id: "required",
+                product_category_id: "required",
+                old_price: "required",
+                name: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 200
+                },                
+                short_desc: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 300
+                },
+                thumb: {
+                    required: true,
+                    image: true,
+                    maxlength: 20480
+                },
+                price: {
+                    required: true,
+                },                
+                price_cost: {
+                    required: true,
+                },                
+            },
+            messages: {
+                brand_id: "Bạn chưa chọn thương hiệu",
+                product_category_id: "Bạn chưa chọn loại sản phẩm",
+                warranty: "Bạn chưa nhập thời gian bảo hành sản phẩm",
+                detail_desc: "Bạn chưa nhập mô tả chi tiết sản phẩm",
+                name: {
+                    required: "Bạn chưa nhập tên sản phẩm",
+                    minlength: jQuery.validator.format("Tên sản phẩm phải tối tiểu từ {0} ký tự!"),
+                    maxlength: jQuery.validator.format("Tên sản phẩm chỉ tối đa là {0} ký tự!")
+                },                
+                short_desc: {
+                    required: "Bạn chưa nhập mô tả ngắn sản phẩm",
+                    minlength: jQuery.validator.format("Mô tả ngắn sản phẩm phải tối tiểu từ {0} ký tự!"),
+                    maxlength: jQuery.validator.format("Mô tả ngắn sản phẩm chỉ tối đa là {0} ký tự!")
+                },
+                thumb: {
+                    required: "Bạn chưa chọn hình ảnh sản phẩm",
+                    image: "Hình ảnh chưa đúng định dạng",
+                    maxlength: jQuery.validator.format("Hình ảnh có dung lượng tối đa là {0}kb!")
+                },
+                price: {
+                    required: "Bạn chưa nhập giá bán sản phẩm",
+                },
+                old_price: {
+                    required: "Bạn chưa nhập giá cũ sản phẩm",
+                },
+                price_cost: {
+                    required: "Bạn chưa nhập giá gốc sản phẩm",
+                },
+                inventory_num: {
+                    required: "Bạn chưa nhập số lượng tồn sản phẩm",
+                },                
+            }
+        });
+    })
+</script>
 
 <script>
     $(function() {
         load_feeship();
 
-        function load_feeship(){
+        function load_feeship() {
             var _token = $('input[name="_token"]').val();
 
             $.ajax({
@@ -72,12 +144,12 @@
         //kích hoạt phần nhập giá trị hóa đơn tối thiểu
         load_min_total_order();
 
-        function load_min_total_order(){
+        function load_min_total_order() {
             var condition = $('#condition').val();
-            if(condition==1){
+            if (condition == 1) {
                 $('#min_total_order').val('');
-                $('#min_total_order').attr('disabled','disabled');
-            }else if(condition==2){
+                $('#min_total_order').attr('disabled', 'disabled');
+            } else if (condition == 2) {
                 $('#min_total_order').removeAttr('disabled');
                 //$('#number').addClass('money');
                 //$('#min_total_order').addClass('money');
@@ -85,17 +157,17 @@
         }
 
         //ràng buộc giá trị khuyến mãi promotion/edit 
-        $('#condition').on('change',function(){
+        $('#condition').on('change', function() {
             var condition = $(this).val()
             var value = $('#number').val()
             var min_total_order = $('#min_total_order').val();
-            
-            if(condition==2){
+
+            if (condition == 2) {
                 $('#min_total_order').removeAttr('disabled');
                 //$('#number').addClass('money');
-            }else if(condition==1){
+            } else if (condition == 1) {
                 $('#min_total_order').val('');
-                $('#min_total_order').attr('disabled','disabled');
+                $('#min_total_order').attr('disabled', 'disabled');
 
                 if (value > 100) {
                     //trở lại giảm theo tiền
@@ -106,7 +178,7 @@
                 }
             }
         })
-              
+
         $('#number').on('change', function() {
             var condition = $('#condition').val();
             var value = $(this).val();
@@ -117,27 +189,27 @@
         })
 
         //cập nhật phí vận chuyển
-        $(document).on('blur','td.edit_feeship',function(){
+        $(document).on('blur', 'td.edit_feeship', function() {
             var _token = $('input[name="_token"]').val();
-            var id=$(this).data('id');
-            var fee=$(this).text();
-            
+            var id = $(this).data('id');
+            var fee = $(this).text();
+
             $.ajax({
-                    url: "{{route('admin.delivery.edit_feeship')}}",
-                    method: "post",
-                    dataType: "html",
-                    data: {
-                        _token: _token,
-                        id: id,
-                        fee: fee
-                    },
-                    success: function(data) {
-                        alert('Cập nhật phí vận chuyển thành công');
-                    },
-                    // error: function(xhr, ajaxOptions,thrownError){
-                    //     alert('Lỗi: '+xhr.status+' - '+thrownError)
-                    // }
-                })
+                url: "{{route('admin.delivery.edit_feeship')}}",
+                method: "post",
+                dataType: "html",
+                data: {
+                    _token: _token,
+                    id: id,
+                    fee: fee
+                },
+                success: function(data) {
+                    alert('Cập nhật phí vận chuyển thành công');
+                },
+                // error: function(xhr, ajaxOptions,thrownError){
+                //     alert('Lỗi: '+xhr.status+' - '+thrownError)
+                // }
+            })
         })
 
         //thêm phí vận chuyển
@@ -147,7 +219,7 @@
             var district_id = $('select#district').val();
             var ward_id = $('select#ward').val();
             var fee = $('input#fee').val();
-            
+
             if (province_id == '') {
                 alert('Tỉnh/thành phố không được để trống!')
             } else if (district_id == '') {
@@ -169,12 +241,12 @@
                         fee: fee,
                     },
                     success: function(data) {
-                        if(data.status=='success'){
+                        if (data.status == 'success') {
                             alert(data.message);
                             load_feeship();
-                        }else{
+                        } else {
                             alert(data.message);
-                        }                        
+                        }
                         //console.log(data)
                     },
                     // error: function(xhr, ajaxOptions,thrownError){
@@ -253,7 +325,7 @@
         $("#statistical_fillter").change(function() {
             $('#datepicker').val('');
             $('#datepicker2').val('');
-            
+
             var _token = $("input[name='_token']").val()
             var select = $(this).val();
 
@@ -281,23 +353,31 @@
             var from_date = $("#datepicker").val();
             var to_date = $("#datepicker2").val();
 
-            $.ajax({
-                url: "{{url('/admin/fillter_by_date')}}",
-                method: "post",
-                dataType: "json",
-                data: {
-                    from_date: from_date,
-                    to_date: to_date,
-                    _token: _token
-                },
-                success: function(data) {
-                    chart.setData(data);
-                    //console.log(data)
-                },
-                // error: function(xhr, ajaxOptions, thrownError) {
-                //     alert('Lỗi: '+xhr.status+' - '+thrownError);
-                // }
-            })
+            if (!from_date) {
+                alert('Bạn chưa chọn ngày bắt đầu')
+            } else if (!to_date) {
+                alert('Bạn chưa chọn ngày kết thúc')
+            } else if (from_date > to_date) {
+                alert('Ngày kết thúc phải sau ngày bắt đầu')
+            } else {
+                $.ajax({
+                    url: "{{url('/admin/fillter_by_date')}}",
+                    method: "post",
+                    dataType: "json",
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        chart.setData(data);
+                        //console.log(data)
+                    },
+                    // error: function(xhr, ajaxOptions, thrownError) {
+                    //     alert('Lỗi: '+xhr.status+' - '+thrownError);
+                    // }
+                })
+            }
         })
     });
 </script>

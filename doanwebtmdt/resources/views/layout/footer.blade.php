@@ -192,7 +192,7 @@
         var note = $('#note').val();
         var address = $('#address').val();
         var payment = $('#payment').val();
-
+        
         if (province_id == '') {
             alert('Tỉnh/thành phố không được để trống!')
         } else if (district_id == '') {
@@ -215,7 +215,7 @@
                     phone: phone,
                     note: note,
                     address: address,
-                    payment: payment
+                    payment: payment,
                 },
                 success: function() {
                     location.reload();
@@ -517,7 +517,7 @@
                         title: data.title,
                         text: data.message,
                         type: data.status,
-                    }).then((data) => {
+                    },function(){
                         location.reload();
                     });
                 },

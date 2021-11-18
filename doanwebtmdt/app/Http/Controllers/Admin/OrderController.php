@@ -35,7 +35,19 @@ class OrderController extends Controller
         $status = $request->input('status');
         $fillter = $request->input('fillter');
 
-        $list_order = Order::orderByDesc('id')->paginate(8);
+        //$list_order = Order::orderByDesc('id')->paginate(8);
+        if ($option == '') {
+            if ($status == '' || $status == 'all') {
+                $list_order = Order::orderByDesc('id')->paginate(8);
+            } else {
+                if ($status == 'processing')
+                    $list_order = Order::where('status', 1)->orderByDesc('id')->paginate(8);
+                if ($status == 'processed')
+                    $list_order = Order::where('status', 2)->orderByDesc('id')->paginate(8);
+                if ($status == 'cancelled')
+                    $list_order = Order::where('status', 3)->orderByDesc('id')->paginate(8);
+            }
+        }
 
         if ($fillter == 'today') {
             $list_order = Order::whereRaw('year(created_at) = ?', date('Y'))->whereRaw('month(created_at) = ?', date('m'))->whereRaw('day(created_at) = ?', date('d'))->orderByDesc('id')->paginate(8);
@@ -49,7 +61,12 @@ class OrderController extends Controller
             if ($status == '' || $status == 'all') {
                 $list_order = Order::where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
             } else {
-                $list_order = Order::where('status', $status)->where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
+                if ($status == 'processing')
+                    $list_order = Order::where('status', 1)->where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
+                if ($status == 'processed')
+                    $list_order = Order::where('status', 2)->where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
+                if ($status == 'cancelled')
+                    $list_order = Order::where('status', 3)->where($option, 'like', "%{$key}%")->orderByDesc('id')->paginate(8);
             }
         }
 
@@ -58,9 +75,14 @@ class OrderController extends Controller
             if ($status == '' || $status == 'all') {
                 $list_order = Order::whereRaw('year(created_at) = ?', $date[0])->whereRaw('month(created_at) = ?', $date[1])->whereRaw('day(created_at) = ?', $date[2])->orderByDesc('id')->paginate(8);
             } else {
-                $list_order = Order::where('status', $status)->whereRaw('year(created_at) = ?', $date[0])->whereRaw('month(created_at) = ?', $date[1])->whereRaw('day(created_at) = ?', $date[2])->orderByDesc('id')->paginate(8);
+                if ($status == 'processing')
+                    $list_order = Order::where('status', 1)->whereRaw('year(created_at) = ?', $date[0])->whereRaw('month(created_at) = ?', $date[1])->whereRaw('day(created_at) = ?', $date[2])->orderByDesc('id')->paginate(8);
+                if ($status == 'processed')
+                    $list_order = Order::where('status', 2)->whereRaw('year(created_at) = ?', $date[0])->whereRaw('month(created_at) = ?', $date[1])->whereRaw('day(created_at) = ?', $date[2])->orderByDesc('id')->paginate(8);
+                if ($status == 'cancelled')
+                    $list_order = Order::where('status', 3)->whereRaw('year(created_at) = ?', $date[0])->whereRaw('month(created_at) = ?', $date[1])->whereRaw('day(created_at) = ?', $date[2])->orderByDesc('id')->paginate(8);
             }
-        }
+        }        
 
         $count = array(
             'all' => Order::count(),
@@ -81,7 +103,7 @@ class OrderController extends Controller
 
         return view('admin.orders.detail', compact('order', 'list_order_detail', 'action'));
     }
-    
+
     function process(Request $request, $id)
     {
         $order = Order::find($id);
@@ -119,7 +141,7 @@ class OrderController extends Controller
             }
 
             //gửi mail thông báo đến email đặt khách hàng
-            $to_email=$this->get_email_customer($order->user_id);
+            $to_email = $this->get_email_customer($order->user_id);
             $name = "Đơn hàng đã được xử lý";
 
             $body['order'] = $order;
@@ -128,22 +150,22 @@ class OrderController extends Controller
             $body['order']['district_name'] = $this->get_district_name($order->district_id);
             $body['order']['ward_name'] = $this->get_ward_name($order->ward_id);
             $body['promotion'] = $this->get_promotion($order->promotion_code);
-            $body['list_order_detail'] = OrderDetail::where('order_id',$order->id)->get();
+            $body['list_order_detail'] = OrderDetail::where('order_id', $order->id)->get();
 
             $layout = 'mail.send_mail';
 
-            $this->send_mail($to_email,$name,$body,$layout);
+            $this->send_mail($to_email, $name, $body, $layout);
 
-            return redirect(route('admin.order.index'))->with('success','Xử lý đơn hàng thành công.');
+            return redirect(route('admin.order.index'))->with('success', 'Xử lý đơn hàng thành công.');
         }
-        
-        if ($status == 3){
+
+        if ($status == 3) {
             // var_dump($status);
             // exit;   
             $order->status = $status;
             $order->save();
 
-            return redirect(route('admin.order.index'))->with('success','Hủy đơn hàng thành công.');
+            return redirect(route('admin.order.index'))->with('success', 'Hủy đơn hàng thành công.');
         }
 
         $action = $order->status == 1 ? "process" : "view_detail";
@@ -151,16 +173,17 @@ class OrderController extends Controller
         return view('admin.orders.detail', compact('order', 'action'));
     }
 
-    function send_mail($to_email,$name,$body,$layout){
+    function send_mail($to_email, $name, $body, $layout)
+    {
         //send mail
         $from_name = "Công ty TNHH HD Computer";
-            
-        $data = array("name"=>$name,"body"=>$body);
-        
-        Mail::send($layout,$data,function($message) use ($from_name,$to_email){
 
-            $message->to($to_email)->subject('Test thử gửi mail google');//send this mail with subject
-            $message->from($to_email,$from_name);//send from this mail
+        $data = array("name" => $name, "body" => $body);
+
+        Mail::send($layout, $data, function ($message) use ($from_name, $to_email) {
+
+            $message->to($to_email)->subject('Test thử gửi mail google'); //send this mail with subject
+            $message->from($to_email, $from_name); //send from this mail
 
         });
     }
@@ -199,27 +222,31 @@ class OrderController extends Controller
     function get_promotion($code)
     {
         $promotion = Promotion::where('status', 'approved')->where('code', $code)->first();
-        if($promotion)
+        if ($promotion)
             return $promotion;
         return null;
     }
 
-    function get_email_customer($id){
+    function get_email_customer($id)
+    {
         $customer = User::find($id);
         return $customer->email;
     }
 
-    function get_province_name($id){
+    function get_province_name($id)
+    {
         $province = Province::find($id);
         return $province->name;
     }
 
-    function get_district_name($id){
+    function get_district_name($id)
+    {
         $district = District::find($id);
         return $district->name;
     }
 
-    function get_ward_name($id){
+    function get_ward_name($id)
+    {
         $ward = Ward::find($id);
         return $ward->name;
     }
