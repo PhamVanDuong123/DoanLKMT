@@ -228,6 +228,8 @@
                 alert('Xã/phường không được để trống!')
             } else if (fee == '') {
                 alert('Phí vận chuyển không được để trống!')
+            } else if (check_number(fee)==false) {
+                alert('Phí vận chuyển phải chứa số!')
             } else {
                 $.ajax({
                     url: "{{route('admin.delivery.add_feeship')}}",
@@ -255,6 +257,14 @@
                 })
             }
         })
+
+        function check_number(item){
+            //lọc ký tự chữ cái
+            var strInput = item.replace(/\D/g, ''); 
+            //kt xem có phải là số
+            var result = $.isNumeric(strInput);
+            return result;
+        }
 
         $('.money').simpleMoneyFormat();
 
